@@ -18,6 +18,7 @@ angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
 		var auth = $firebaseAuth();
 
 
+
 		auth.$signInWithEmailAndPassword(username, password).then(function(){
 			console.log("User Login Successful");
 			CommonProp.setUser($scope.user.email);
@@ -25,8 +26,10 @@ angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
 		}).catch(function(error){
 			$scope.errMsg = true;
 			$scope.errorMessage = error.message;
-		});
+		});   
 	}
+
+
 
 
 }])
