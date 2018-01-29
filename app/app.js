@@ -1,9 +1,9 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('new_test_project', [
+angular.module('boozyanalytics', [
   'ngRoute',
-  'new_test_project.home'
+  'boozyanalytics.home'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 

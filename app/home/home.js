@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('new_test_project.home', ['ngRoute', 'firebase'])
+angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
 
 .config(['$routeProvider', function($routeProvider){
   $routeProvider.when('/home', {
