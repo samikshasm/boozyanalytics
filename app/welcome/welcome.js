@@ -11,4 +11,6 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
 
 .controller('WelcomeCtrl', ['$scope', 'CommonProp', function($scope, CommonProp){
 	$scope.username = CommonProp.getUser();
+
+
 }])
