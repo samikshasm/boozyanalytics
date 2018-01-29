@@ -13,4 +13,11 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
 	$scope.username = CommonProp.getUser();
 
 
+  if(!$scope.username) {
+    $location.path('/home');
+  }
+
+  $scope.logout = function(){
+    CommonProp.logoutUser();
+  }
 }])
