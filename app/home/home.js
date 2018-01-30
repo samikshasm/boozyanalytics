@@ -16,26 +16,27 @@ angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
 		var username = $scope.user.email;
 		var password = $scope.user.password;
 		var auth = $firebaseAuth();
+    var user = auth.$currentUser(); //ALEX TRY TO GET THE CURRENT USER TO WORK
 
-
+    //IT IS NOT GETTING HTE CURRENT USER CORRECTLY
 
 		auth.$signInWithEmailAndPassword(username, password).then(function(){
+
 			console.log("User Login Successful");
 			CommonProp.setUser($scope.user.email);
+      CommonProp.setDisplayName($scope.user.displayName); //set the displayname to teh current user's display name
+      console.log(CommonProp.getDisplayName()); //testing this to see if the console logs it correctly; it's undefined rn
 			$location.path('/welcome');
 		}).catch(function(error){
 			$scope.errMsg = true;
 			$scope.errorMessage = error.message;
-		});   
-	}
-
-
-
-
+		});
+  }
 }])
 
 .service('CommonProp', ['$location', '$firebaseAuth', function($location, $firebaseAuth){
 	var user = "";
+  var nameOfUser = "";
 	var auth = $firebaseAuth();
 
 	return {
@@ -55,6 +56,18 @@ angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
 			user = "";
 			localStorage.removeItem('userEmail');
 			$location.path('/home');
-		}
+		},
+    getDisplayName: function(){
+      if(user) {
+        nameOfUser = localStorage.getItem("displayName");
+      }
+      return nameOfUser;
+    },
+    setDisplayName: function(value){
+      if(user) {
+        nameOfUser = value;
+        localStorage.setItem("displayName", value);
+      }
+    }
 	};
 }]);

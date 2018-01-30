@@ -11,7 +11,8 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
 
 .controller('WelcomeCtrl', ['$scope', 'CommonProp', function($scope, CommonProp){
 	$scope.username = CommonProp.getUser();
-
+  $scope.nameOfUser = CommonProp.getDisplayName();
+  
   if(!$scope.username) {
     $location.path('/home');
   }
@@ -20,16 +21,6 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
     CommonProp.logoutUser();
   }
 
-  firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    console.log(user.displayName);
-    $scope.displayName = user.displayName;
-    // User is signed in.
-  } else {
-    // No user is signed in.
-  }
-
-});
 
 
 }])
