@@ -31,6 +31,7 @@ angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
     });
 
 
+
 		auth.$signInWithEmailAndPassword(username, password).then(function(){
 
 			console.log("User Login Successful");
