@@ -20,12 +20,13 @@ angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
 
     firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      //need to check if displayName for user is undefined
-      //example would be for a new user
       displayName = user.displayName;
-      // User is signed in.
-    } else {
-      // No user is signed in.
+      if (displayName == null){
+        displayName = window.prompt("Please enter your display name: ");
+        user.updateProfile({
+          displayName: displayName
+        });
+      }
     }
     });
 
