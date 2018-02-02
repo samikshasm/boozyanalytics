@@ -7,3 +7,9 @@ ul {
 li {
     display: inline;
 }
+.fa{
+  color:white;
+}
+#exportButton{
+  margin:auto;
+}

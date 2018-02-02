@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Boozyanalytics Home Page</title>
+    <link rel="stylesheet" href="/welcome/welcome.css">
   </head>
   <body ng-controller="WelcomeCtrl">
 
@@ -22,7 +23,7 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav navbar-right">
           <li class="nav-item" ng-click ="logout()">
             <a class="nav-link" href="#">Logout</a>
           </li>
@@ -40,8 +41,23 @@
     </div>
   </div>
 
-  <div class="container" ng-repeat="article in articles">
-      <p>{{article.value}} {{article.key}}</p>
+  <table id = "exportTable" class="table" style="width:80%; margin:auto;">
+    <thead>
+      <tr>
+        <th>firstName</th>
+        <th>lastName</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="article in articles">
+        <td>{{ article.value }}</td>
+        <td>{{ article.key }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="text-center" style="padding:10px;">
+    <button id="exportButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><span class="fa fa-file-excel-o"></span> Export to Excel</button>
   </div>
 
 </body>

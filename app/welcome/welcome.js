@@ -88,5 +88,61 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
       var age = snapshot.child("age").val(); // null
     });*/
 
+    jQuery(function ($) {
+        $("#exportButton").click(function () {
+            // parse the HTML table element having an id=exportTable
+            var dataSource = shield.DataSource.create({
+                data: "#exportTable",
+                schema: {
+                    type: "table",
+                    fields: {
+                        firstName: { type: String },
+                        lastName: { type: String },
+                    }
+                }
+            });
+
+            // when parsing is done, export the data to Excel
+            dataSource.read().then(function (data) {
+                new shield.exp.OOXMLWorkbook({
+                    author: "BoozyAnalytics",
+                    worksheets: [
+                        {
+                            name: "BoozyAnalytics Table",
+                            rows: [
+                                {
+                                    cells: [
+                                        {
+                                            style: {
+                                                bold: true
+                                            },
+                                            type: String,
+                                            value: "firstName"
+                                        },
+                                        {
+                                            style: {
+                                                bold: true
+                                            },
+                                            type: String,
+                                            value: "lastName"
+                                        },
+                                    ]
+                                }
+                            ].concat($.map(data, function(item) {
+                                return {
+                                    cells: [
+                                        { type: String, value: item.firstName },
+                                        { type: String, value: item.lastName },
+                                    ]
+                                };
+                            }))
+                        }
+                    ]
+                }).saveAs({
+                    fileName: "BoozyAnalytics"
+                });
+            });
+        });
+    });
 
 }])
