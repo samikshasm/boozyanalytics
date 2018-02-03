@@ -44,14 +44,18 @@
   <table id = "exportTable" class="table" style="width:80%; margin:auto;">
     <thead>
       <tr>
-        <th>firstName</th>
-        <th>lastName</th>
+        <th>uid</th>
+        <th>nightCount</th>
+        <th>date</th>
+        <th>time</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="article in articles">
-        <td>{{ article.value }}</td>
         <td>{{ article.key }}</td>
+        <td>{{ article.value }}</td>
+        <td>{{article.date}}</td>
+        <td>{{article.time}}</td>
       </tr>
     </tbody>
   </table>

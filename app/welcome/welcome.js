@@ -26,28 +26,67 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
   var dataRef = $firebaseArray(ref);
   $scope.articles = [];
   $scope.names = [];
-  var firstName ="";
-  var lastName = "";
+  var uid ="";
+  var nightCount = "";
+  var date = "";
+  var time = "";
 
   dataRef.$loaded()
     .then(function(){
         angular.forEach(dataRef, function(value) {
           angular.forEach(value, function(value, id){
-            if(id == "$value"){
-              console.log(value);
-              firstName = value;
-            }else if(id == "$id"){
-              lastName = value;
-              console.log(value);
+            var substr = id.substr(0,3);
+            if(substr == "UID"){
+              uid = id.substr(5,id.length);
+              //$scope.articles.push({"key":uid})
+
             }
+            angular.forEach(value, function(value, id){
+              var idStr = ""+id;
+              var substr = idStr.substr(0,11);
+              if(substr == "Night Count"){
+                nightCount = id.substr(13,idStr.length);
+                //$scope.articles.push({"value":nightCount})
+
+              }
+              angular.forEach(value, function(value, id){
+                angular.forEach(value, function(value,id){
+                  var idStr = ""+id;
+                  var substr = idStr.substr(0,4);
+                  if(substr == "Date"){
+                    date = idStr.substr(5,idStr.length);
+                    //$scope.articles.push({"date":date})
+                  }
+                  angular.forEach(value, function(value,id){
+                    var idStr = ""+id;
+                    if(idStr == "Size"){
+                      angular.forEach(value,function(value,id){
+                        var idStr = ""+id;
+                        var subStr = idStr.substr(0,4);
+                        console.log(subStr);
+                        if(subStr == "Time"){
+                          time = idStr.substr(5,idStr.length);
+                          console.log(time);
+                          $scope.articles.push({"key":uid,"value":nightCount,"date":date,"time":time})
+                        }
+                      })
+
+                    }
+                  })
+                })
+                })
+
+              })
+            })
             //console.log(id+":"+value);
           })
-          $scope.articles.push({
-            "key": firstName,
-            "value": lastName
-          })
+        /*  $scope.articles.push({
+            "key": uid,
+            "value": nightCount,
+            "date": date*/
+            //"time": time
+          //})
 
-        })
     });
 
 
@@ -83,8 +122,8 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
     .then(function(snapshot) {
       var name = snapshot.child().val(); // {first:"Ada",last:"Lovelace"}
       console.log(name);
-      var firstName = snapshot.child("name/first").val(); // "Ada"
-      var lastName = snapshot.child("name").child("last").val(); // "Lovelace"
+      var uid = snapshot.child("name/first").val(); // "Ada"
+      var nightCount = snapshot.child("name").child("last").val(); // "Lovelace"
       var age = snapshot.child("age").val(); // null
     });*/
 
@@ -96,8 +135,8 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
                 schema: {
                     type: "table",
                     fields: {
-                        firstName: { type: String },
-                        lastName: { type: String },
+                        uid: { type: String },
+                        nightCount: { type: String },
                     }
                 }
             });
@@ -117,22 +156,22 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
                                                 bold: true
                                             },
                                             type: String,
-                                            value: "firstName"
+                                            value: "uid"
                                         },
                                         {
                                             style: {
                                                 bold: true
                                             },
                                             type: String,
-                                            value: "lastName"
+                                            value: "nightCount"
                                         },
                                     ]
                                 }
                             ].concat($.map(data, function(item) {
                                 return {
                                     cells: [
-                                        { type: String, value: item.firstName },
-                                        { type: String, value: item.lastName },
+                                        { type: String, value: item.uid },
+                                        { type: String, value: item.nightCount },
                                     ]
                                 };
                             }))
