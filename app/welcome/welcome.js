@@ -30,6 +30,10 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
   var nightCount = "";
   var date = "";
   var time = "";
+  var size = "";
+  var type = "";
+  var where = "";
+  var who = "";
 
   dataRef.$loaded()
     .then(function(){
@@ -63,14 +67,51 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
                       angular.forEach(value,function(value,id){
                         var idStr = ""+id;
                         var subStr = idStr.substr(0,4);
-                        console.log(subStr);
                         if(subStr == "Time"){
                           time = idStr.substr(5,idStr.length);
-                          console.log(time);
-                          $scope.articles.push({"key":uid,"value":nightCount,"date":date,"time":time})
+                          size = value;
+                          $scope.articles.push({"key":uid,"value":nightCount,"date":date,"time":time,"size":size})
                         }
                       })
-
+                    }
+                    if(idStr == "Type"){
+                      var counter = 0;
+                      angular.forEach(value,function(value,id){
+                        var idStr = ""+id;
+                        var subStr = idStr.substr(0,4);
+                        if(subStr == "Time"){
+                          time = idStr.substr(5,idStr.length);
+                          type = value;
+                          $scope.articles[counter].type = type;
+                          counter++;
+                        }
+                      })
+                    }
+                    if(idStr == "Where"){
+                      var counter = 0;
+                      angular.forEach(value,function(value,id){
+                        var idStr = ""+id;
+                        var subStr = idStr.substr(0,4);
+                        if(subStr == "Time"){
+                          time = idStr.substr(5,idStr.length);
+                          where = value;
+                          $scope.articles[counter].where = where;
+                          counter++;
+                        }
+                      })
+                    }
+                    if(idStr == "Who"){
+                      var counter = 0;
+                      angular.forEach(value,function(value,id){
+                        var idStr = ""+id;
+                        var subStr = idStr.substr(0,4);
+                        if(subStr == "Time"){
+                          time = idStr.substr(5,idStr.length);
+                          who = value;
+                          $scope.articles[counter].who = who;
+                          counter++;
+                        }
+                      })
                     }
                   })
                 })
@@ -88,7 +129,6 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
           //})
 
     });
-
 
     /*var temp = [];
     for(var i in values){
@@ -137,6 +177,12 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
                     fields: {
                         uid: { type: String },
                         nightCount: { type: String },
+                        date: { type: String},
+                        time: { type: String},
+                        size: { type: String},
+                        type: { type: String},
+                        where: { type: String},
+                        who: { type: String}
                     }
                 }
             });
@@ -165,6 +211,48 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
                                             type: String,
                                             value: "nightCount"
                                         },
+                                        {
+                                            style: {
+                                                bold: true
+                                            },
+                                            type: String,
+                                            value: "date"
+                                        },
+                                        {
+                                            style: {
+                                                bold: true
+                                            },
+                                            type: String,
+                                            value: "time"
+                                        },
+                                        {
+                                            style: {
+                                                bold: true
+                                            },
+                                            type: String,
+                                            value: "size"
+                                        },
+                                        {
+                                            style: {
+                                                bold: true
+                                            },
+                                            type: String,
+                                            value: "type"
+                                        },
+                                        {
+                                            style: {
+                                                bold: true
+                                            },
+                                            type: String,
+                                            value: "where"
+                                        },
+                                        {
+                                            style: {
+                                                bold: true
+                                            },
+                                            type: String,
+                                            value: "who"
+                                        },
                                     ]
                                 }
                             ].concat($.map(data, function(item) {
@@ -172,6 +260,12 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
                                     cells: [
                                         { type: String, value: item.uid },
                                         { type: String, value: item.nightCount },
+                                        { type: String, value: item.date},
+                                        {type: String, value: item.time},
+                                        {type:String, value: item.size},
+                                        {type:String, value: item.type},
+                                        {type:String, value: item.where},
+                                        {type:String, value: item.who}
                                     ]
                                 };
                             }))
