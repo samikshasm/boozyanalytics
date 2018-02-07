@@ -138,7 +138,6 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
         "value":ids[i]
       });
     }
-
     $scope.articles = temp;*/
 
 
@@ -148,7 +147,6 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
       console.log(key + ': ' + value);
     })
     console.log("loaded record:", dataRef.$id, dataRef.$value);
-
     // To iterate the key/value pairs of the object, use angular.forEach()
     angular.forEach(dataRef, function(value, id) {
       $scope.ids = id;

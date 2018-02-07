@@ -56,8 +56,8 @@
     </thead>
     <tbody>
       <tr ng-repeat="article in articles">
-        <td>{{ article.key }}</td>
-        <td>{{ article.value }}</td>
+        <td>{{article.key}}</td>
+        <td>{{article.value}}</td>
         <td>{{article.date}}</td>
         <td>{{article.time}}</td>
         <td>{{article.size}}</td>
@@ -70,6 +70,10 @@
 
   <div class="text-center" style="padding:10px;">
     <button id="exportButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><span class="fa fa-file-excel-o"></span> Export to Excel</button>
+  </div>
+
+  <div class="text-center" style="padding:10px;">
+    <button id="addUserButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;">Add/Remove User</button>
   </div>
 
 </body>
