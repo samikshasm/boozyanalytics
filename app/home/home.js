@@ -17,6 +17,11 @@ angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
 		var password = $scope.user.password;
 		var auth = $firebaseAuth();
     var displayName = "";
+  /*  var ref = firebase.database().ref();
+    firebase.database().ref('/Admin1').once('value').then(function(snapshot) {
+        $scope.adminUsername = snapshot.val();
+        console.log($scope.adminUsername);
+      });*/
 
     firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
@@ -27,6 +32,16 @@ angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
           displayName: displayName
         });
       }
+    /*  ßconsole.log($scope.user.uid);
+      if ($scope.adminUsername == $scope.user.uid) {
+        console.log("matches");
+      }
+      else {
+        console.log("logging out");
+        CommonProp.logoutUser();
+        $location.path('/home');
+      }
+*/
     }
     });
 
