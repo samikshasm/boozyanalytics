@@ -34,6 +34,9 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
   var type = "";
   var where = "";
   var who = "";
+  var typeCounter = 0;
+  var whoCounter = 0;
+  var whereCounter = 0;
 
   dataRef.$loaded()
     .then(function(){
@@ -82,8 +85,8 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
                         if(subStr == "Time"){
                           time = idStr.substr(5,idStr.length);
                           type = value;
-                          $scope.articles[counter].type = type;
-                          counter++;
+                          $scope.articles[typeCounter].type = type;
+                          typeCounter++;
                         }
                       })
                     }
@@ -95,8 +98,8 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
                         if(subStr == "Time"){
                           time = idStr.substr(5,idStr.length);
                           where = value;
-                          $scope.articles[counter].where = where;
-                          counter++;
+                          $scope.articles[whereCounter].where = where;
+                          whereCounter++;
                         }
                       })
                     }
@@ -108,8 +111,8 @@ angular.module('boozyanalytics.welcome', ['ngRoute'])
                         if(subStr == "Time"){
                           time = idStr.substr(5,idStr.length);
                           who = value;
-                          $scope.articles[counter].who = who;
-                          counter++;
+                          $scope.articles[whoCounter].who = who;
+                          whoCounter++;
                         }
                       })
                     }
