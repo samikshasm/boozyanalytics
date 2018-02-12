@@ -5,7 +5,8 @@ angular.module('boozyanalytics', [
   'ngRoute',
   'boozyanalytics.home',
   'boozyanalytics.welcome',
-  'boozyanalytics.addUser'
+  'boozyanalytics.addUser',
+  'boozyanalytics.users'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 
