@@ -1,0 +1,60 @@
+body,html{
+  height:100%;
+  background-color:#283E54;
+
+}
+.jumbotron{
+  background-color:#283E54;
+}
+.jumbotron img{
+  width:50%;
+}
+
+form{
+  margin:auto;
+  margin-bottom:50px;
+}
+.card-up{
+  background-color: #354A5F;
+}
+
+.img-fluid{
+  width:30%;
+  transform:translateY(-50%);
+}
+#col1{
+  border-top:10px solid #E9686D;
+}
+#col2{
+  border-top:10px solid #FCB856;
+}
+#col3{
+  border-top:10px solid #4EBA75;
+}
+#col4{
+  border-top:10px solid #62CAE2;
+}
+#col5{
+  border-top:10px solid #808DC6;
+}
+#col6{
+  border-top:10px solid #EC6E91;
+}
+button{
+  margin-left: 50px;
+}
+.md-form .prefix{
+  margin-left:-50%;
+}
+.card-up{
+  margin-left:-15px;
+  margin-right:-15px;
+}
+.card{
+  margin-bottom:100px;
+  margin-top:0px;
+  background-color: white;
+}
+.SignIn{
+  display:inline;
+}

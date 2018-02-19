@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Boozyanalytics Home Page</title>
+    <link rel="stylesheet" href="styles/welcome.css">
+  </head>
+  <body ng-controller="WelcomeCtrl">
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#/welcome">BoozyAnalytics</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#/welcome">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/welcome">Dashboard</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav navbar-right">
+          <li class="nav-item" ng-click ="logout()">
+            <a class="nav-link" href="#">Logout</a>
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Welcome to the Dashboard {{nameOfUser}}!</h3>
+      </div>
+    </div>
+  </div>
+
+  <table id = "exportTable" class="table" style="width:80%; margin:auto;">
+    <thead>
+      <tr>
+        <th>uid</th>
+        <th>nightCount</th>
+        <th>date</th>
+        <th>time</th>
+        <th>size</th>
+        <th>type</th>
+        <th>where</th>
+        <th>who</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="article in articles">
+        <td>{{article.key}}</td>
+        <td>{{article.value}}</td>
+        <td>{{article.date}}</td>
+        <td>{{article.time}}</td>
+        <td>{{article.size}}</td>
+        <td>{{article.type}}</td>
+        <td>{{article.where}}</td>
+        <td>{{article.who}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="text-center" style="padding:10px;">
+    <button id="exportButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><span class="fa fa-file-excel-o"></span> Export to Excel</button>
+  </div>
+
+  <div class="text-center" style="padding:10px;">
+    <button id="addUserButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><a class="nav-link" href="#/addUser">Add/Remove User</a></button>
+  </div>
+
+</body>
+
+</html>

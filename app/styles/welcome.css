@@ -1,0 +1,22 @@
+html,body{
+  background-color: white;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+    display: inline;
+}
+.fa{
+  color:white;
+}
+#exportButton{
+  margin:auto;
+}
+table{
+
+}
