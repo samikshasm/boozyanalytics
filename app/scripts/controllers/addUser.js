@@ -40,7 +40,7 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
 
   $scope.addAdmin = function() {
     var username = $scope.user.email;
-    var password = $scope.user.password;
+    var password = "hello123";
 
     if(username && password) {
       var auth = $firebaseAuth();
@@ -52,12 +52,14 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
       })
     }
 
-    var ref = firebase.database().ref(); //get a reference to the firbase database
+    var name = "Pilot4";
+    var reference = firebase.database(); //get a reference to the firbase database
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        ref('Admins/').set({
+        reference.ref('Admins/' + name).set({
             username: username
         });
+        console.log(username);
       }
 
   })

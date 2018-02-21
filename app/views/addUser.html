@@ -38,5 +38,22 @@
         </div>
       </form>
     </div>
+
+    <div class="container">
+      <div class="jumbotron col-md-6 mx-auto text-center" style="padding-top: 10; padding-bottom:10;">
+        <h2>Add admin</h2>
+      </div>
+      <form role="form" name="regForm" novalidate="">
+        <div class="form-group col-md-6 mx-auto" ng-class="{'has-error': regForm.email.$invalid && regForm.email.$touched}">
+          <label for="email">Email Address</label>
+          <input type="email" name="email" ng-model="user.email" class="form-control" placeholder="Email Address" required=""/>
+          <small class="help-block" ng-show="regForm.email.$invalid && regForm.email.$touched">Please enter a valid email address</small>
+        </div>
+        <div class="col-md-6 mx-auto">
+          <p ng-show="errMsg" style="color:red;">{{errorMessage}}</p>
+          <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="regForm.$invalid" ng-click="addAdmin()">Add Admin</button>
+        </div>
+      </form>
+    </div>
   </body>
 </html>
