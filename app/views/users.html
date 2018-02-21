@@ -3,8 +3,26 @@
   <head>
     <meta charset="utf-8">
     <title>BoozyAnalytics User Dashboard</title>
+    <link rel="stylesheet" href="styles/users.css">
   </head>
   <body ng-controller"UserCtrl">
-    <p>Hello</p>
+
+    <table id = "exportTable" class="table" style="width:80%; margin:auto;">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Drinking Episodes</th>
+          <th>Start Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="article in articles">
+          <td>{{article.key}}</td>
+          <td>{{article.value}}</td>
+          <td>{{article.date}}</td>
+        </tr>
+      </tbody>
+    </table>
+
   </body>
 </html>
