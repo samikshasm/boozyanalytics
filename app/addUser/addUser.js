@@ -9,7 +9,7 @@ angular.module('boozyanalytics.addUser', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('AddUserCtrl', ['$scope', '$firebaseAuth', function($scope, $firebaseAuth){
+.controller('AddUserCtrl', ['$scope', '$firebaseAuth', '$firebase', function($scope, $firebaseAuth, $firebase){
 
   $scope.signUp = function(){
     var username = $scope.user.email;
@@ -41,5 +41,30 @@ angular.module('boozyanalytics.addUser', ['ngRoute', 'firebase'])
         $scope.errorMessage = error.message;
       });
     }
+  }
+}])
+
+  $scope.addAdmin = function() {
+    var username = $scope.user.email;
+    var password = $scope.user.password;
+
+    if(username && password) {
+      var auth = $firebaseAuth();
+      auth.$createUserWithEmailAndPassword(username,password).then(function(){
+        console.log("Admin Successfully Created");
+      }).catch(function(error){
+        $scope.errMsg = true;
+        $scope.errorMessage = error.message;
+      })
+    }
+
+    var ref = firebase.database().ref(); //get a reference to the firbase database
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        ref('Admins/').set({
+            username: username
+        });
+      }
+
   }
 }])

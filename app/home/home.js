@@ -8,54 +8,62 @@ angular.module('boozyanalytics.home', ['ngRoute', 'firebase'])
     controller: 'HomeCtrl'
   });
 }])
+
 .controller('HomeCtrl', ['$scope', '$firebaseAuth', '$location', 'CommonProp', function($scope, $firebaseAuth, $location, CommonProp){
 
 	$scope.username = CommonProp.getUser();
+  $scope.adminChecker = "";
 
 	$scope.signIn = function(){
 		var username = $scope.user.email;
 		var password = $scope.user.password;
 		var auth = $firebaseAuth();
     var displayName = "";
-  /*  var ref = firebase.database().ref();
+    var ref = firebase.database().ref();
     firebase.database().ref('/Admin1').once('value').then(function(snapshot) {
         $scope.adminUsername = snapshot.val();
-        console.log($scope.adminUsername);
-      });*/
+      });
 
     firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      displayName = user.displayName;
-      if (displayName == null){
-        displayName = window.prompt("Please enter your display name: ");
-        user.updateProfile({
-          displayName: displayName
-        });
+      if (user) {
+        displayName = user.displayName;
+        if (displayName == null){
+          displayName = window.prompt("Please enter your display name: ");
+          user.updateProfile({
+            displayName: displayName
+          });
+        }
+
+        console.log("before loop")
+        console.log($scope.adminUsername);
+        console.log(user.uid);
+        if ($scope.adminUsername == user.uid) {
+          console.log("after loop");
+          $scope.adminChecker = "matches";
+        }
+        else {
+          $scope.adminChecker = "does not match";
+        }
+
       }
-    /*  ßconsole.log($scope.user.uid);
-      if ($scope.adminUsername == $scope.user.uid) {
-        console.log("matches");
-      }
-      else {
-        console.log("logging out");
-        CommonProp.logoutUser();
-        $location.path('/home');
-      }
-*/
-    }
     });
 
-		auth.$signInWithEmailAndPassword(username, password).then(function(){
-
-			console.log("User Login Successful");
-			CommonProp.setUser($scope.user.email);
-      CommonProp.setDisplayName(displayName); //set the displayname to the current user's display name
-      console.log(CommonProp.getDisplayName()); //testing this to see if the console logs it correctly;
-			$location.path('/welcome');
-		}).catch(function(error){
-			$scope.errMsg = true;
-			$scope.errorMessage = error.message;
-		});
+      auth.$signInWithEmailAndPassword(username, password).then(function(){
+        if ($scope.adminChecker == "matches") {
+          console.log("User Login Successful");
+    			CommonProp.setUser($scope.user.email);
+          CommonProp.setDisplayName(displayName); //set the displayname to the current user's display name
+          console.log(CommonProp.getDisplayName()); //testing this to see if the console logs it correctly;
+    			$location.path('/welcome');
+        }
+        else {
+          //add code to display an error message saying that the user is not authenticated
+          CommonProp.logoutUser();
+        }
+  		}).catch(function(error){
+  			$scope.errMsg = true;
+  			$scope.errorMessage = error.message;
+  		});
   }
 }])
 
