@@ -40,19 +40,18 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
 
   $scope.addAdmin = function() {
     var username = $scope.user.email;
-    var password = "hello123";
+    var password = $scope.user.password;
+    var name = $scope.user.name;
 
     if(username && password) {
       var auth = $firebaseAuth();
       auth.$createUserWithEmailAndPassword(username,password).then(function(){
-        console.log("Admin Successfully Created");
       }).catch(function(error){
         $scope.errMsg = true;
         $scope.errorMessage = error.message;
       })
     }
 
-    var name = "Pilot4";
     var reference = firebase.database(); //get a reference to the firbase database
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
