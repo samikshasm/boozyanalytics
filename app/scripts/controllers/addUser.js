@@ -37,7 +37,6 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
       });
     }
   }
-}])
 
   $scope.addAdmin = function() {
     var username = $scope.user.email;
@@ -61,5 +60,6 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
         });
       }
 
+  })
   }
 }])
