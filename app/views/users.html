@@ -7,22 +7,29 @@
   </head>
   <body ng-controller"UserCtrl">
 
-    <table id = "exportTable" class="table" style="width:80%; margin:auto;">
+    <table id = "exportTable" class="table table-hover mb-0" style="width:80%; margin:auto;">
       <thead>
         <tr>
-          <th>Username</th>
-          <th>Drinking Episodes</th>
-          <th>Start Date</th>
+          <th class="text-center">Username</th>
+          <th class="text-center">Drinking Episodes</th>
+          <th class="text-center">Start Date</th>
+          <th class="text-center">Last Episode</th>
+          <th class="text-center">Delete User</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="article in articles">
-          <td>{{article.key}}</td>
-          <td>{{article.value}}</td>
-          <td>{{article.date}}</td>
+          <td align="center">{{article.key}}</td>
+          <td align="center">{{article.value}}</td>
+          <td align="center">{{article.date}}</td>
+          <td align="center">{{article.last}}</td>
+          <td><button type="button" class="btn btn-danger">
+            <span class="fa fa-trash-o fa-lg" aria-hidden="true" ></span></button></td>
         </tr>
       </tbody>
+
     </table>
+
 
   </body>
 </html>

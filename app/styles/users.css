@@ -1,3 +1,9 @@
 html,body{
   background-color:white;
 }
+.force-parent-lh {
+  line-height: inherit !important;
+}
+.btn{
+  margin-left: 30%;
+}
