@@ -2,7 +2,7 @@
 
 angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 
-.controller('HomeCtrl', ['$scope', '$firebaseAuth', '$location', 'CommonProp', function($scope, $firebaseAuth, $location, CommonProp){
+.controller('HomeCtrl', ['$scope', '$firebaseAuth', '$firebaseArray','$location', 'CommonProp', function($scope, $firebaseAuth, $firebaseArray, $location, CommonProp){
 
 	$scope.username = CommonProp.getUser();
   $scope.adminChecker = "";
@@ -13,9 +13,23 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 		var auth = $firebaseAuth();
     var displayName = "";
     var ref = firebase.database().ref();
-    firebase.database().ref('/Admin1').once('value').then(function(snapshot) {
-        $scope.adminUsername = snapshot.val();
-      });
+		var dataRef = $firebaseArray(ref);
+		var adminUsernames = [];
+
+		dataRef.$loaded()
+	    .then(function(){
+	        angular.forEach(dataRef, function(value) {
+	          angular.forEach(value, function(value, id){
+							angular.forEach(value,function(value,id){
+
+								//var substr = id.substr(0,8);
+		           if(id == "username"){
+								 adminUsernames.push(value);
+		            }
+							})
+						})
+					})
+				});
 
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -27,16 +41,12 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
           });
         }
 
-        console.log("before loop")
-        console.log($scope.adminUsername);
-        console.log(user.uid);
-        if ($scope.adminUsername == user.uid) {
-          console.log("after loop");
-          $scope.adminChecker = "matches";
-        }
-        else {
-          $scope.adminChecker = "does not match";
-        }
+				for (var i=0; i<adminUsernames.length;i++) {
+					console.log($scope.adminChecker);
+					if (adminUsernames[i] == username) {
+	          $scope.adminChecker = "matches";
+	        }
+				}
 
       }
     });
@@ -50,8 +60,8 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
     			$location.path('/welcome');
         }
         else {
-          //add code to display an error message saying that the user is not authenticated
-          CommonProp.logoutUser();
+					window.alert("User is not an admin. Please enter a valid email address.");
+					CommonProp.logoutUser();
         }
   		}).catch(function(error){
   			$scope.errMsg = true;

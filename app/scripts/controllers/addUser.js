@@ -19,6 +19,18 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
         $scope.errorMessage = error.message;
       })
     }
+    console.log($scope.kindOfUser);
+
+    if ($scope.kindOfUser == "controlUser") {
+      var reference = firebase.database(); //get a reference to the firbase database
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          reference.ref('Users/' + "Control Group").set({
+              UID: $scope.user.email
+          });
+        }
+      })
+    }
   }
 
   $scope.deleteUser = function(){
@@ -30,6 +42,7 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
       var user = firebase.auth().currentUser;
 
       user.delete().then(function() {
+        console.log(user);
         console.log("User Successfully Deleted");
       }).catch(function(error) {
         $scope.errMsg = true;
@@ -37,6 +50,7 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
       });
     }
   }
+
 
   $scope.addAdmin = function() {
     var username = $scope.user.email;
