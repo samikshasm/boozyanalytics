@@ -4,7 +4,14 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
 
 
 
-.controller('AddUserCtrl', ['$scope', '$firebaseAuth', '$firebase', function($scope, $firebaseAuth, $firebase){
+.controller('AddUserCtrl', ['$scope', 'CommonProp', '$firebaseAuth', '$firebase', function($scope, CommonProp, $firebaseAuth, $firebase){
+
+  $scope.username = CommonProp.getUser();
+  $scope.nameOfUser = CommonProp.getDisplayName();
+  console.log($scope.username);
+  if(!$scope.username) {
+    $location.path('/home');
+  }
 
   $scope.signUp = function(){
     var username = $scope.user.email;
@@ -19,6 +26,17 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
         $scope.errorMessage = error.message;
       })
     }
+    auth.$signOut();
+    console.log("Logged Out Succesfully");
+    auth.$signInWithEmailAndPassword($scope.username, "hello123").then(function(){
+      CommonProp.setUser($scope.username);
+    }).catch(function(error){
+      $scope.errMsg = true;
+      $scope.errorMessage = error.message;
+    });
+
+    
+    /*
     console.log($scope.kindOfUser);
 
     if ($scope.kindOfUser == "controlUser") {
@@ -30,7 +48,7 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
           });
         }
       })
-    }
+    }*/
   }
 
   $scope.deleteUser = function(){
