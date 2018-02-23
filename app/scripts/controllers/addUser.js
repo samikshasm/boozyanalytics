@@ -22,36 +22,25 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
       var auth = $firebaseAuth();
       auth.$createUserWithEmailAndPassword(usernameEmail,password).then(function(){
         console.log("User Successfully Created");
-        firebase.auth().onAuthStateChanged(function(user) {
+        var user = firebase.auth().currentUser;
+        firebase.auth().onAuthStateChanged(function(user){
           auth.$signOut();
+          var user = firebase.auth().currentUser;
+          if(!user){
+            $scope.testing();
+          }
         })
       }).catch(function(error){
         $scope.errMsg = true;
         $scope.errorMessage = error.message;
       })
     }
-    console.log(CommonProp.getUser());
-    /*firebase.auth().onAuthStateChanged(function(user) {
-      var auth = $firebaseAuth();
-
-      //auth.$signOut();
-
-      console.log("Logged Out Succesfully");
-
-      auth.$signInWithEmailAndPassword($scope.username, "hello123").then(function(){ //change so that password= admin password
-        CommonProp.setUser($scope.username);
-      }).catch(function(error){
-        $scope.errMsg = true;
-        $scope.errorMessage = error.message;
-      });*/
-
 
 
     if ($scope.kindOfUser == "control") {
       console.log("control user!");
       var reference = firebase.database(); //get a reference to the firbase database
       firebase.auth().onAuthStateChanged(function(user) {
-        console.log("username"+username);
         if (user) {
           reference.ref('Users/Control Group/' + username).set({
             username: username
@@ -75,6 +64,16 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
     $scope.kindOfUser = result;
     //console.log($scope.kindOfUser);
     $scope.signUp();
+  }
+
+  $scope.testing = function(){
+    console.log("testing");
+    var auth2 = $firebaseAuth();
+    var user = firebase.auth().currentUser;
+    //console.log(user);
+    var username = "bobthebuilder1@gmail.com";
+    var password = "hello123";
+
   }
 
   $scope.deleteUser = function(){
