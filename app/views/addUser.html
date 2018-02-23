@@ -11,23 +11,23 @@
       </div>
       <form>
         <div>
-          <input type="radio" id="controlUser" name="kindOfUser">
+          <input type="radio" class="radio" id="controlUser" name="rdoResult" ng-model='result' ng-value='"control"'>
           <label for="controlUser">Control User?</label>
         </div>
         <div>
-          <input type="radio" class = "radio" id="experimentalUser" name="kindOfUser">
+          <input type="radio" class = "radio" id="experimentalUser" name="rdoResult" ng-model='result' ng-value='"experimental"'>
           <label for="experimentalUser">Experiment User?</label>
         </div>
       </form>
       <form role="form" name="emailForm" novalidate="">
         <div class="form-group col-md-6 mx-auto" ng-class="{'has-error': emailForm.email.$invalid && emailForm.email.$touched}">
           <label for="email">Email Address</label>
-          <input type="email" name="email" ng-model="user.email" class="form-control" placeholder="Email Address" required=""/>
+          <input type="text" name="email" ng-model="user.email" class="form-control" placeholder="Email Address" required=""/>
           <small class="help-block" ng-show="emailForm.email.$invalid && emailForm.email.$touched">Please enter a valid email address</small>
         </div>
         <div class="col-md-6 mx-auto">
           <p ng-show="errMsg" style="color:red;">{{errorMessage}}</p>
-          <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="emailForm.$invalid" ng-click="signUp()">Register User</button>
+          <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="emailForm.$invalid" ng-click="submitResult(result)">Register User</button>
         </div>
       </form>
     </div>

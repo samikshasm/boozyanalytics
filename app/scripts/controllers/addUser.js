@@ -15,40 +15,66 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
 
   $scope.signUp = function(){
     var username = $scope.user.email;
+    var usernameEmail = username+"@gmail.com";
     var password = "hello123";
 
     if(username && password) {
       var auth = $firebaseAuth();
-      auth.$createUserWithEmailAndPassword(username,password).then(function(){
+      auth.$createUserWithEmailAndPassword(usernameEmail,password).then(function(){
         console.log("User Successfully Created");
+        firebase.auth().onAuthStateChanged(function(user) {
+          auth.$signOut();
+        })
       }).catch(function(error){
         $scope.errMsg = true;
         $scope.errorMessage = error.message;
       })
     }
-    auth.$signOut();
-    console.log("Logged Out Succesfully");
-    auth.$signInWithEmailAndPassword($scope.username, "hello123").then(function(){
-      CommonProp.setUser($scope.username);
-    }).catch(function(error){
-      $scope.errMsg = true;
-      $scope.errorMessage = error.message;
-    });
+    console.log(CommonProp.getUser());
+    /*firebase.auth().onAuthStateChanged(function(user) {
+      var auth = $firebaseAuth();
 
-    
-    /*
-    console.log($scope.kindOfUser);
+      //auth.$signOut();
 
-    if ($scope.kindOfUser == "controlUser") {
+      console.log("Logged Out Succesfully");
+
+      auth.$signInWithEmailAndPassword($scope.username, "hello123").then(function(){ //change so that password= admin password
+        CommonProp.setUser($scope.username);
+      }).catch(function(error){
+        $scope.errMsg = true;
+        $scope.errorMessage = error.message;
+      });*/
+
+
+
+    if ($scope.kindOfUser == "control") {
+      console.log("control user!");
       var reference = firebase.database(); //get a reference to the firbase database
       firebase.auth().onAuthStateChanged(function(user) {
+        console.log("username"+username);
         if (user) {
-          reference.ref('Users/' + "Control Group").set({
-              UID: $scope.user.email
+          reference.ref('Users/Control Group/' + username).set({
+            username: username
           });
         }
       })
-    }*/
+    }else{
+      console.log("experimentalUser!");
+      var reference = firebase.database(); //get a reference to the firbase database
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          reference.ref('Users/Experimental Group/' + username).set({
+            username: username
+          });
+        }
+      })
+    }
+  }
+
+  $scope.submitResult = function(result){
+    $scope.kindOfUser = result;
+    //console.log($scope.kindOfUser);
+    $scope.signUp();
   }
 
   $scope.deleteUser = function(){
@@ -84,11 +110,12 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
       })
     }
 
-    var reference = firebase.database(); //get a reference to the firbase database
+    var reference = firebase.database();
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         reference.ref('Admins/' + name).set({
-            username: username
+            username: username,
+            password: password
         });
         console.log(username);
       }
