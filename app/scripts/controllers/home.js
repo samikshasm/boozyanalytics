@@ -4,6 +4,12 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 
 .controller('HomeCtrl', ['$scope', '$firebaseAuth', '$firebaseArray','$location', 'CommonProp', function($scope, $firebaseAuth, $firebaseArray, $location, CommonProp){
 
+	//disable back button on browser
+	history.pushState(null, null, location.href);
+			window.onpopstate = function () {
+					history.go(1);
+			};
+
 	$scope.username = CommonProp.getUser();
   $scope.adminChecker = "";
 

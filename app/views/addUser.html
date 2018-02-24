@@ -48,7 +48,7 @@
       <form role="form" name="passwordForm" novalidate="">
         <div class="form-group col-md-6 mx-auto" ng-class="{'has-error': passwordForm.email.$invalid && passwordForm.email.$touched}">
           <label for="email">Email Address</label>
-          <input type="email" name="email" ng-model="user.email" class="form-control" placeholder="Email Address" required=""/>
+          <input type="text" name="email" ng-model="user.email" class="form-control" placeholder="Email Address" required=""/>
           <small class="help-block" ng-show="passwordForm.email.$invalid && passwordForm.email.$touched">Please enter a valid email address</small>
         </div>
         <div class="col-md-6 mx-auto">

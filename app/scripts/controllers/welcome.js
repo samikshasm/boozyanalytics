@@ -3,8 +3,14 @@
 angular.module('angularAppApp.welcome', ['ngRoute'])
 
 
-
 .controller('WelcomeCtrl', ['$scope', 'CommonProp', '$firebaseArray', '$firebaseObject', function($scope, CommonProp, $firebaseArray, $firebaseObject){
+
+	//disable back button on browser
+	history.pushState(null, null, location.href);
+			window.onpopstate = function () {
+					history.go(1);
+			};
+
 	$scope.username = CommonProp.getUser();
   $scope.nameOfUser = CommonProp.getDisplayName();
   $scope.ids = "";
@@ -166,6 +172,8 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
     jQuery(function ($) {
         $("#exportButton").click(function () {
             // parse the HTML table element having an id=exportTable
+						var fileName = window.prompt("Enter a filename: ");
+
             var dataSource = shield.DataSource.create({
                 data: "#exportTable",
                 schema: {
@@ -268,7 +276,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
                         }
                     ]
                 }).saveAs({
-                    fileName: "BoozyAnalytics"
+                    fileName: fileName
                 });
             });
         });
