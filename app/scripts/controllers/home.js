@@ -2,7 +2,7 @@
 
 angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 
-.controller('HomeCtrl', ['$scope', '$firebaseAuth', '$firebaseArray','$location', 'CommonProp', function($scope, $firebaseAuth, $firebaseArray, $location, CommonProp){
+.controller('HomeCtrl', ['$scope', '$firebaseAuth', '$firebaseArray','$location', 'CommonProp', '$timeout', function($scope, $firebaseAuth, $firebaseArray, $location, CommonProp, $timeout){
 
 	//disable back button on browser
 	history.pushState(null, null, location.href);
@@ -35,6 +35,14 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 							})
 						})
 					})
+
+					for (var i=0; i<adminUsernames.length;i++) {
+						console.log($scope.adminChecker);
+						if (adminUsernames[i] == username) {
+							$scope.adminChecker = "matches";
+						}
+					}
+
 				});
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -46,33 +54,29 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
             displayName: displayName
           });
         }
-
-				for (var i=0; i<adminUsernames.length;i++) {
-					console.log($scope.adminChecker);
-					if (adminUsernames[i] == username) {
-	          $scope.adminChecker = "matches";
-	        }
-				}
-
       }
     });
 
       auth.$signInWithEmailAndPassword(username, password).then(function(){
-        if ($scope.adminChecker == "matches") {
-          console.log("User Login Successful");
-    			CommonProp.setUser($scope.user.email);
-          CommonProp.setDisplayName(displayName); //set the displayname to the current user's display name
-          console.log(CommonProp.getDisplayName()); //testing this to see if the console logs it correctly;
-    			$location.path('/welcome');
-        }
-        else {
-					window.alert("User is not an admin. Please enter a valid email address.");
-					CommonProp.logoutUser();
-        }
+				console.log("User Login Successful");
+				firebase.auth().onAuthStateChanged(function(user){
+					if ($scope.adminChecker == "matches") {
+	    			CommonProp.setUser($scope.user.email);
+	          CommonProp.setDisplayName(displayName); //set the displayname to the current user's display name
+	          console.log(CommonProp.getDisplayName()); //testing this to see if the console logs it correctly;
+						$scope.$apply(function() {
+			  			$location.path('/welcome');
+						});
+					}else {
+						window.alert("User is not an admin. Please enter a valid email address.");
+						CommonProp.logoutUser();
+					}
+				});
   		}).catch(function(error){
   			$scope.errMsg = true;
   			$scope.errorMessage = error.message;
   		});
+
   }
 }])
 
@@ -97,7 +101,7 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 			console.log("Logged Out Succesfully");
 			user = "";
 			localStorage.removeItem('userEmail');
-			$location.path('/home');
+			$location.path('/home')
 		},
     getDisplayName: function(){
       if(user) {
