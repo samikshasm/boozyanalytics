@@ -1,6 +1,5 @@
 'use strict';
-
-angular.module('angularAppApp.users', ['ngRoute','firebase'])
+var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
 
 
 .controller('UserCtrl', ['$scope', '$firebaseAuth', '$firebase','CommonProp', '$firebaseArray', '$firebaseObject', function($scope, $firebaseAuth, $firebase, CommonProp,  $firebaseArray, $firebaseObject){
@@ -28,6 +27,7 @@ angular.module('angularAppApp.users', ['ngRoute','firebase'])
   var nightList = [];
   var userCount = 0;
   var nightCount = 1;
+
 
   dataRef.$loaded()
     .then(function(){

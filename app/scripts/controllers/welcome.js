@@ -5,6 +5,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 
 .controller('WelcomeCtrl', ['$scope', 'CommonProp', '$firebaseArray', '$firebaseObject', function($scope, CommonProp, $firebaseArray, $firebaseObject){
 
+
 	//disable back button on browser
 	history.pushState(null, null, location.href);
 			window.onpopstate = function () {
@@ -38,6 +39,12 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
   var typeCounter = 0;
   var whoCounter = 0;
   var whereCounter = 0;
+
+	$scope.activeTab = 'dogs'
+
+  $scope.setActiveTab = function (val) {
+  	$scope.activeTab = val
+  }
 
   dataRef.$loaded()
     .then(function(){
@@ -281,5 +288,6 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
             });
         });
     });
+
 
 }])

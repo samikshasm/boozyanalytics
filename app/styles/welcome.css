@@ -10,13 +10,28 @@ ul {
 
 li {
     display: inline;
+    color:#888;
 }
+nav{
+  background-color:#283E54;
+
+}
+
 .fa{
   color:white;
 }
 #exportButton{
   margin:auto;
 }
-table{
-
+.container-fluid{
+  padding:0px;
+}
+.classic-tabs{
+  background-color:#283E54;
+}
+.btn{
+  margin-left: 0%;
+}
+#deleteBtn{
+  margin-left:40%;
 }

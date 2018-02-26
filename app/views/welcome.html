@@ -4,10 +4,10 @@
     <title>Boozyanalytics Home Page</title>
     <link rel="stylesheet" href="styles/welcome.css">
   </head>
-  <body ng-controller="WelcomeCtrl">
+  <body >
 
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark z-depth-0">
       <a class="navbar-brand" href="#/welcome">BoozyAnalytics</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -33,6 +33,93 @@
     </nav>
 
 
+    <div class="container-fluid">
+      <ul class="nav classic-tabs tabs-cyan rounded-0" role="tablist">
+        <li role="presentation" class="nav-item" ng-class="{ 'active': activeTab === 'dogs'}">
+          <a ng-click="setActiveTab('dogs')" ng-class="{'nav-link waves-light active' : activeTab === 'dogs'}" role="tab">Data</a>
+        </li>
+        <li role="presentation" class="nav-item" ng-class="{ 'active': activeTab === 'cats'}">
+          <a ng-click="setActiveTab('cats')" ng-class="{'nav-link waves-light active' : activeTab === 'cats'}" role="tab">Users</a>
+        </li>
+        <li role="presentation" class="nav-item" ng-class="{ 'active': activeTab === 'birds'}">
+          <a ng-click="setActiveTab('birds')" ng-class="{'nav-link waves-light active': activeTab === 'birds'}" role="tab">Admins</a>
+        </li>
+      </ul>
+
+      <div class="tab-content card rounded-0">
+
+        <!-- this section will only show if the activeTab value is set to dogs -->
+        <section ng-if="activeTab === 'dogs'" ng-controller="WelcomeCtrl">
+          <table id = "exportTable" class="table" style="width:80%; margin:auto;">
+            <thead>
+              <tr>
+                <th>uid</th>
+                <th>nightCount</th>
+                <th>date</th>
+                <th>time</th>
+                <th>size</th>
+                <th>type</th>
+                <th>where</th>
+                <th>who</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="article in articles">
+                <td>{{article.key}}</td>
+                <td>{{article.value}}</td>
+                <td>{{article.date}}</td>
+                <td>{{article.time}}</td>
+                <td>{{article.size}}</td>
+                <td>{{article.type}}</td>
+                <td>{{article.where}}</td>
+                <td>{{article.who}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="text-center" style="padding:10px;">
+            <button id="exportButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><span class="fa fa-file-excel-o"></span> Export to Excel</button>
+          </div>
+
+          <div class="text-center" style="padding:10px;">
+            <button id="addUserButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><a class="nav-link" href="#!/addUser">Add/Remove User</a></button>
+          </div>
+        </section>
+
+        <!-- this section will only show if the activeTab value is set to cats -->
+        <section ng-if="activeTab === 'cats'" ng-controller="UserCtrl">
+          <table id = "exportTable" class="table table-hover mb-0" style="width:80%; margin:auto;">
+            <thead>
+              <tr>
+                <th class="text-center">Username</th>
+                <th class="text-center">Drinking Episodes</th>
+                <th class="text-center">Start Date</th>
+                <th class="text-center">Last Episode</th>
+                <th class="text-center">Delete User</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="article in articles">
+                <td align="center">{{article.key}}</td>
+                <td align="center">{{article.value}}</td>
+                <td align="center">{{article.date}}</td>
+                <td align="center">{{article.last}}</td>
+                <td><button type="button" class="btn btn-danger" id="deleteBtn">
+                  <span class="fa fa-trash-o fa-lg" aria-hidden="true" ></span></button></td>
+              </tr>
+            </tbody>
+
+          </table>
+        </section>
+
+        <!-- this section will only show if the activeTab value is set to birds -->
+        <section ng-if="activeTab === 'birds'">Birds have wings and can fly so you have to keep them in a cage or else they will fly away from you and you will be sad.</section>
+
+
+      </div>
+    </div>
+
+
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -41,40 +128,8 @@
     </div>
   </div>
 
-  <table id = "exportTable" class="table" style="width:80%; margin:auto;">
-    <thead>
-      <tr>
-        <th>uid</th>
-        <th>nightCount</th>
-        <th>date</th>
-        <th>time</th>
-        <th>size</th>
-        <th>type</th>
-        <th>where</th>
-        <th>who</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="article in articles">
-        <td>{{article.key}}</td>
-        <td>{{article.value}}</td>
-        <td>{{article.date}}</td>
-        <td>{{article.time}}</td>
-        <td>{{article.size}}</td>
-        <td>{{article.type}}</td>
-        <td>{{article.where}}</td>
-        <td>{{article.who}}</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <div class="text-center" style="padding:10px;">
-    <button id="exportButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><span class="fa fa-file-excel-o"></span> Export to Excel</button>
-  </div>
 
-  <div class="text-center" style="padding:10px;">
-    <button id="addUserButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><a class="nav-link" href="#!/addUser">Add/Remove User</a></button>
-  </div>
 
 </body>
 
