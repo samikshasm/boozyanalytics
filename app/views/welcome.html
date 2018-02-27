@@ -3,6 +3,7 @@
   <head>
     <title>Boozyanalytics Home Page</title>
     <link rel="stylesheet" href="styles/welcome.css">
+
   </head>
   <body >
 
@@ -104,7 +105,7 @@
                 <td align="center">{{article.value}}</td>
                 <td align="center">{{article.date}}</td>
                 <td align="center">{{article.last}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn">
+                <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
                   <span class="fa fa-trash-o fa-lg" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
@@ -119,6 +120,23 @@
       </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id = "myModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" ng-repeat="article in articles">Are you sure you want to delete {{article.key}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click ="deleteUser()">Confirm</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <div class="container">
     <div class="row">
