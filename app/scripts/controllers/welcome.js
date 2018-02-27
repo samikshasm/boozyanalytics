@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('angularAppApp.welcome', ['ngRoute'])
+angular.module('angularAppApp.welcome', ['ngRoute','angularUtils.directives.dirPagination'])
 
 
 .controller('WelcomeCtrl', ['$scope', 'CommonProp', '$firebaseArray', '$firebaseObject', function($scope, CommonProp, $firebaseArray, $firebaseObject){
+
 
 
 	//disable back button on browser
@@ -39,6 +40,12 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
   var typeCounter = 0;
   var whoCounter = 0;
   var whereCounter = 0;
+	var locationCounter = 0;
+	var controlGroup = [];
+	var expGroup = [];
+
+	var locations = [];
+	var group = "";
 
 	$scope.activeTab = 'dogs'
 
@@ -50,9 +57,29 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
     .then(function(){
         angular.forEach(dataRef, function(value) {
           angular.forEach(value, function(value, id){
+						var idStr = ""+id;
+						if (idStr == "Control Group"){
+							angular.forEach(value, function(value, id){
+								controlGroup.push(id+"");
+							})
+						}if(idStr == "Experimental Group"){
+							angular.forEach(value, function(value, id){
+								expGroup.push(id);
+							})
+						}
             var substr = id.substr(0,3);
             if(substr == "UID"){
               uid = id.substr(5,id.length);
+							if(controlGroup.includes(uid)){
+								console.log("control!");
+								group = "control"
+							}else if(expGroup.includes(uid)){
+								group = "experimental";
+								console.log("experimental!");
+							}else{
+								console.log("unassigned!")
+								group = "unassigned";
+							}
               //$scope.articles.push({"key":uid})
 
             }
@@ -65,73 +92,94 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 
               }
               angular.forEach(value, function(value, id){
-                angular.forEach(value, function(value,id){
-                  var idStr = ""+id;
-                  var substr = idStr.substr(0,4);
-                  if(substr == "Date"){
-                    date = idStr.substr(5,idStr.length);
-                    //$scope.articles.push({"date":date})
-                  }
-                  angular.forEach(value, function(value,id){
-                    var idStr = ""+id;
-                    if(idStr == "Size"){
-                      angular.forEach(value,function(value,id){
-                        var idStr = ""+id;
-                        var subStr = idStr.substr(0,4);
-                        if(subStr == "Time"){
-                          time = idStr.substr(5,idStr.length);
-                          size = value;
-                          $scope.articles.push({"key":uid,"value":nightCount,"date":date,"time":time,"size":size})
-                        }
-                      })
-                    }
-                    if(idStr == "Type"){
-                      var counter = 0;
-                      angular.forEach(value,function(value,id){
-                        var idStr = ""+id;
-                        var subStr = idStr.substr(0,4);
-                        if(subStr == "Time"){
-                          time = idStr.substr(5,idStr.length);
-                          type = value;
-                          $scope.articles[typeCounter].type = type;
-                          typeCounter++;
-                        }
-                      })
-                    }
-                    if(idStr == "Where"){
-                      var counter = 0;
-                      angular.forEach(value,function(value,id){
-                        var idStr = ""+id;
-                        var subStr = idStr.substr(0,4);
-                        if(subStr == "Time"){
-                          time = idStr.substr(5,idStr.length);
-                          where = value;
-                          $scope.articles[whereCounter].where = where;
-                          whereCounter++;
-                        }
-                      })
-                    }
-                    if(idStr == "Who"){
-                      var counter = 0;
-                      angular.forEach(value,function(value,id){
-                        var idStr = ""+id;
-                        var subStr = idStr.substr(0,4);
-                        if(subStr == "Time"){
-                          time = idStr.substr(5,idStr.length);
-                          who = value;
-                          $scope.articles[whoCounter].who = who;
-                          whoCounter++;
-                        }
-                      })
-                    }
-                  })
-                })
+								var idStr = ""+id;
+								if(idStr == "Answers"){
+									angular.forEach(value, function(value,id){
+										var idStr = ""+id;
+										var substr = idStr.substr(0,4);
+										if(substr == "Date"){
+											date = idStr.substr(5,idStr.length);
+											//$scope.articles.push({"date":date})
+										}
+										angular.forEach(value, function(value,id){
+											var idStr = ""+id;
+											if(idStr == "Size"){
+												angular.forEach(value,function(value,id){
+													var idStr = ""+id;
+													var subStr = idStr.substr(0,4);
+													if(subStr == "Time"){
+														time = idStr.substr(5,idStr.length);
+														size = value;
+														$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":date,"time":time, "size":size})
+													}
+												})
+											}
+											if(idStr == "Type"){
+												var counter = 0;
+												angular.forEach(value,function(value,id){
+													var idStr = ""+id;
+													var subStr = idStr.substr(0,4);
+													if(subStr == "Time"){
+														time = idStr.substr(5,idStr.length);
+														type = value;
+														$scope.articles[typeCounter].type = type;
+														typeCounter++;
+													}
+												})
+											}
+											if(idStr == "Where"){
+												var counter = 0;
+												angular.forEach(value,function(value,id){
+													var idStr = ""+id;
+													var subStr = idStr.substr(0,4);
+													if(subStr == "Time"){
+														time = idStr.substr(5,idStr.length);
+														where = value;
+														$scope.articles[whereCounter].where = where;
+														whereCounter++;
+													}
+												})
+											}
+											if(idStr == "Who"){
+												var counter = 0;
+												angular.forEach(value,function(value,id){
+													var idStr = ""+id;
+													var subStr = idStr.substr(0,4);
+													if(subStr == "Time"){
+														time = idStr.substr(5,idStr.length);
+														who = value;
+														$scope.articles[whoCounter].who = who;
+														whoCounter++;
+													}
+												})
+											}
+										})
+									})
+								}else if(idStr == "Location"){
+									angular.forEach(value,function(value,id){
+										locationCounter++;
+										var idStr = ""+id;
+										var timeStr = idStr.substr(16,idStr.length);
+										var dateStr = idStr.substr(5,11);
+										locationCounter = locationCounter+whoCounter;
+										var locationStr = value+"";
+										var pos = locationStr.indexOf("&");
+										var latti = locationStr.substr(0, pos);
+										var longi = locationStr.substr(pos+1, locationStr.length);
+										typeCounter++;
+										whoCounter++;
+										whereCounter++;
+										$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"latitude":latti, "longitude":longi})
+									})
+								}
+
                 })
 
               })
             })
             //console.log(id+":"+value);
           })
+
         /*  $scope.articles.push({
             "key": uid,
             "value": nightCount,
@@ -179,7 +227,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
     jQuery(function ($) {
         $("#exportButton").click(function () {
             // parse the HTML table element having an id=exportTable
-						var fileName = window.prompt("Enter a filename: ");
+						var fileName = "BoozyAnalytics";
 
             var dataSource = shield.DataSource.create({
                 data: "#exportTable",
@@ -187,13 +235,16 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
                     type: "table",
                     fields: {
                         uid: { type: String },
+												group: { type: String},
                         nightCount: { type: String },
                         date: { type: String},
                         time: { type: String},
                         size: { type: String},
                         type: { type: String},
                         where: { type: String},
-                        who: { type: String}
+                        who: { type: String},
+												latitude: {type: String},
+												longitude: {type: String}
                     }
                 }
             });
@@ -215,6 +266,13 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
                                             type: String,
                                             value: "uid"
                                         },
+																				{
+																					style:{
+																						bold:true
+																					},
+																					type: String,
+																					value: "group"
+																				},
                                         {
                                             style: {
                                                 bold: true
@@ -264,19 +322,36 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
                                             type: String,
                                             value: "who"
                                         },
+																				{
+																					style: {
+																						bold: true
+																					},
+																					type: String,
+																					value: "latitude"
+																				},
+																				{
+																					style: {
+																						bold: true
+																					},
+																					type: String,
+																					value: "longitude"
+																				}
                                     ]
                                 }
                             ].concat($.map(data, function(item) {
                                 return {
                                     cells: [
                                         { type: String, value: item.uid },
+																				{ type: String, value: item.group},
                                         { type: String, value: item.nightCount },
                                         { type: String, value: item.date},
                                         {type: String, value: item.time},
                                         {type:String, value: item.size},
                                         {type:String, value: item.type},
                                         {type:String, value: item.where},
-                                        {type:String, value: item.who}
+                                        {type:String, value: item.who},
+																				{type:String, value: item.latitude},
+																				{type:String, value: item.longitude}
                                     ]
                                 };
                             }))

@@ -50,10 +50,13 @@
 
         <!-- this section will only show if the activeTab value is set to dogs -->
         <section ng-if="activeTab === 'dogs'" ng-controller="WelcomeCtrl">
+
           <table id = "exportTable" class="table" style="width:80%; margin:auto;">
+
             <thead>
               <tr>
                 <th>uid</th>
+                <th>group</th>
                 <th>nightCount</th>
                 <th>date</th>
                 <th>time</th>
@@ -61,11 +64,22 @@
                 <th>type</th>
                 <th>where</th>
                 <th>who</th>
+                <th>latitude</th>
+                <th>longitude</th>
               </tr>
             </thead>
+
             <tbody>
-              <tr ng-repeat="article in articles">
+              <form class="form-inline">
+                <div class="form-group">
+                    <label >Search</label>
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                </div>
+              </form>
+              <tr ng-repeat="article in articles|filter:search">
+
                 <td>{{article.key}}</td>
+                <td>{{article.group}}</td>
                 <td>{{article.value}}</td>
                 <td>{{article.date}}</td>
                 <td>{{article.time}}</td>
@@ -73,12 +87,18 @@
                 <td>{{article.type}}</td>
                 <td>{{article.where}}</td>
                 <td>{{article.who}}</td>
+                <td>{{article.latitude}}</td>
+                <td>{{article.longitude}}</td>
               </tr>
             </tbody>
+
+
           </table>
 
+
+
           <div class="text-center" style="padding:10px;">
-            <button id="exportButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><span class="fa fa-file-excel-o"></span> Export to Excel</button>
+            <button id="exportButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><span class="fa fa-file-excel"></span> Export to Excel</button>
           </div>
 
           <div class="text-center" style="padding:10px;">
@@ -93,6 +113,7 @@
               <tr>
                 <th class="text-center">Username</th>
                 <th class="text-center">Drinking Episodes</th>
+                <th class="text-center">Group</th>
                 <th class="text-center">Start Date</th>
                 <th class="text-center">Last Episode</th>
                 <th class="text-center">Delete User</th>
@@ -102,10 +123,11 @@
               <tr ng-repeat="article in articles">
                 <td align="center">{{article.key}}</td>
                 <td align="center">{{article.value}}</td>
+                <td align="center">{{article.group}}</td>
                 <td align="center">{{article.date}}</td>
                 <td align="center">{{article.last}}</td>
                 <td><button type="button" class="btn btn-danger" id="deleteBtn">
-                  <span class="fa fa-trash-o fa-lg" aria-hidden="true" ></span></button></td>
+                  <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
 
