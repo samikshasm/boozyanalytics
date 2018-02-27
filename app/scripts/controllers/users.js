@@ -156,6 +156,10 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
     });
 
     $scope.deleteUser = function(key){
+      console.log(key);
+      var title = "Are you sure you want to delete "+key+"?";
+      $('#idHolder').html( title );
+
       /*
       $scope.user.email = key+"@gmail.com";
       var username = $scope.user.email;
