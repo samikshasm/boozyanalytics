@@ -6,6 +6,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 .controller('WelcomeCtrl', ['$scope', 'CommonProp', '$firebaseArray', '$firebaseObject', function($scope, CommonProp, $firebaseArray, $firebaseObject){
 
 
+	$scope.batches = []
 
 
 	//disable back button on browser
@@ -193,7 +194,13 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
             })
             //console.log(id+":"+value);
           })
-
+					var i,j,temparray,chunk = 2;
+					for (i=0,j=$scope.articles.length; i<j; i+=chunk) {
+					    temparray = $scope.articles.slice(i,i+chunk);
+							$scope.batches.push(temparray);
+					    // do whatever
+					}
+					$scope.articles = $scope.batches[0];
         /*  $scope.articles.push({
             "key": uid,
             "value": nightCount,
@@ -201,7 +208,16 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
             //"time": time
           //})
 
+
     });
+
+
+		$scope.switchBatch = function(number){
+			console.log(number);
+			$scope.articles = $scope.batches[number];
+			console.log($scope.articles)
+
+		}
 
 
 

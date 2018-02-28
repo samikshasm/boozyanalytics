@@ -71,6 +71,8 @@
               </tr>
             </thead>
 
+
+
             <tbody>
               <!--Top Table UI Export Table-->
               <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
@@ -121,12 +123,45 @@
                 <td>{{article.latitude}}</td>
                 <td>{{article.longitude}}</td>
               </tr>
+
+
+
+
             </tbody>
+
+
+
+
 
 
           </table>
 
+          <!--Pagination blue-->
+          <nav style="background-color:white;">
+              <ul class="pagination justify-content-center pg-blue" >
+                  <!--Arrow left-->
+                  <li class="page-item">
+                      <a class="page-link" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                          <span class="sr-only">Previous</span>
+                      </a>
+                  </li>
 
+                  <ul ng-repeat="batch in batches" ng-click="switchBatch($index)">
+                    <!--Numbers-->
+                    <li class="page-item"><a class="page-link">{{$index+1}}</a></li>
+                  </ul>
+
+                  <!--Arrow right-->
+                  <li class="page-item">
+                      <a class="page-link" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                          <span class="sr-only">Next</span>
+                      </a>
+                  </li>
+              </ul>
+          </nav>
+          <!--/Pagination blue-->
 
 
 
