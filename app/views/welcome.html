@@ -71,13 +71,44 @@
               </tr>
             </thead>
 
+
+
             <tbody>
-              <form class="form-inline">
-                <div class="form-group">
-                    <label >Search</label>
-                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
-                </div>
-              </form>
+              <!--Top Table UI Export Table-->
+              <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
+
+                  <!--Grid row-->
+                  <div class="row">
+
+                    <!--Grid column-->
+                    <div class="col-lg-8 col-md-12">
+
+
+                        <form class="md-form mb-1">
+                            <input class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;">
+                        </form>
+
+                    </div>
+                    <!--Grid column-->
+
+
+                      <!--Grid column-->
+                      <div class="col-lg-4 col-md-12 mx-auto">
+
+                        <div class="text-center" style="padding:10px;">
+                          <button id="exportButton" class="btn btn-success"><span class="fa fa-file-excel ml-1 mr-1"></span> Export</button>
+                        </div>
+
+                      </div>
+                      <!--Grid column-->
+
+
+
+                  </div>
+                  <!--Grid row-->
+
+              </div>
+              <!--Top Table UI-->
               <tr ng-repeat="article in articles|filter:search">
 
                 <td>{{article.key}}</td>
@@ -92,16 +123,47 @@
                 <td>{{article.latitude}}</td>
                 <td>{{article.longitude}}</td>
               </tr>
+
+
+
+
             </tbody>
+
+
+
+
 
 
           </table>
 
+          <!--Pagination blue-->
+          <nav style="background-color:white;">
+              <ul class="pagination justify-content-center pg-blue" >
+                  <!--Arrow left-->
+                  <li class="page-item">
+                      <a class="page-link" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                          <span class="sr-only">Previous</span>
+                      </a>
+                  </li>
+
+                  <ul ng-repeat="batch in batches" ng-click="switchBatch($index)">
+                    <!--Numbers-->
+                    <li class="page-item"><a class="page-link">{{$index+1}}</a></li>
+                  </ul>
+
+                  <!--Arrow right-->
+                  <li class="page-item">
+                      <a class="page-link" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                          <span class="sr-only">Next</span>
+                      </a>
+                  </li>
+              </ul>
+          </nav>
+          <!--/Pagination blue-->
 
 
-          <div class="text-center" style="padding:10px;">
-            <button id="exportButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><span class="fa fa-file-excel"></span> Export to Excel</button>
-          </div>
 
           <div class="text-center" style="padding:10px;">
             <button id="addUserButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><a class="nav-link" href="#!/addUser">Add/Remove User</a></button>
@@ -110,10 +172,8 @@
 
         <!-- this section will only show if the activeTab value is set to cats -->
         <section ng-if="activeTab === 'cats'" ng-controller="UserCtrl">
-          <table id = "exportTable" class="table table-hover mb-0" style="width:80%; margin:auto;">
-            <div class="text-center">
-                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add User</a>
-            </div>
+          <table id = "userTable" class="table table-hover mt-0 mb-0" style="width:80%; margin:auto;">
+
             <thead>
               <tr>
                 <th class="text-center">Username</th>
@@ -125,14 +185,49 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="article in articles">
+              <!--Top Table UI-->
+              <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
+
+                  <!--Grid row-->
+                  <div class="row">
+
+                    <!--Grid column-->
+                    <div class="col-lg-8 col-md-12">
+
+
+                        <form class="md-form mb-1">
+                            <input class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;">
+                        </form>
+
+                    </div>
+                    <!--Grid column-->
+
+
+                      <!--Grid column-->
+                      <div class="col-lg-4 col-md-12 mx-auto">
+
+                        <div class="text-center mt-2" style="margin-top:0%;">
+                            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add User</a>
+                        </div>
+
+                      </div>
+                      <!--Grid column-->
+
+
+
+                  </div>
+                  <!--Grid row-->
+
+              </div>
+              <!--Top Table UI-->
+              <tr ng-repeat="article in articles|filter:search">
                 <td align="center">{{article.key}}</td>
                 <td align="center">{{article.value}}</td>
                 <td align="center">{{article.group}}</td>
                 <td align="center">{{article.date}}</td>
                 <td align="center">{{article.last}}</td>
                 <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.key) data-toggle="modal" data-target="#myModal">
-                  <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
+                <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
 
@@ -201,11 +296,11 @@
               </div>
               <div class="modal-body mx-3">
 
-                  <div class="md-form mb-4" >
+                  <form class="md-form mb-4" name="form4">
                       <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
                       <input type="text" id="form2" class="form-control" name="usernameForm">
                       <label for="form2">Username</label>
-                  </div>
+                  </form>
                   <div>
                     <input type="radio" class="radio" id="controlUser" name="rdoResult" ng-model='result' ng-value='"control"'>
                     <label for="controlUser">Control</label>

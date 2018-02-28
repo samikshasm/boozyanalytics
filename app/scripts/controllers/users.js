@@ -18,7 +18,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
     storageBucket: "slu-capstone-f622b.appspot.com",
     messagingSenderId: "931206697482"
   };
-  
+
 
   var userRef = firebase.database().ref('Users/');
   userRef.on('value', function(snapshot) {
@@ -158,6 +158,18 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
       });
   });
 
+  $('#modalSubscriptionForm').on('hidden.bs.modal', function (e) {
+    $(this)
+      .find("input,textarea,select")
+         .val('')
+         .end()
+      .find("input[type=checkbox], input[type=radio]")
+         .prop("checked", "")
+         .end()
+      .find('form')[0].reset();
+
+  })
+  
     $scope.addUser = function(result){
       var userName = $("#form2").val();
       console.log(userName);
