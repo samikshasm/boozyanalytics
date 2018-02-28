@@ -131,7 +131,7 @@
                 <td align="center">{{article.group}}</td>
                 <td align="center">{{article.date}}</td>
                 <td align="center">{{article.last}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=deleteUser(article.key) data-toggle="modal" data-target="#myModal">
+                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.key) data-toggle="modal" data-target="#myModal">
                   <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
@@ -140,8 +140,29 @@
         </section>
 
         <!-- this section will only show if the activeTab value is set to birds -->
-        <section ng-if="activeTab === 'birds'">Birds have wings and can fly so you have to keep them in a cage or else they will fly away from you and you will be sad.</section>
+        <section ng-if="activeTab === 'birds'" ng-controller="AdminsCtrl">
+          <table id = "exportTable" class="table table-hover mb-0" style="width:80%; margin:auto;">
+            <div class="text-center">
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add Admin</a>
+            </div>
+            <thead>
+              <tr>
+                <th class="text-center">Name</th>
+                <th class="text-center">Username</th>
+                <th class="text-center">Delete User</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="article in articles">
+                <td align="center">{{article.name}}</td>
+                <td align="center">{{article.email}}</td>
+                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.email) data-toggle="modal" data-target="#myModal">
+                  <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
+              </tr>
+            </tbody>
 
+          </table>
+        </section>
 
       </div>
     </div>
@@ -161,7 +182,7 @@
             <p id="form3"></p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click=getUser()>Confirm</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click=deleteUser()>Confirm</button>
             <button type="button" class="btn btn-blue-grey" data-dismiss="modal">Cancel</button>
           </div>
         </div>
@@ -201,6 +222,40 @@
           </div>
       </div>
   </div>
+
+  <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="UserCtrl">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Add User</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+
+                <div class="md-form mb-4" >
+                    <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
+                    <input type="text" id="form2" class="form-control" name="usernameForm">
+                    <label for="form2">Username</label>
+                </div>
+                <div>
+                  <input type="radio" class="radio" id="controlUser" name="rdoResult" ng-model='result' ng-value='"control"'>
+                  <label for="controlUser">Control</label>
+                </div>
+                <div>
+                  <input type="radio" class = "radio" id="experimentalUser" name="rdoResult" ng-model='result' ng-value='"experimental"'>
+                  <label for="experimentalUser">Experiment</label>
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-indigo" ng-click=addUser(result) data-dismiss="modal">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 

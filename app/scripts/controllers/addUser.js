@@ -34,6 +34,8 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
     var usernameEmail = username+"@gmail.com";
     var password = "hello123";
 
+
+
     if(username && password) {
       addApp.auth().createUserWithEmailAndPassword(usernameEmail,password).then(function(){
         console.log("User Successfully Created");
@@ -144,36 +146,69 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
 
   $scope.addAdmin = function() {
     var adminApp = firebase.initializeApp(config,"Add Admin");
+    $scope.adminChecker = "";
+    var adminUsernames = [];
     var username = $scope.user.email;
     var password = $scope.user.password;
     var name = $scope.user.name;
+    var ref = firebase.database().ref();
+    var dataRef = $firebaseArray(ref);
 
-    if(username && password) {
-      adminApp.auth().createUserWithEmailAndPassword(username,password).then(function(){
-        console.log("User Successfully Created");
+    dataRef.$loaded()
+      .then(function(){
+          angular.forEach(dataRef, function(value) {
+            angular.forEach(value, function(value, id){
+              angular.forEach(value,function(value,id){
 
-        adminApp.auth().onAuthStateChanged(function(user){
-          adminApp.auth().signOut();
-          var user = adminApp.auth().currentUser;
-          if (!user) {
-            adminApp.delete();
+                //var substr = id.substr(0,8);
+               if(id == "username"){
+                 adminUsernames.push(value);
+                }
+              })
+            })
+          })
+
+          for (var i=0; i<adminUsernames.length;i++) {
+            console.log($scope.adminChecker);
+            if (adminUsernames[i] == username) {
+              $scope.adminChecker = "matches";
+            }
+            else{
+              $scope.adminChecker = "not matches";
+            }
           }
-        })
-      });
 
-    var user = firebase.auth().currentUser;
-    console.log(user);
-    var reference = firebase.database();
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        reference.ref('Admins/' + name).set({
-            username: username,
-            password: password
         });
-        console.log(username);
-      }
+    if($scope.adminChecker== "not matches"){
+      if(username && password) {
+        adminApp.auth().createUserWithEmailAndPassword(username,password).then(function(){
+          console.log("User Successfully Created");
+          adminApp.auth().onAuthStateChanged(function(user){
+            adminApp.auth().signOut();
+            var user = adminApp.auth().currentUser;
+            if (!user) {
+              adminApp.delete();
+            }
+          })
+        });
 
-  })
+      var user = firebase.auth().currentUser;
+      console.log(user);
+      var reference = firebase.database();
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          reference.ref('Admins/' + name).set({
+              username: username,
+              password: password
+          });
+          console.log(username);
+        }
+
+      })
+    }
+  }else{
+    console.log('else statement');
+    window.alert("Admin already exists.");
   }
 }
 }])

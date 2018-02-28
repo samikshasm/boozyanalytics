@@ -19,7 +19,8 @@ angular
     'angularAppApp.home',
     'angularAppApp.welcome',
     'angularAppApp.addUser',
-    'angularAppApp.users'
+    'angularAppApp.users',
+    'angularAppApp.admins'
   ])
   .config(function ($routeProvider, $locationProvider) {
     //$locationProvider.hashPrefix('!');

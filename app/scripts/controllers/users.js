@@ -7,6 +7,18 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
   $scope.names = [];
+  var controlList = [];
+  var experimentalList = [];
+
+  var config = {
+    apiKey: "AIzaSyB0QGhWIaE6wjxO9Y_AJCLXm8h3hJjj34Y",
+    authDomain: "slu-capstone-f622b.firebaseapp.com",
+    databaseURL: "https://slu-capstone-f622b.firebaseio.com",
+    projectId: "slu-capstone-f622b",
+    storageBucket: "slu-capstone-f622b.appspot.com",
+    messagingSenderId: "931206697482"
+  };
+  
 
   var userRef = firebase.database().ref('Users/');
   userRef.on('value', function(snapshot) {
@@ -29,71 +41,62 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
     var nightList = [];
     var userCount = 0;
     var nightCount = 1;
-    var controlList = [];
-    var experimentalList = [];
     var groupList = [];
     $scope.articles = [];
     dataRef.$loaded()
       .then(function(){
-          angular.forEach(dataRef, function(value) {
-            angular.forEach(value, function(value, id){
-              if (id == "Control Group"){
-                angular.forEach(value, function(value,id){
-                  angular.forEach(value, function(value,id){
-                    controlList.push(value);
-                  })
-                })
-              }if (id == "Experimental Group"){
+          angular.forEach(dataRef, function(value, id) {
+
+              angular.forEach(value, function(value, id){
+                if (id == "Control Group"){
                   angular.forEach(value, function(value,id){
                     angular.forEach(value, function(value,id){
-                      experimentalList.push(value);
+                      controlList.push(value);
                     })
                   })
-              }
-              if(id != "Control Group" || id != "Experimental Group"){
-
-                var substr = id.substr(0,3);
-                if(substr == "UID"){
-                  uid = id.substr(5,id.length);
-                  //$scope.articles.push({"key":uid})
-
+                }if (id == "Experimental Group"){
+                    angular.forEach(value, function(value,id){
+                      angular.forEach(value, function(value,id){
+                        experimentalList.push(value);
+                      })
+                    })
                 }
-                angular.forEach(value, function(value, id){
-                  var idStr = ""+id;
-                  var substr = idStr.substr(0,11);
-                  if(substr == "Night Count"){
-                    dateCounter++;
-                    //nightCount = id.substr(13,idStr.length);
-                    //$scope.articles.push({"value":nightCount})
+                if(id != "Control Group" || id != "Experimental Group"){
+
+                  var substr = id.substr(0,3);
+                  if(substr == "UID"){
+                    uid = id.substr(5,id.length);
+                    //$scope.articles.push({"key":uid})
 
                   }
                   angular.forEach(value, function(value, id){
-                    angular.forEach(value, function(value,id){
-                      var idStr = ""+id;
-                      var substr = idStr.substr(0,4);
-                      if(substr == "Date"){
-                        date = idStr.substr(5,idStr.length);
-                        //$scope.articles.push({"date":date})
-                        uidList.push(uid);
-                        //$scope.articles.push({"key":uid,"value":dateCounter,"date":date});
-                        dateList.push(date);
-                        dateCounter=0;
-                      }
-                    })
-                    })
+                    var idStr = ""+id;
+                    var substr = idStr.substr(0,11);
+                    if(substr == "Night Count"){
+                      dateCounter++;
+                      //nightCount = id.substr(13,idStr.length);
+                      //$scope.articles.push({"value":nightCount})
 
-                  })
-              }
-              })
-              //console.log(id+":"+value);
-            })
-          /*  $scope.articles.push({
-              "key": uid,
-              "value": nightCount,
-              "date": date*/
-              //"time": time
-            //})
+                    }
+                    angular.forEach(value, function(value, id){
+                      angular.forEach(value, function(value,id){
+                        var idStr = ""+id;
+                        var substr = idStr.substr(0,4);
+                        if(substr == "Date"){
+                          date = idStr.substr(5,idStr.length);
+                          //$scope.articles.push({"date":date})
+                          uidList.push(uid);
+                          //$scope.articles.push({"key":uid,"value":dateCounter,"date":date});
+                          dateList.push(date);
+                          dateCounter=0;
+                        }
+                      })
+                      })
 
+                    })
+                  }
+                })
+                          })
 
             for(var i = 1; i < uidList.length; i++){
               if (uidList[i] != uidList[i-1]){
@@ -113,10 +116,6 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
               }
             }
 
-
-
-
-
             var total = 0;
             for(var i = 0; i < nightList.length; i++){
               total = total+nightList[i];
@@ -129,7 +128,6 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
                 groupList.push("unassigned");
               }
             }
-
 
             for(var i = 0; i < controlList.length; i++){
               if(usernameList.includes(controlList[i])){
@@ -154,20 +152,11 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
               }
             }
 
-
-
-
-
             for(var i = 0; i < usernameList.length; i++){
               $scope.articles.push({"key":usernameList[i], "value":nightList[i], "group":groupList[i], "date":startDateList[i], "last":lastUsedList[i]})
             }
       });
   });
-
-
-
-
-
 
     $scope.addUser = function(result){
       var userName = $("#form2").val();
@@ -182,6 +171,27 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
       var username = userName;
       var usernameEmail = username+"@gmail.com";
       var password = "hello123";
+      var userChecker = "";
+      var controlUsers = [];
+      var experimentalUsers = [];
+
+      for (var i =0; i< controlList.length;i++){
+        if( controlList[i]==username){
+           userChecker = "matches";
+        }
+      }
+
+      for (var i=0; i< experimentalUsers.length;i++){
+        if( experimentalUsers[i]==username){
+          userChecker = "matches";
+        }
+      }
+
+    if(userChecker == "matches"){
+      console.log('else statement');
+      window.alert("User already exists.");
+      addApp.delete();
+    }else{
 
       if(username && password) {
         addApp.auth().createUserWithEmailAndPassword(usernameEmail,password).then(function(){
@@ -212,43 +222,81 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
       }
     }
 
+    }
+
     var user = "";
-    $scope.getUser = function(){
-      var userName = $("#form3").text();
-      console.log(userName);
+    $scope.deleteUser = function(){
+      var deleteApp = firebase.initializeApp(config,"Delete current User");
+      var username = $("#form3").text();
+      var usernameEmail = username+"@gmail.com";
+      var password = "hello123";
+
+      if(usernameEmail && password) {
+        deleteApp.auth().signInWithEmailAndPassword(usernameEmail, password).then(function(){
+          var user = deleteApp.auth().currentUser;
+          user.delete().then(function() {
+            console.log("User Successfully Deleted");
+            var user = deleteApp.auth().currentUser;
+            if(!user){
+              deleteApp.delete();
+            }
+          }).catch(function(error) {
+            $scope.errMsg = true;
+            $scope.errorMessage = error.message;
+          });
+    		}).catch(function(error){
+    			$scope.errMsg = true;
+    			$scope.errorMessage = error.message;
+    		});
+      }
+
+      var ref = firebase.database().ref();
+      var dataRef = $firebaseArray(ref);
+      var controlGroupNames = [];
+      var experimentalGroupNames = [];
+
+      dataRef.$loaded()
+  	    .then(function(){
+  	        angular.forEach(dataRef, function(value) {
+  	          angular.forEach(value, function(value, id){
+  		           if(id == "Control Group"){
+                   angular.forEach(value, function(value, id){
+                     controlGroupNames.push(id);
+                   })
+                 }else{
+                   angular.forEach(value, function(value, id){
+                     experimentalGroupNames.push(id);
+                   })
+                 }
+  							})
+  						})
+
+              for (var i=0; i<controlGroupNames.length;i++) {
+                if (controlGroupNames[i] == username) {
+                  $scope.typeOfGroup = "control";
+                }
+              }
+              for (var i=0; i<experimentalGroupNames.length;i++) {
+                if (experimentalGroupNames[i] == username) {
+                  $scope.typeOfGroup = "experimental";
+                }
+              }
+
+              if ($scope.typeOfGroup == "control") {
+                var ref = firebase.database().ref("Users/Control Group/"+username);
+                ref.remove();
+              }else{
+                var ref = firebase.database().ref("Users/Experimental Group/"+username);
+                ref.remove();
+              }
+  				});
 
     }
 
 
-    $scope.deleteUser = function(key){
+    $scope.getUser = function(key){
       console.log(key);
       $('#form3').html( key );
-
-      /*
-      $scope.user.email = key+"@gmail.com";
-      var username = $scope.user.email;
-      $scope.user.password = "hello123";
-      var password = $scope.user.password;
-      var txt;
-      console.log($scope.user.email);
-      console.log($scope.user.password);
-      if (confirm("Are you sure you want to delete "+key+"?")) {
-          txt = "You pressed OK!";
-          /*if(username && password){
-            var auth = $firebaseAuth();
-            var user = firebase.auth().currentUser;
-
-            user.delete().then(function() {
-              console.log("User Successfully Deleted");
-            }).catch(function(error) {
-              $scope.errMsg = true;
-              $scope.errorMessage = error.message;
-            });
-          }
-      } else {
-          txt = "You pressed Cancel!";
-      }*/
-
   }
 
 
