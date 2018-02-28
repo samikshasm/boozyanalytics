@@ -38,3 +38,9 @@ nav{
 dir-pagination-controls{
   color:red;
 }
+.modal-header{
+  border-radius:2px;
+}
+#form3{
+  font-weight:700;
+}
