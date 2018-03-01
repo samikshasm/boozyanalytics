@@ -7,6 +7,9 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 
 
 	$scope.batches = []
+	$scope.batchNumber = 0;
+	$scope.lastBool = false;
+	$scope.firstBool = true;
 
 
 	//disable back button on browser
@@ -194,13 +197,17 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
             })
             //console.log(id+":"+value);
           })
-					var i,j,temparray,chunk = 2;
+					var i,j,temparray,chunk = 10;
 					for (i=0,j=$scope.articles.length; i<j; i+=chunk) {
 					    temparray = $scope.articles.slice(i,i+chunk);
 							$scope.batches.push(temparray);
 					    // do whatever
 					}
 					$scope.articles = $scope.batches[0];
+					if($scope.batches.length == 1){
+						$scope.firstBool=true;
+						$scope.lastBool=true;
+					}
         /*  $scope.articles.push({
             "key": uid,
             "value": nightCount,
@@ -211,11 +218,60 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 
     });
 
+		$scope.switchNumber = function(number){
+			var length = $scope.batches.length-1;
+			var lengthStr = ""+length;
+			if(number == "0"){
+				console.log("testing");
+				$scope.firstBool = true;
+				$scope.lastBool = false;
+			}
+			else if(number == lengthStr){
+				$scope.lastBool = true;
+				$scope.firstBool = false;
+			}else{
+				$scope.lastBool = false;
+				$scope.firstBool = false;
+			}
+			$scope.articles = $scope.batches[number];
+			$scope.batchNumber = number;
+		}
+
 
 		$scope.switchBatch = function(number){
-			console.log(number);
-			$scope.articles = $scope.batches[number];
-			console.log($scope.articles)
+
+			if(number == "-1"){
+				console.log("previous");
+				if($scope.batchNumber == 1){
+					console.log("first element");
+					$scope.batchNumber = $scope.batchNumber -1;
+					$scope.articles = $scope.batches[$scope.batchNumber];
+					$scope.firstBool = true;
+					$scope.lastBool = false;
+
+
+				}else{
+					$scope.batchNumber = $scope.batchNumber-1;
+					console.log($scope.batchNumber);
+					$scope.articles = $scope.batches[$scope.batchNumber];
+					$scope.firstBool = false;
+					$scope.lastBool = false;
+				}
+
+			}if(number == "-2"){
+				if($scope.batchNumber+1 == $scope.batches.length-1){
+					console.log("last element");
+					$scope.articles = $scope.batches[$scope.batchNumber+1];
+					$scope.batchNumber = $scope.batches.length-1;
+					$scope.lastBool = true;
+					$scope.firstBool = false;
+				}else{
+					$scope.batchNumber = $scope.batchNumber+1;
+					$scope.articles = $scope.batches[$scope.batchNumber];
+					$scope.firstBool = false;
+					$scope.lastBool = false;
+				}
+			}
 
 		}
 
