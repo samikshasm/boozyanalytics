@@ -169,7 +169,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
       .find('form')[0].reset();
 
   })
-  
+
     $scope.addUser = function(result){
       var userName = $("#form2").val();
       console.log(userName);

@@ -140,20 +140,20 @@
           <nav style="background-color:white;">
               <ul class="pagination justify-content-center pg-blue" >
                   <!--Arrow left-->
-                  <li class="page-item">
+                  <li class="page-item" ng-class="{ 'disabled': firstBool === true}" ng-click="switchBatch(-1)">
                       <a class="page-link" aria-label="Previous">
                           <span aria-hidden="true">&laquo;</span>
                           <span class="sr-only">Previous</span>
                       </a>
                   </li>
 
-                  <ul ng-repeat="batch in batches" ng-click="switchBatch($index)">
+                  <ul ng-repeat="batch in batches" ng-click="switchNumber($index)">
                     <!--Numbers-->
-                    <li class="page-item"><a class="page-link">{{$index+1}}</a></li>
+                    <li class="page-item" ng-class="{ 'active': batchNumber === $index}"><a class="page-link">{{$index+1}}</a></li>
                   </ul>
 
                   <!--Arrow right-->
-                  <li class="page-item">
+                  <li class="page-item" ng-class="{ 'disabled': lastBool === true}" ng-click="switchBatch(-2)">
                       <a class="page-link" aria-label="Next">
                           <span aria-hidden="true">&raquo;</span>
                           <span class="sr-only">Next</span>
