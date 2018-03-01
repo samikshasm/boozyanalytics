@@ -70,9 +70,6 @@
                 <th>longitude</th>
               </tr>
             </thead>
-
-
-
             <tbody>
               <!--Top Table UI Export Table-->
               <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
@@ -102,8 +99,6 @@
                       </div>
                       <!--Grid column-->
 
-
-
                   </div>
                   <!--Grid row-->
 
@@ -124,16 +119,7 @@
                 <td>{{article.longitude}}</td>
               </tr>
 
-
-
-
             </tbody>
-
-
-
-
-
-
           </table>
 
           <!--Pagination blue-->
@@ -162,8 +148,6 @@
               </ul>
           </nav>
           <!--/Pagination blue-->
-
-
 
           <div class="text-center" style="padding:10px;">
             <button id="addUserButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><a class="nav-link" href="#!/addUser">Add/Remove User</a></button>
@@ -207,9 +191,8 @@
                       <div class="col-lg-4 col-md-12 mx-auto">
 
                         <div class="text-center mt-2" style="margin-top:0%;">
-                            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add User</a>
+                            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#addUserModal"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add User</a>
                         </div>
-
                       </div>
                       <!--Grid column-->
 
@@ -234,11 +217,11 @@
           </table>
         </section>
 
-        <!-- this section will only show if the activeTab value is set to birds -->
+        <!-- ADMINS TAB -->
         <section ng-if="activeTab === 'birds'" ng-controller="AdminsCtrl">
           <table id = "exportTable" class="table table-hover mb-0" style="width:80%; margin:auto;">
             <div class="text-center">
-                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add Admin</a>
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#addAdminModal"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add Admin</a>
             </div>
             <thead>
               <tr>
@@ -285,7 +268,7 @@
     </div>
 
 
-    <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="UserCtrl">
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="UserCtrl">
       <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header text-center">
@@ -298,8 +281,8 @@
 
                   <form class="md-form mb-4" name="form4">
                       <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
-                      <input type="text" id="form2" class="form-control" name="usernameForm">
-                      <label for="form2">Username</label>
+                      <input type="text" id="addUserForm" class="form-control" name="usernameForm">
+                      <label for="addUserForm">Username</label>
                   </form>
                   <div>
                     <input type="radio" class="radio" id="controlUser" name="rdoResult" ng-model='result' ng-value='"control"'>
@@ -318,7 +301,7 @@
       </div>
   </div>
 
-  <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="UserCtrl">
+  <div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="AdminsCtrl">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -329,29 +312,29 @@
             </div>
             <div class="modal-body mx-3">
 
-                <div class="md-form mb-4" >
+                <form class="md-form mb-4" name="form4">
                     <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
-                    <input type="text" id="form2" class="form-control" name="usernameForm">
-                    <label for="form2">Username</label>
-                </div>
-                <div>
-                  <input type="radio" class="radio" id="controlUser" name="rdoResult" ng-model='result' ng-value='"control"'>
-                  <label for="controlUser">Control</label>
-                </div>
-                <div>
-                  <input type="radio" class = "radio" id="experimentalUser" name="rdoResult" ng-model='result' ng-value='"experimental"'>
-                  <label for="experimentalUser">Experiment</label>
-                </div>
+                    <input type="text" id="addAdminFormUsername" class="form-control" name="usernameForm">
+                    <label for="addAdminForm">Username</label>
+                </form>
+                <form class="md-form mb-4" name="form4">
+                    <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
+                    <input type="text" id="addAdminFormName" class="form-control" name="usernameForm">
+                    <label for="addUserForm">Name</label>
+                </form>
+                <form class="md-form mb-4" name="form4">
+                    <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
+                    <input type="text" id="addAdminFormPassword" class="form-control" name="usernameForm">
+                    <label for="addUserForm">Password</label>
+                </form>
 
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button class="btn btn-indigo" ng-click=addUser(result) data-dismiss="modal">Add</button>
+                <button class="btn btn-indigo" ng-click=addAdmin(result) data-dismiss="modal">Add</button>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
   <div class="container">

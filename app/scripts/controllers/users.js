@@ -169,14 +169,19 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
       .find('form')[0].reset();
 
   })
-  
+
     $scope.addUser = function(result){
-      var userName = $("#form2").val();
+      var userName = $("#addUserForm").val();
       console.log(userName);
       console.log(result);
       $scope.signUp(userName,result);
 
     }
+
+    $scope.getUser = function(key){
+      console.log(key);
+      $('#form3').html( key );
+  }
 
     $scope.signUp = function(userName,result){
       var addApp = firebase.initializeApp(config,"Add User");
@@ -306,10 +311,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
     }
 
 
-    $scope.getUser = function(key){
-      console.log(key);
-      $('#form3').html( key );
-  }
+
 
 
 

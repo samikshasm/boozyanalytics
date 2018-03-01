@@ -8,7 +8,8 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
   var dataRef = $firebaseArray(ref);
   var adminUsernames = [];
   var adminNames =[];
-  
+  var userChecker = "";
+
   var config = {
     apiKey: "AIzaSyB0QGhWIaE6wjxO9Y_AJCLXm8h3hJjj34Y",
     authDomain: "slu-capstone-f622b.firebaseapp.com",
@@ -53,51 +54,71 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
 
       });
 
-    $scope.addUser = function(result){
-      var userName = $("#form2").val();
-      console.log(userName);
-      console.log(result);
-      $scope.signUp(userName,result);
+    $scope.addAdmin = function(result){
+      var userName = $("#addAdminFormUsername").val();
+      var name = $("#addAdminFormName").val();
+      var password = $("#addAdminFormPassword").val();
+
+      $scope.adminSignUp(userName,name,password,result);
 
     }
 
-    $scope.signUp = function(userName,result){
-      var addApp = firebase.initializeApp(config,"Add User");
+    $scope.adminSignUp = function(userName,Name,password,result){
+      var adminApp = firebase.initializeApp(config,"Add Admin");
+      $scope.adminChecker = "";
       var username = userName;
-      var usernameEmail = username+"@gmail.com";
-      var password = "hello123";
+      var password = password;
+      var name = Name;
+      console.log(username);
+      console.log(password);
+      console.log(name);
 
-      if(username && password) {
-        addApp.auth().createUserWithEmailAndPassword(usernameEmail,password).then(function(){
-          console.log("User Successfully Created");
 
-          addApp.auth().onAuthStateChanged(function(user){
-            addApp.auth().signOut();
-            var user = addApp.auth().currentUser;
-            if (!user) {
-              addApp.delete();
+        for (var i=0; i< adminUsernames.length;i++){
+          console.log(adminUsernames[i]);
+          if( adminUsernames[i]==username){
+            userChecker = "matches";
+          }else {
+            userChecker = "not matches";
+          }
+        }
+
+        if(userChecker == "not matches"){
+          if(username && password) {
+            adminApp.auth().createUserWithEmailAndPassword(username,password).then(function(){
+              console.log("User Successfully Created");
+              adminApp.auth().onAuthStateChanged(function(user){
+                adminApp.auth().signOut();
+                var user = adminApp.auth().currentUser;
+                if (!user) {
+                  adminApp.delete();
+                }
+              })
+            });
+
+          var user = firebase.auth().currentUser;
+          console.log(user);
+          var reference = firebase.database();
+          firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              reference.ref('Admins/' + name).set({
+                  username: username,
+                  password: password
+              });
+              console.log(username);
             }
+
           })
-        });
+        }
+      }else{
+        console.log('else statement');
+        window.alert("Admin already exists.");
+        adminApp.delete();
       }
 
-      if (result == "control") {
-        console.log("control user!");
-        var reference = firebase.database(); //get a reference to the firbase database
-        reference.ref('Users/Control Group/' + username).set({
-          username: username
-        });
-      }else{
-        console.log("experimentalUser!");
-        var reference = firebase.database(); //get a reference to the firbase database
-        reference.ref('Users/Experimental Group/' + username).set({
-          username: username
-        });
-      }
     }
 
     var user = "";
-
     $scope.deleteUser = function(){
       var deleteApp = firebase.initializeApp(config,"Delete current User");
       var username = $("#form3").text();
