@@ -14,6 +14,7 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
   var dataRef = $firebaseArray(ref);
   var adminUsernames = [];
   var adminNames =[];
+  var userChecker = "";
 
   var config = {
     apiKey: "AIzaSyB0QGhWIaE6wjxO9Y_AJCLXm8h3hJjj34Y",
@@ -74,12 +75,11 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
 
       });
 
-
       $scope.onFolderNumberKeyPress = function(event){
-  			var table1 = document.getElementById('adminTable');
-  			var table2 = document.getElementById('adminTableTwo');
-  			var pagBtn = document.getElementById('paginationBtnsAdmins');
-  			var searchString = $("#btnSearchAdmins").val();
+  			var table1 = document.getElementById('exportTable');
+  			var table2 = document.getElementById('exportTableTwo');
+  			var pagBtn = document.getElementById('paginationBtns');
+  			var searchString = $("#btnSearch").val();
   			if(searchString == ""){
   				table2.style.display = 'none';
   				table1.style.display = "";
@@ -150,127 +150,115 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
 
   		}
 
-    $scope.addUser = function(result){
-      var userName = $("#form2").val();
-      console.log(userName);
-      console.log(result);
-      $scope.signUp(userName,result);
+    $scope.addAdmin = function(result){
+      var userName = $("#addAdminFormUsername").val();
+      var name = $("#addAdminFormName").val();
+      var password = $("#addAdminFormPassword").val();
+
+      $scope.adminSignUp(userName,name,password,result);
 
     }
 
-    $scope.signUp = function(userName,result){
-      var addApp = firebase.initializeApp(config,"Add User");
+    $scope.adminSignUp = function(userName,Name,password,result){
+      var adminApp = firebase.initializeApp(config,"Add Admin");
+      $scope.adminChecker = "";
       var username = userName;
-      var usernameEmail = username+"@gmail.com";
-      var password = "hello123";
+      var password = password;
+      var name = Name;
+      console.log(username);
+      console.log(password);
+      console.log(name);
 
-      if(username && password) {
-        addApp.auth().createUserWithEmailAndPassword(usernameEmail,password).then(function(){
-          console.log("User Successfully Created");
+      var userRef = firebase.database().ref();
+      userRef.on('value', function(snapshot) {
+        for (var i=0; i< adminUsernames.length;i++){
+          console.log(adminUsernames[i]);
+          if( adminUsernames[i]==username){
+            userChecker = "matches";
+          }else {
+            userChecker = "not matches";
+          }
+        }
 
-          addApp.auth().onAuthStateChanged(function(user){
-            addApp.auth().signOut();
-            var user = addApp.auth().currentUser;
-            if (!user) {
-              addApp.delete();
+        if(userChecker == "not matches"){
+          if(username && password) {
+            adminApp.auth().createUserWithEmailAndPassword(username,password).then(function(){
+              console.log("User Successfully Created");
+              adminApp.auth().onAuthStateChanged(function(user){
+                adminApp.auth().signOut();
+                var user = adminApp.auth().currentUser;
+                if (!user) {
+                  adminApp.delete();
+                }
+              })
+            });
+
+          var user = firebase.auth().currentUser;
+          console.log(user);
+          var reference = firebase.database();
+          firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              reference.ref('Admins/' + name).set({
+                  username: username,
+                  password: password
+              });
+              console.log(username);
             }
+
           })
-        });
-      }
-
-      if (result == "control") {
-        console.log("control user!");
-        var reference = firebase.database(); //get a reference to the firbase database
-        reference.ref('Users/Control Group/' + username).set({
-          username: username
-        });
+        }
       }else{
-        console.log("experimentalUser!");
-        var reference = firebase.database(); //get a reference to the firbase database
-        reference.ref('Users/Experimental Group/' + username).set({
-          username: username
-        });
-      }
-    }
-
-    var user = "";
-
-    $scope.deleteUser = function(){
-      var deleteApp = firebase.initializeApp(config,"Delete current User");
-      var username = $("#form3").text();
-      var usernameEmail = username+"@gmail.com";
-      var password = "hello123";
-
-      if(usernameEmail && password) {
-        deleteApp.auth().signInWithEmailAndPassword(usernameEmail, password).then(function(){
-          var user = deleteApp.auth().currentUser;
-          user.delete().then(function() {
-            console.log("User Successfully Deleted");
-            var user = deleteApp.auth().currentUser;
-            if(!user){
-              deleteApp.delete();
-            }
-          }).catch(function(error) {
-            $scope.errMsg = true;
-            $scope.errorMessage = error.message;
-          });
-    		}).catch(function(error){
-    			$scope.errMsg = true;
-    			$scope.errorMessage = error.message;
-    		});
+        console.log('else statement');
+        window.alert("Admin already exists.");
+        adminApp.delete();
       }
 
-      var ref = firebase.database().ref();
-      var dataRef = $firebaseArray(ref);
-      var controlGroupNames = [];
-      var experimentalGroupNames = [];
-
-      dataRef.$loaded()
-  	    .then(function(){
-  	        angular.forEach(dataRef, function(value) {
-  	          angular.forEach(value, function(value, id){
-  		           if(id == "Control Group"){
-                   angular.forEach(value, function(value, id){
-                     controlGroupNames.push(id);
-                   })
-                 }else{
-                   angular.forEach(value, function(value, id){
-                     experimentalGroupNames.push(id);
-                   })
-                 }
-  							})
-  						})
-
-              for (var i=0; i<controlGroupNames.length;i++) {
-                if (controlGroupNames[i] == username) {
-                  $scope.typeOfGroup = "control";
-                }
-              }
-              for (var i=0; i<experimentalGroupNames.length;i++) {
-                if (experimentalGroupNames[i] == username) {
-                  $scope.typeOfGroup = "experimental";
-                }
-              }
-
-              if ($scope.typeOfGroup == "control") {
-                var ref = firebase.database().ref("Users/Control Group/"+username);
-                ref.remove();
-              }else{
-                var ref = firebase.database().ref("Users/Experimental Group/"+username);
-                ref.remove();
-              }
-  				});
+    })
 
     }
 
-
-    $scope.getUser = function(key){
-      console.log(key);
-      $('#form3').html( key );
+    $scope.getAdmin = function(email){
+      console.log(email);
+      $('#deleteAdmin').html( email );
   }
 
+    var user = "";
+    $scope.deleteAdmin = function(){
+      var deleteApp = firebase.initializeApp(config,"Delete current User");
+      var usernameEmail = $("#deleteAdmin").text();
+      var usernameList = usernameEmail.split("@");
+      var username = usernameList[0];
+      console.log(username);
+      var password = "hello123";
 
+      var userRef = firebase.database().ref();
+      userRef.on('value', function(snapshot) {
+        if(usernameEmail && password) {
+          deleteApp.auth().signInWithEmailAndPassword(usernameEmail, password).then(function(){
+            var user = deleteApp.auth().currentUser;
+            user.delete().then(function() {
+              console.log("User Successfully Deleted");
+              var user = deleteApp.auth().currentUser;
+              if(!user){
+                deleteApp.delete();
+              }
+            }).catch(function(error) {
+              $scope.errMsg = true;
+              $scope.errorMessage = error.message;
+            });
+      		}).catch(function(error){
+      			$scope.errMsg = true;
+      			$scope.errorMessage = error.message;
+      		});
+        }
 
+        dataRef.$loaded()
+    	    .then(function(){
+            var ref = firebase.database().ref("Admins/"+username);
+            ref.remove();
+    				});
 
+      }
+    })
 
 }])

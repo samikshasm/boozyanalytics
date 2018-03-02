@@ -270,7 +270,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
   })
 
     $scope.addUser = function(result){
-      var userName = $("#form2").val();
+      var userName = $("#addUserForm").val();
       console.log(userName);
       console.log(result);
       $scope.signUp(userName,result);
@@ -335,10 +335,15 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
 
     }
 
+    $scope.getUser = function(key){
+      console.log(key);
+      $('#deleteUser').html( key );
+  }
+
     var user = "";
     $scope.deleteUser = function(){
       var deleteApp = firebase.initializeApp(config,"Delete current User");
-      var username = $("#form3").text();
+      var username = $("#deleteUser").text();
       var usernameEmail = username+"@gmail.com";
       var password = "hello123";
 
@@ -405,10 +410,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
     }
 
 
-    $scope.getUser = function(key){
-      console.log(key);
-      $('#form3').html( key );
-  }
+
 
 
 

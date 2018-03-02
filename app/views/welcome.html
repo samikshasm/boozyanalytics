@@ -70,9 +70,6 @@
                 <th>longitude</th>
               </tr>
             </thead>
-
-
-
             <tbody>
               <!--Top Table UI Export Table-->
               <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
@@ -107,8 +104,6 @@
                       </div>
                       <!--Grid column-->
 
-
-
                   </div>
                   <!--Grid row-->
 
@@ -129,16 +124,7 @@
                 <td>{{article.longitude}}</td>
               </tr>
 
-
-
-
             </tbody>
-
-
-
-
-
-
           </table>
 
           <table id = "exportTableTwo" class="table" style="width:80%; margin:auto; display:none; ">
@@ -182,20 +168,20 @@
           <nav style="background-color:white;" id="paginationBtns">
               <ul class="pagination justify-content-center pg-blue" >
                   <!--Arrow left-->
-                  <li class="page-item" ng-class="{ 'disabled': firstBool === true}" ng-click="switchBatch(-1)">
+                  <li class="page-item">
                       <a class="page-link" aria-label="Previous">
                           <span aria-hidden="true">&laquo;</span>
                           <span class="sr-only">Previous</span>
                       </a>
                   </li>
 
-                  <ul ng-repeat="batch in batches" ng-click="switchNumber($index)">
+                  <ul ng-repeat="batch in batches" ng-click="switchBatch($index)">
                     <!--Numbers-->
-                    <li class="page-item" ng-class="{ 'active': batchNumber === $index}"><a class="page-link">{{$index+1}}</a></li>
+                    <li class="page-item"><a class="page-link">{{$index+1}}</a></li>
                   </ul>
 
                   <!--Arrow right-->
-                  <li class="page-item" ng-class="{ 'disabled': lastBool === true}" ng-click="switchBatch(-2)">
+                  <li class="page-item">
                       <a class="page-link" aria-label="Next">
                           <span aria-hidden="true">&raquo;</span>
                           <span class="sr-only">Next</span>
@@ -204,8 +190,6 @@
               </ul>
           </nav>
           <!--/Pagination blue-->
-
-
 
           <div class="text-center" style="padding:10px;">
             <button id="addUserButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><a class="nav-link" href="#!/addUser">Add/Remove User</a></button>
@@ -251,9 +235,8 @@
                       <div class="col-lg-4 col-md-12 mx-auto">
 
                         <div class="text-center mt-2" style="margin-top:0%;">
-                            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add User</a>
+                            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#addUserModal"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add User</a>
                         </div>
-
                       </div>
                       <!--Grid column-->
 
@@ -270,7 +253,7 @@
                 <td align="center">{{article.group}}</td>
                 <td align="center">{{article.date}}</td>
                 <td align="center">{{article.last}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.key) data-toggle="modal" data-target="#myModal">
+                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.key) data-toggle="modal" data-target="#deleteUserModal">
                 <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
@@ -333,7 +316,7 @@
 
         </section>
 
-        <!-- this section will only show if the activeTab value is set to birds -->
+        <!-- ADMINS TAB -->
         <section ng-if="activeTab === 'birds'" ng-controller="AdminsCtrl">
           <table id = "adminTable" class="table table-hover mb-0" style="width:80%; margin:auto;">
 
@@ -368,7 +351,7 @@
                       <!--Grid column-->
                       <div class="col-lg-4 col-md-12 mx-auto">
                         <div class="text-center">
-                            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add Admin</a>
+                            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#addAdminModal"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add Admin</a>
                         </div>
 
                       </div>
@@ -384,7 +367,7 @@
               <tr ng-repeat="article in articles">
                 <td align="center">{{article.name}}</td>
                 <td align="center">{{article.email}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.email) data-toggle="modal" data-target="#myModal">
+                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getAdmin(article.email) data-toggle="modal" data-target="#deleteAdminModal">
                   <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
@@ -442,7 +425,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id= "myModal" ng-controller="UserCtrl">
+    <div class="modal fade" id= "deleteUserModal" ng-controller="UserCtrl">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header bg-danger">
@@ -453,7 +436,7 @@
           </div>
           <div class="modal-body">
             <p>Are you sure you want to delete user:</p>
-            <p id="form3"></p>
+            <p id="deleteUser"></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click=deleteUser()>Confirm</button>
@@ -463,8 +446,29 @@
       </div>
     </div>
 
+    <div class="modal fade" id= "deleteAdminModal" ng-controller="AdminsCtrl">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h5 class="modal-title">Delete User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete user:</p>
+            <p id="deleteAdmin"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click=deleteAdmin()>Confirm</button>
+            <button type="button" class="btn btn-blue-grey" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="UserCtrl">
+
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="UserCtrl">
       <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header text-center">
@@ -477,8 +481,8 @@
 
                   <form class="md-form mb-4" name="form4">
                       <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
-                      <input type="text" id="form2" class="form-control" name="usernameForm">
-                      <label for="form2">Username</label>
+                      <input type="text" id="addUserForm" class="form-control" name="usernameForm">
+                      <label for="addUserForm">Username</label>
                   </form>
                   <div>
                     <input type="radio" class="radio" id="controlUser" name="rdoResult" ng-model='result' ng-value='"control"'>
@@ -497,7 +501,7 @@
       </div>
   </div>
 
-  <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="UserCtrl">
+  <div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="AdminsCtrl">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -508,29 +512,29 @@
             </div>
             <div class="modal-body mx-3">
 
-                <div class="md-form mb-4" >
+                <form class="md-form mb-4" name="form4">
                     <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
-                    <input type="text" id="form2" class="form-control" name="usernameForm">
-                    <label for="form2">Username</label>
-                </div>
-                <div>
-                  <input type="radio" class="radio" id="controlUser" name="rdoResult" ng-model='result' ng-value='"control"'>
-                  <label for="controlUser">Control</label>
-                </div>
-                <div>
-                  <input type="radio" class = "radio" id="experimentalUser" name="rdoResult" ng-model='result' ng-value='"experimental"'>
-                  <label for="experimentalUser">Experiment</label>
-                </div>
+                    <input type="text" id="addAdminFormUsername" class="form-control" name="usernameForm">
+                    <label for="addAdminForm">Username</label>
+                </form>
+                <form class="md-form mb-4" name="form4">
+                    <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
+                    <input type="text" id="addAdminFormName" class="form-control" name="usernameForm">
+                    <label for="addUserForm">Name</label>
+                </form>
+                <form class="md-form mb-4" name="form4">
+                    <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
+                    <input type="text" id="addAdminFormPassword" class="form-control" name="usernameForm">
+                    <label for="addUserForm">Password</label>
+                </form>
 
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button class="btn btn-indigo" ng-click=addUser(result) data-dismiss="modal">Add</button>
+                <button class="btn btn-indigo" ng-click=addAdmin(result) data-dismiss="modal">Add</button>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
   <div class="container">
