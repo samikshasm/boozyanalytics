@@ -25,10 +25,23 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
     messagingSenderId: "931206697482"
   };
 
+  updateTable();
+
+function updateTable(){
+  console.log("updating Admin table");
+
+  var userRef = firebase.database().ref('Admins/');
+  userRef.on('value', function(snapshot) {
   dataRef.$loaded()
     .then(function(){
       $scope.articles = [];
       $scope.datas = [];
+      $scope.batches = []
+      $scope.batchNumber = 0;
+      $scope.lastBool = false;
+      $scope.firstBool = true;
+      adminNames =[];
+      adminUsernames = [];
 
         angular.forEach(dataRef, function(value, id) {
           if(value.$id == "Admins"){
@@ -41,7 +54,6 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
                 angular.forEach(value,function(value,id){
                   //var substr = id.substr(0,8);
                  if(id == "username"){
-                   console.log(value);
                    adminUsernames.push(value);
                   }
                 })
@@ -71,9 +83,22 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
           $scope.firstBool=true;
           $scope.lastBool=true;
         }
-        console.log($scope.articles)
 
       });
+})
+}
+
+        $('#addAdminModal').on('hidden.bs.modal', function (e) {
+          $(this)
+            .find("input,textarea,select")
+               .val('')
+               .end()
+            .find("input[type=checkbox], input[type=radio]")
+               .prop("checked", "")
+               .end()
+            .find('form')[0].reset();
+
+        })
 
       $scope.onFolderNumberKeyPress = function(event){
   			var table1 = document.getElementById('adminTable');
@@ -161,18 +186,16 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
 
     $scope.adminSignUp = function(userName,Name,password,result){
       var adminApp = firebase.initializeApp(config,"Add Admin");
+      console.log("adding Admin");
       $scope.adminChecker = "";
       var username = userName;
       var password = password;
       var name = Name;
-      console.log(username);
-      console.log(password);
-      console.log(name);
 
-      var userRef = firebase.database().ref();
-      userRef.on('value', function(snapshot) {
+
+      //var adminRef = firebase.database().ref();
+      //adminRef.on('value', function(snapshot) {
         for (var i=0; i< adminUsernames.length;i++){
-          console.log(adminUsernames[i]);
           if( adminUsernames[i]==username){
             userChecker = "matches";
           }else {
@@ -189,6 +212,8 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
                 var user = adminApp.auth().currentUser;
                 if (!user) {
                   adminApp.delete();
+                  updateTable();
+                  userChecker = "";
                 }
               })
             });
@@ -210,10 +235,11 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
       }else{
         console.log('else statement');
         window.alert("Admin already exists.");
+        userChecker == "";
         adminApp.delete();
       }
 
-    })
+    //})
 
     }
 
@@ -231,8 +257,6 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
       console.log(username);
       var password = "hello123";
 
-      var userRef = firebase.database().ref();
-      userRef.on('value', function(snapshot) {
         if(usernameEmail && password) {
           deleteApp.auth().signInWithEmailAndPassword(usernameEmail, password).then(function(){
             var user = deleteApp.auth().currentUser;
@@ -240,6 +264,7 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
               console.log("User Successfully Deleted");
               var user = deleteApp.auth().currentUser;
               if(!user){
+                updateTable();
                 deleteApp.delete();
               }
             }).catch(function(error) {
@@ -262,7 +287,6 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
             ref.remove();
     				});
 
-      })
     }
 
 

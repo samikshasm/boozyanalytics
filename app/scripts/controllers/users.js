@@ -16,6 +16,9 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
   var controlList = [];
   var experimentalList = [];
 
+  updateTable();
+
+
   var config = {
     apiKey: "AIzaSyB0QGhWIaE6wjxO9Y_AJCLXm8h3hJjj34Y",
     authDomain: "slu-capstone-f622b.firebaseapp.com",
@@ -25,9 +28,11 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
     messagingSenderId: "931206697482"
   };
 
-
+function updateTable(){
   var userRef = firebase.database().ref('Users/');
   userRef.on('value', function(snapshot) {
+    console.log("updating Table");
+    //console.log("getting Data");
     var uid ="";
     var nightCount = "";
     var date = "";
@@ -48,8 +53,14 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
     var userCount = 0;
     var nightCount = 1;
     var groupList = [];
+    var controlList = [];
+    var experimentalList = [];
     $scope.articles = [];
     $scope.datas = [];
+    $scope.batches = []
+    $scope.batchNumber = 0;
+    $scope.lastBool = false;
+    $scope.firstBool = true;
     dataRef.$loaded()
       .then(function(){
           angular.forEach(dataRef, function(value, id) {
@@ -104,16 +115,21 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
                   }
                 })
                           })
-
-            for(var i = 1; i < uidList.length; i++){
-              if (uidList[i] != uidList[i-1]){
-                nightCount = 1;
-              }else{
-                nightCount++;
+            if(uidList.length > 1){
+              for(var i = 1; i < uidList.length; i++){
+                if (uidList[i] != uidList[i-1]){
+                  nightCount = 1;
+                }else{
+                  nightCount++;
+                }
+                nightList.push(nightCount);
+                //console.log("night Count"+nightCount);
               }
+            }else if(uidList.length == 1){
+              nightCount = 1;
               nightList.push(nightCount);
-              //console.log("night Count"+nightCount);
             }
+
             for(var i = 0; i < uidList.length; i++){
               if(usernameList.includes(uidList[i])){
                 //do nothing
@@ -129,12 +145,12 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
               lastUsedList.push(dateList[total-1]);
             }
 
-            var bothGroup = controlList.concat(experimentalList);
+            /*var bothGroup = controlList.concat(experimentalList);
             for(var i = 0; i< usernameList.length; i++){
               if(bothGroup.includes(usernameList[i]) == false){
                 groupList.push("unassigned");
               }
-            }
+            }*/
 
             for(var i = 0; i < controlList.length; i++){
               if(usernameList.includes(controlList[i])){
@@ -165,6 +181,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
 
             }
 
+
             var i,j,temparray,chunk = 10;
   					for (i=0,j=$scope.articles.length; i<j; i+=chunk) {
   					    temparray = $scope.articles.slice(i,i+chunk);
@@ -178,6 +195,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
   					}
       });
   });
+}
 
 
   $scope.onFolderNumberKeyPress = function(event){
@@ -257,7 +275,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
 
 
 
-  $('#modalSubscriptionForm').on('hidden.bs.modal', function (e) {
+  $('#addUserModal').on('hidden.bs.modal', function (e) {
     $(this)
       .find("input,textarea,select")
          .val('')
@@ -307,11 +325,15 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
       if(username && password) {
         addApp.auth().createUserWithEmailAndPassword(usernameEmail,password).then(function(){
           console.log("User Successfully Created");
+          updateTable();
+
 
           addApp.auth().onAuthStateChanged(function(user){
+            console.log("auth changing");
             addApp.auth().signOut();
             var user = addApp.auth().currentUser;
             if (!user) {
+              console.log("null User");
               addApp.delete();
             }
           })
@@ -332,6 +354,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
         });
       }
     }
+
 
     }
 
@@ -355,6 +378,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
             var user = deleteApp.auth().currentUser;
             if(!user){
               deleteApp.delete();
+              updateTable();
             }
           }).catch(function(error) {
             $scope.errMsg = true;
@@ -401,12 +425,13 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
               if ($scope.typeOfGroup == "control") {
                 var ref = firebase.database().ref("Users/Control Group/"+username);
                 ref.remove();
+
               }else{
                 var ref = firebase.database().ref("Users/Experimental Group/"+username);
                 ref.remove();
+
               }
   				});
-
     }
 
 
