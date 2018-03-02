@@ -46,6 +46,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
   $scope.articles = [];
+	$scope.datas = [];
   $scope.names = [];
   var uid ="";
   var nightCount = "";
@@ -129,6 +130,8 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 														time = idStr.substr(5,idStr.length);
 														size = value;
 														$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":date,"time":time, "size":size})
+														$scope.datas.push({"key":uid,"group":group,"value":nightCount,"date":date,"time":time, "size":size})
+
 													}
 												})
 											}
@@ -141,6 +144,8 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 														time = idStr.substr(5,idStr.length);
 														type = value;
 														$scope.articles[typeCounter].type = type;
+														$scope.datas[typeCounter].type = type;
+
 														typeCounter++;
 													}
 												})
@@ -154,6 +159,8 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 														time = idStr.substr(5,idStr.length);
 														where = value;
 														$scope.articles[whereCounter].where = where;
+														$scope.datas[whereCounter].where = where;
+
 														whereCounter++;
 													}
 												})
@@ -167,6 +174,8 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 														time = idStr.substr(5,idStr.length);
 														who = value;
 														$scope.articles[whoCounter].who = who;
+														$scope.datas[whoCounter].who = who;
+
 														whoCounter++;
 													}
 												})
@@ -188,6 +197,8 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 										whoCounter++;
 										whereCounter++;
 										$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"latitude":latti, "longitude":longi})
+										$scope.datas.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"latitude":latti, "longitude":longi})
+
 									})
 								}
 
@@ -217,6 +228,26 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 
 
     });
+
+
+
+		$scope.onFolderNumberKeyPress = function(event){
+			var table1 = document.getElementById('exportTable');
+			var table2 = document.getElementById('exportTableTwo');
+			var pagBtn = document.getElementById('paginationBtns');
+			var searchString = $("#btnSearch").val();
+			if(searchString == ""){
+				table2.style.display = 'none';
+				table1.style.display = "";
+				pagBtn.style.display = "";
+			}else{
+				table1.style.display = 'none';
+				table2.style.display = "";
+				pagBtn.style.display = 'none';
+
+			}
+		}
+
 
 		$scope.switchNumber = function(number){
 			var length = $scope.batches.length-1;
@@ -313,145 +344,145 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
       var age = snapshot.child("age").val(); // null
     });*/
 
-    jQuery(function ($) {
-        $("#exportButton").click(function () {
-            // parse the HTML table element having an id=exportTable
-						var fileName = "BoozyAnalytics";
+		$scope.exportTable = function(){
+			console.log("clicking button");
+			var fileName = "BoozyAnalytics";
 
-            var dataSource = shield.DataSource.create({
-                data: "#exportTable",
-                schema: {
-                    type: "table",
-                    fields: {
-                        uid: { type: String },
-												group: { type: String},
-                        nightCount: { type: String },
-                        date: { type: String},
-                        time: { type: String},
-                        size: { type: String},
-                        type: { type: String},
-                        where: { type: String},
-                        who: { type: String},
-												latitude: {type: String},
-												longitude: {type: String}
-                    }
-                }
-            });
+			var dataSource = shield.DataSource.create({
+					data: "#exportTableTwo",
+					schema: {
+							type: "table",
+							fields: {
+									uid: { type: String },
+									group: { type: String},
+									nightCount: { type: String },
+									date: { type: String},
+									time: { type: String},
+									size: { type: String},
+									type: { type: String},
+									where: { type: String},
+									who: { type: String},
+									latitude: {type: String},
+									longitude: {type: String}
+							}
+					}
+			});
 
-            // when parsing is done, export the data to Excel
-            dataSource.read().then(function (data) {
-                new shield.exp.OOXMLWorkbook({
-                    author: "BoozyAnalytics",
-                    worksheets: [
-                        {
-                            name: "BoozyAnalytics Table",
-                            rows: [
-                                {
-                                    cells: [
-                                        {
-                                            style: {
-                                                bold: true
-                                            },
-                                            type: String,
-                                            value: "uid"
-                                        },
-																				{
-																					style:{
-																						bold:true
-																					},
-																					type: String,
-																					value: "group"
-																				},
-                                        {
-                                            style: {
-                                                bold: true
-                                            },
-                                            type: String,
-                                            value: "nightCount"
-                                        },
-                                        {
-                                            style: {
-                                                bold: true
-                                            },
-                                            type: String,
-                                            value: "date"
-                                        },
-                                        {
-                                            style: {
-                                                bold: true
-                                            },
-                                            type: String,
-                                            value: "time"
-                                        },
-                                        {
-                                            style: {
-                                                bold: true
-                                            },
-                                            type: String,
-                                            value: "size"
-                                        },
-                                        {
-                                            style: {
-                                                bold: true
-                                            },
-                                            type: String,
-                                            value: "type"
-                                        },
-                                        {
-                                            style: {
-                                                bold: true
-                                            },
-                                            type: String,
-                                            value: "where"
-                                        },
-                                        {
-                                            style: {
-                                                bold: true
-                                            },
-                                            type: String,
-                                            value: "who"
-                                        },
-																				{
-																					style: {
-																						bold: true
-																					},
-																					type: String,
-																					value: "latitude"
-																				},
-																				{
-																					style: {
-																						bold: true
-																					},
-																					type: String,
-																					value: "longitude"
-																				}
-                                    ]
-                                }
-                            ].concat($.map(data, function(item) {
-                                return {
-                                    cells: [
-                                        { type: String, value: item.uid },
-																				{ type: String, value: item.group},
-                                        { type: String, value: item.nightCount },
-                                        { type: String, value: item.date},
-                                        {type: String, value: item.time},
-                                        {type:String, value: item.size},
-                                        {type:String, value: item.type},
-                                        {type:String, value: item.where},
-                                        {type:String, value: item.who},
-																				{type:String, value: item.latitude},
-																				{type:String, value: item.longitude}
-                                    ]
-                                };
-                            }))
-                        }
-                    ]
-                }).saveAs({
-                    fileName: fileName
-                });
-            });
-        });
-    });
+			// when parsing is done, export the data to Excel
+			dataSource.read().then(function (data) {
+					new shield.exp.OOXMLWorkbook({
+							author: "BoozyAnalytics",
+							worksheets: [
+									{
+											name: "BoozyAnalytics Table",
+											rows: [
+													{
+															cells: [
+																	{
+																			style: {
+																					bold: true
+																			},
+																			type: String,
+																			value: "uid"
+																	},
+																	{
+																		style:{
+																			bold:true
+																		},
+																		type: String,
+																		value: "group"
+																	},
+																	{
+																			style: {
+																					bold: true
+																			},
+																			type: String,
+																			value: "nightCount"
+																	},
+																	{
+																			style: {
+																					bold: true
+																			},
+																			type: String,
+																			value: "date"
+																	},
+																	{
+																			style: {
+																					bold: true
+																			},
+																			type: String,
+																			value: "time"
+																	},
+																	{
+																			style: {
+																					bold: true
+																			},
+																			type: String,
+																			value: "size"
+																	},
+																	{
+																			style: {
+																					bold: true
+																			},
+																			type: String,
+																			value: "type"
+																	},
+																	{
+																			style: {
+																					bold: true
+																			},
+																			type: String,
+																			value: "where"
+																	},
+																	{
+																			style: {
+																					bold: true
+																			},
+																			type: String,
+																			value: "who"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "latitude"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "longitude"
+																	}
+															]
+													}
+											].concat($.map(data, function(item) {
+													return {
+															cells: [
+																	{ type: String, value: item.uid },
+																	{ type: String, value: item.group},
+																	{ type: String, value: item.nightCount },
+																	{ type: String, value: item.date},
+																	{type: String, value: item.time},
+																	{type:String, value: item.size},
+																	{type:String, value: item.type},
+																	{type:String, value: item.where},
+																	{type:String, value: item.who},
+																	{type:String, value: item.latitude},
+																	{type:String, value: item.longitude}
+															]
+													};
+											}))
+									}
+							]
+					}).saveAs({
+							fileName: fileName
+					});
+			});
+		}
+
+
 
 
 }])
