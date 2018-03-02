@@ -217,8 +217,9 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
 
     }
 
-    $scope.getAdmin = function(email){
+    $scope.getAdmin = function(name, email){
       console.log(email);
+      $('#deleteAdminName').html(name);
       $('#deleteAdmin').html( email );
   }
 
@@ -226,8 +227,7 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
     $scope.deleteAdmin = function(){
       var deleteApp = firebase.initializeApp(config,"Delete current User");
       var usernameEmail = $("#deleteAdmin").text();
-      var usernameList = usernameEmail.split("@");
-      var username = usernameList[0];
+      var username = $('#deleteAdminName').text();
       console.log(username);
       var password = "hello123";
 

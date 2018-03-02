@@ -366,7 +366,7 @@
               <tr ng-repeat="article in articles">
                 <td align="center">{{article.name}}</td>
                 <td align="center">{{article.email}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getAdmin(article.email) data-toggle="modal" data-target="#deleteAdminModal">
+                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getAdmin(article.name,article.email) data-toggle="modal" data-target="#deleteAdminModal">
                   <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
@@ -457,6 +457,9 @@
           <div class="modal-body">
             <p>Are you sure you want to delete user:</p>
             <p id="deleteAdmin"></p>
+          </div>
+          <div class = "modal-body">
+            <p id = "deleteAdminName"></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click=deleteAdmin()>Confirm</button>
