@@ -8,11 +8,16 @@
   <body >
 
 
+<div class="container-fluid" style="background-color:#283E54">
+
     <nav class="navbar navbar-expand-lg navbar-dark z-depth-0">
-      <a class="navbar-brand" href="#/welcome">BoozyAnalytics</a>
+      <a class="navbar-brand" href="#/welcome"><img src="/images/logo.png" height="30" class="d-inline-block align-top mr-2" alt="">BoozyAnalytics</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+
+
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
@@ -31,8 +36,17 @@
         </ul>
 
       </div>
+
     </nav>
 
+    <div class="container" style="background-color:#283E54">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Welcome {{nameOfUser}}!</h3>
+        </div>
+      </div>
+    </div>
+</div>
 
     <div class="container-fluid">
 
@@ -190,9 +204,6 @@
           </nav>
           <!--/Pagination blue-->
 
-          <div class="text-center" style="padding:10px;">
-            <button id="addUserButton" class="btn btn-lg btn-success clearfix" style="border-radius:0px;"><a class="nav-link" href="#!/addUser">Add/Remove User</a></button>
-          </div>
         </section>
 
         <!-- this section will only show if the activeTab value is set to cats -->
@@ -515,9 +526,9 @@
             <div class="modal-body mx-3">
 
                 <form class="md-form mb-4" name="form4">
-                    <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
+                    <i class="fa fa-envelope prefix grey-text" style="padding-left:50%;"></i>
                     <input type="text" id="addAdminFormUsername" class="form-control" name="usernameForm">
-                    <label for="addAdminForm">Username</label>
+                    <label for="addAdminForm">Email</label>
                 </form>
                 <form class="md-form mb-4" name="form4">
                     <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
@@ -525,7 +536,7 @@
                     <label for="addUserForm">Name</label>
                 </form>
                 <form class="md-form mb-4" name="form4">
-                    <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
+                    <i class="fa fa-lock prefix grey-text" style="padding-left:50%;"></i>
                     <input type="text" id="addAdminFormPassword" class="form-control" name="usernameForm">
                     <label for="addUserForm">Password</label>
                 </form>
@@ -539,13 +550,6 @@
 </div>
 
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h3>Welcome to the Dashboard {{nameOfUser}}!</h3>
-      </div>
-    </div>
-  </div>
 
 
 
