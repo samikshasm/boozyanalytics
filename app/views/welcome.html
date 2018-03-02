@@ -126,20 +126,20 @@
           <nav style="background-color:white;">
               <ul class="pagination justify-content-center pg-blue" >
                   <!--Arrow left-->
-                  <li class="page-item" ng-class="{ 'disabled': firstBool === true}" ng-click="switchBatch(-1)">
+                  <li class="page-item">
                       <a class="page-link" aria-label="Previous">
                           <span aria-hidden="true">&laquo;</span>
                           <span class="sr-only">Previous</span>
                       </a>
                   </li>
 
-                  <ul ng-repeat="batch in batches" ng-click="switchNumber($index)">
+                  <ul ng-repeat="batch in batches" ng-click="switchBatch($index)">
                     <!--Numbers-->
-                    <li class="page-item" ng-class="{ 'active': batchNumber === $index}"><a class="page-link">{{$index+1}}</a></li>
+                    <li class="page-item"><a class="page-link">{{$index+1}}</a></li>
                   </ul>
 
                   <!--Arrow right-->
-                  <li class="page-item" ng-class="{ 'disabled': lastBool === true}" ng-click="switchBatch(-2)">
+                  <li class="page-item">
                       <a class="page-link" aria-label="Next">
                           <span aria-hidden="true">&raquo;</span>
                           <span class="sr-only">Next</span>
@@ -209,7 +209,7 @@
                 <td align="center">{{article.group}}</td>
                 <td align="center">{{article.date}}</td>
                 <td align="center">{{article.last}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.key) data-toggle="modal" data-target="#myModal">
+                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.key) data-toggle="modal" data-target="#deleteUserModal">
                 <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
@@ -234,7 +234,7 @@
               <tr ng-repeat="article in articles">
                 <td align="center">{{article.name}}</td>
                 <td align="center">{{article.email}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.email) data-toggle="modal" data-target="#myModal">
+                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getAdmin(article.email) data-toggle="modal" data-target="#deleteAdminModal">
                   <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
@@ -246,7 +246,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id= "myModal" ng-controller="UserCtrl">
+    <div class="modal fade" id= "deleteUserModal" ng-controller="UserCtrl">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header bg-danger">
@@ -257,10 +257,31 @@
           </div>
           <div class="modal-body">
             <p>Are you sure you want to delete user:</p>
-            <p id="form3"></p>
+            <p id="deleteUser"></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click=deleteUser()>Confirm</button>
+            <button type="button" class="btn btn-blue-grey" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id= "deleteAdminModal" ng-controller="AdminsCtrl">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h5 class="modal-title">Delete User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete user:</p>
+            <p id="deleteAdmin"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click=deleteAdmin()>Confirm</button>
             <button type="button" class="btn btn-blue-grey" data-dismiss="modal">Cancel</button>
           </div>
         </div>

@@ -73,7 +73,8 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
       console.log(password);
       console.log(name);
 
-
+      var userRef = firebase.database().ref();
+      userRef.on('value', function(snapshot) {
         for (var i=0; i< adminUsernames.length;i++){
           console.log(adminUsernames[i]);
           if( adminUsernames[i]==username){
@@ -116,85 +117,52 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
         adminApp.delete();
       }
 
-    }
-
-    var user = "";
-    $scope.deleteUser = function(){
-      var deleteApp = firebase.initializeApp(config,"Delete current User");
-      var username = $("#form3").text();
-      var usernameEmail = username+"@gmail.com";
-      var password = "hello123";
-
-      if(usernameEmail && password) {
-        deleteApp.auth().signInWithEmailAndPassword(usernameEmail, password).then(function(){
-          var user = deleteApp.auth().currentUser;
-          user.delete().then(function() {
-            console.log("User Successfully Deleted");
-            var user = deleteApp.auth().currentUser;
-            if(!user){
-              deleteApp.delete();
-            }
-          }).catch(function(error) {
-            $scope.errMsg = true;
-            $scope.errorMessage = error.message;
-          });
-    		}).catch(function(error){
-    			$scope.errMsg = true;
-    			$scope.errorMessage = error.message;
-    		});
-      }
-
-      var ref = firebase.database().ref();
-      var dataRef = $firebaseArray(ref);
-      var controlGroupNames = [];
-      var experimentalGroupNames = [];
-
-      dataRef.$loaded()
-  	    .then(function(){
-  	        angular.forEach(dataRef, function(value) {
-  	          angular.forEach(value, function(value, id){
-  		           if(id == "Control Group"){
-                   angular.forEach(value, function(value, id){
-                     controlGroupNames.push(id);
-                   })
-                 }else{
-                   angular.forEach(value, function(value, id){
-                     experimentalGroupNames.push(id);
-                   })
-                 }
-  							})
-  						})
-
-              for (var i=0; i<controlGroupNames.length;i++) {
-                if (controlGroupNames[i] == username) {
-                  $scope.typeOfGroup = "control";
-                }
-              }
-              for (var i=0; i<experimentalGroupNames.length;i++) {
-                if (experimentalGroupNames[i] == username) {
-                  $scope.typeOfGroup = "experimental";
-                }
-              }
-
-              if ($scope.typeOfGroup == "control") {
-                var ref = firebase.database().ref("Users/Control Group/"+username);
-                ref.remove();
-              }else{
-                var ref = firebase.database().ref("Users/Experimental Group/"+username);
-                ref.remove();
-              }
-  				});
+    })
 
     }
 
-
-    $scope.getUser = function(key){
-      console.log(key);
-      $('#form3').html( key );
+    $scope.getAdmin = function(email){
+      console.log(email);
+      $('#deleteAdmin').html( email );
   }
 
+    var user = "";
+    $scope.deleteAdmin = function(){
+      var deleteApp = firebase.initializeApp(config,"Delete current User");
+      var usernameEmail = $("#deleteAdmin").text();
+      var usernameList = usernameEmail.split("@");
+      var username = usernameList[0];
+      console.log(username);
+      var password = "hello123";
 
+      var userRef = firebase.database().ref();
+      userRef.on('value', function(snapshot) {
+        if(usernameEmail && password) {
+          deleteApp.auth().signInWithEmailAndPassword(usernameEmail, password).then(function(){
+            var user = deleteApp.auth().currentUser;
+            user.delete().then(function() {
+              console.log("User Successfully Deleted");
+              var user = deleteApp.auth().currentUser;
+              if(!user){
+                deleteApp.delete();
+              }
+            }).catch(function(error) {
+              $scope.errMsg = true;
+              $scope.errorMessage = error.message;
+            });
+      		}).catch(function(error){
+      			$scope.errMsg = true;
+      			$scope.errorMessage = error.message;
+      		});
+        }
 
+        dataRef.$loaded()
+    	    .then(function(){
+            var ref = firebase.database().ref("Admins/"+username);
+            ref.remove();
+    				});
 
+      }
+    })
 
 }])
