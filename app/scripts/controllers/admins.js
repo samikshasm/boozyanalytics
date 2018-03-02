@@ -76,10 +76,10 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
       });
 
       $scope.onFolderNumberKeyPress = function(event){
-  			var table1 = document.getElementById('exportTable');
-  			var table2 = document.getElementById('exportTableTwo');
-  			var pagBtn = document.getElementById('paginationBtns');
-  			var searchString = $("#btnSearch").val();
+  			var table1 = document.getElementById('adminTable');
+  			var table2 = document.getElementById('adminTableTwo');
+  			var pagBtn = document.getElementById('paginationBtnsAdmins');
+  			var searchString = $("#btnSearchAdmins").val();
   			if(searchString == ""){
   				table2.style.display = 'none';
   				table1.style.display = "";
@@ -258,7 +258,8 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
             ref.remove();
     				});
 
-      }
-    })
+      })
+    }
+
 
 }])
