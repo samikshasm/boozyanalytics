@@ -6,6 +6,11 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 .controller('WelcomeCtrl', ['$scope', 'CommonProp', '$firebaseArray', '$firebaseObject', function($scope, CommonProp, $firebaseArray, $firebaseObject){
 
 
+
+
+
+
+
 	$scope.batches = []
 	$scope.batchNumber = 0;
 	$scope.lastBool = false;
