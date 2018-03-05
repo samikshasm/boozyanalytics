@@ -157,6 +157,7 @@ function updateTable(){
             }*/
             var numControls = 0;
             var numExps = 0;
+            console.log(controlList);
             for(var i = 0; i < experimentalList.length; i++){
               if(usernameList.includes(experimentalList[i])){
                 groupList.push("experimental");
@@ -170,15 +171,15 @@ function updateTable(){
               }
             }
 
-            for(var i = numControls; i < (controlList.length-numControls); i++){
-              usernameList.push(controlList[i]);
+            for(var i = 0; i < (controlList.length-numControls); i++){
+              usernameList.push(controlList[numControls+i]);
               nightList.push(0);
               groupList.push("control");
               startDateList.push("not started");
               lastUsedList.push("na")
             }
-            for(var i = numExps; i< (experimentalList.length-numExps); i++){
-              usernameList.push(experimentalList[i]);
+            for(var i = 0; i< (experimentalList.length-numExps); i++){
+              usernameList.push(experimentalList[numExps+i]);
               nightList.push(0);
               groupList.push("experimental");
               startDateList.push("not started");

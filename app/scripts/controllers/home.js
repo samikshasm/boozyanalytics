@@ -46,8 +46,10 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 				});
 
     firebase.auth().onAuthStateChanged(function(user) {
+			//var user = ref.auth().currentUser;
       if (user) {
         displayName = user.displayName;
+				//console.log(displayName);
         if (displayName == null){
           displayName = window.prompt("Please enter your display name: ");
           user.updateProfile({
