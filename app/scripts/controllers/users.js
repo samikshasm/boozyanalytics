@@ -115,14 +115,18 @@ function updateTable(){
                   }
                 })
                           })
+            nightCount = 1;
             if(uidList.length > 1){
-              for(var i = 1; i < uidList.length; i++){
+              for(var i = 1; i <= uidList.length; i++){
                 if (uidList[i] != uidList[i-1]){
+                  nightList.push(nightCount);
                   nightCount = 1;
+                }else if(i == nightList.length){
+                  nightList.push(nightCount);
                 }else{
                   nightCount++;
                 }
-                nightList.push(nightCount);
+                //nightList.push(nightCount);
                 //console.log("night Count"+nightCount);
               }
             }else if(uidList.length == 1){
@@ -151,11 +155,38 @@ function updateTable(){
                 groupList.push("unassigned");
               }
             }*/
-
+            var numControls = 0;
+            var numExps = 0;
+            for(var i = 0; i < experimentalList.length; i++){
+              if(usernameList.includes(experimentalList[i])){
+                groupList.push("experimental");
+                numExps++;
+              }
+            }
             for(var i = 0; i < controlList.length; i++){
               if(usernameList.includes(controlList[i])){
                 groupList.push("control");
-              }else{
+                numControls++;
+              }
+            }
+
+            for(var i = numControls; i < (controlList.length-numControls); i++){
+              usernameList.push(controlList[i]);
+              nightList.push(0);
+              groupList.push("control");
+              startDateList.push("not started");
+              lastUsedList.push("na")
+            }
+            for(var i = numExps; i< (experimentalList.length-numExps); i++){
+              usernameList.push(experimentalList[i]);
+              nightList.push(0);
+              groupList.push("experimental");
+              startDateList.push("not started");
+              lastUsedList.push("na")
+            }
+            /*
+            else{
+
                 usernameList.push(controlList[i]);
                 nightList.push(0);
                 groupList.push("control");
@@ -174,7 +205,7 @@ function updateTable(){
                 lastUsedList.push("na")
               }
             }
-
+            */
             for(var i = 0; i < usernameList.length; i++){
               $scope.articles.push({"key":usernameList[i], "value":nightList[i], "group":groupList[i], "date":startDateList[i], "last":lastUsedList[i]})
               $scope.datas.push({"key":usernameList[i], "value":nightList[i], "group":groupList[i], "date":startDateList[i], "last":lastUsedList[i]})

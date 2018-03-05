@@ -8,6 +8,9 @@
   <body >
 
 
+
+
+
 <div class="container-fluid" style="background-color:#283E54">
 
     <nav class="navbar navbar-expand-lg navbar-dark z-depth-0">
@@ -67,114 +70,120 @@
         <!-- this section will only show if the activeTab value is set to dogs -->
         <section ng-if="activeTab === 'dogs'" ng-controller="WelcomeCtrl">
 
-          <table id = "exportTable" class="table table-hover" style="width:80%; margin:0 auto;">
+          <div class="table-responsive mx-auto">
+            <table id = "exportTable" class="table table-hover mx-auto" style="width:80%;">
 
-            <thead>
-              <tr>
-                <th>uid</th>
-                <th>group</th>
-                <th>nightCount</th>
-                <th>date</th>
-                <th>time</th>
-                <th>size</th>
-                <th>type</th>
-                <th>where</th>
-                <th>who</th>
-                <th>latitude</th>
-                <th>longitude</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!--Top Table UI Export Table-->
-              <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
+              <thead>
+                <tr>
+                  <th>uid</th>
+                  <th>group</th>
+                  <th>nightCount</th>
+                  <th>date</th>
+                  <th>time</th>
+                  <th>size</th>
+                  <th>type</th>
+                  <th>where</th>
+                  <th>who</th>
+                  <th>latitude</th>
+                  <th>longitude</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!--Top Table UI Export Table-->
+                <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
 
-                  <!--Grid row-->
-                  <div class="row">
-
-                    <!--Grid column-->
-                    <div class="col-lg-8 col-md-12">
-
-
-                        <form class="md-form mb-1">
-                            <input id="btnSearch" class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;"
-                            data-ng-change="onFolderNumberKeyPress($event)"  >
-
-                        </form>
-
-                    </div>
-                    <!--Grid column
-                    <i ng-click="enterClick()" class="fa fa-search fa-lg grey-text mt-4"></i>
-                  -->
-                    <!--Grid column-->
-
+                    <!--Grid row-->
+                    <div class="row">
 
                       <!--Grid column-->
-                      <div class="col-lg-4 col-md-12 mx-auto">
+                      <div class="col-lg-8 col-md-12">
 
-                        <div class="text-center" style="padding:10px;">
-                          <button id="exportButton" ng-click="exportTable()" class="btn btn-success"><span class="fa fa-file-excel ml-1 mr-1"></span> Export</button>
-                        </div>
+
+                          <form class="md-form mb-1">
+                              <input id="btnSearch" class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;"
+                              data-ng-change="onFolderNumberKeyPress($event)"  >
+
+                          </form>
 
                       </div>
+                      <!--Grid column
+                      <i ng-click="enterClick()" class="fa fa-search fa-lg grey-text mt-4"></i>
+                    -->
                       <!--Grid column-->
 
-                  </div>
-                  <!--Grid row-->
 
-              </div>
-              <!--Top Table UI-->
-              <tr ng-repeat="article in articles">
+                        <!--Grid column-->
+                        <div class="col-lg-4 col-md-12 mx-auto">
 
-                <td>{{article.key}}</td>
-                <td>{{article.group}}</td>
-                <td>{{article.value}}</td>
-                <td>{{article.date}}</td>
-                <td>{{article.time}}</td>
-                <td>{{article.size}}</td>
-                <td>{{article.type}}</td>
-                <td>{{article.where}}</td>
-                <td>{{article.who}}</td>
-                <td>{{article.latitude}}</td>
-                <td>{{article.longitude}}</td>
-              </tr>
+                          <div class="text-center mt-2">
+                            <button id="exportButton" ng-click="exportTable()" class="btn btn-success btn-rounded mb-4"><span class="fa fa-file-excel ml-1 mr-1"></span> Export</button>
+                          </div>
 
-            </tbody>
-          </table>
+                        </div>
+                        <!--Grid column-->
 
-          <table id = "exportTableTwo" class="table" style="width:80%; margin:auto; display:none; ">
+                    </div>
+                    <!--Grid row-->
 
-            <thead>
-              <tr>
-                <th>uid</th>
-                <th>group</th>
-                <th>nightCount</th>
-                <th>date</th>
-                <th>time</th>
-                <th>size</th>
-                <th>type</th>
-                <th>where</th>
-                <th>who</th>
-                <th>latitude</th>
-                <th>longitude</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="data in datas|filter:search">
+                </div>
+                <!--Top Table UI-->
+                <tr ng-repeat="article in articles" >
 
-                <td>{{data.key}}</td>
-                <td>{{data.group}}</td>
-                <td>{{data.value}}</td>
-                <td>{{data.date}}</td>
-                <td>{{data.time}}</td>
-                <td>{{data.size}}</td>
-                <td>{{data.type}}</td>
-                <td>{{data.where}}</td>
-                <td>{{data.who}}</td>
-                <td>{{data.latitude}}</td>
-                <td>{{data.longitude}}</td>
-              </tr>
-            </tbody>
-          </table>
+                  <td>{{article.key}}</td>
+                  <td>{{article.group}}</td>
+                  <td>{{article.value}}</td>
+                  <td>{{article.date}}</td>
+                  <td>{{article.time}}</td>
+                  <td>{{article.size}}</td>
+                  <td>{{article.type}}</td>
+                  <td>{{article.where}}</td>
+                  <td>{{article.who}}</td>
+                  <td>{{article.latitude}}</td>
+                  <td>{{article.longitude}}</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+
+          <div class="table-responsive mx-auto">
+            <table id = "exportTableTwo" class="table mx-auto" style="width:80%; display:none; ">
+
+              <thead>
+                <tr>
+                  <th>uid</th>
+                  <th>group</th>
+                  <th>nightCount</th>
+                  <th>date</th>
+                  <th>time</th>
+                  <th>size</th>
+                  <th>type</th>
+                  <th>where</th>
+                  <th>who</th>
+                  <th>latitude</th>
+                  <th>longitude</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="data in datas|filter:search">
+
+                  <td>{{data.key}}</td>
+                  <td>{{data.group}}</td>
+                  <td>{{data.value}}</td>
+                  <td>{{data.date}}</td>
+                  <td>{{data.time}}</td>
+                  <td>{{data.size}}</td>
+                  <td>{{data.type}}</td>
+                  <td>{{data.where}}</td>
+                  <td>{{data.who}}</td>
+                  <td>{{data.latitude}}</td>
+                  <td>{{data.longitude}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
 
 
           <!--Pagination blue-->
@@ -208,67 +217,70 @@
 
         <!-- this section will only show if the activeTab value is set to cats -->
         <section ng-if="activeTab === 'cats'" ng-controller="UserCtrl">
-          <table id = "userTable" class="table table-hover mt-0 mb-0" style="width:80%; margin:auto;">
+          <div class="table-responsive mx-auto">
+            <table id = "userTable" class="table table-hover mt-0 mb-0 mx-auto" style="width:80%; margin:auto;">
 
-            <thead>
-              <tr>
-                <th class="text-center">Username</th>
-                <th class="text-center">Drinking Episodes</th>
-                <th class="text-center">Group</th>
-                <th class="text-center">Start Date</th>
-                <th class="text-center">Last Episode</th>
-                <th class="text-center">Delete User</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!--Top Table UI-->
-              <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
+              <thead>
+                <tr>
+                  <th class="text-center">Username</th>
+                  <th class="text-center">Drinking Episodes</th>
+                  <th class="text-center">Group</th>
+                  <th class="text-center">Start Date</th>
+                  <th class="text-center">Last Episode</th>
+                  <th class="text-center">Delete User</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!--Top Table UI-->
+                <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
 
-                  <!--Grid row-->
-                  <div class="row">
-
-                    <!--Grid column-->
-                    <div class="col-lg-8 col-md-12">
-
-
-                      <form class="md-form mb-1">
-                          <input id="btnSearchUsers" class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;"
-                          data-ng-change="onFolderNumberKeyPress($event)"  >
-
-                      </form>
-
-                    </div>
-                    <!--Grid column-->
-
+                    <!--Grid row-->
+                    <div class="row">
 
                       <!--Grid column-->
-                      <div class="col-lg-4 col-md-12 mx-auto">
+                      <div class="col-lg-8 col-md-12">
 
-                        <div class="text-center mt-2" style="margin-top:0%;">
-                            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#addUserModal"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add User</a>
-                        </div>
+
+                        <form class="md-form mb-1">
+                            <input id="btnSearchUsers" class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;"
+                            data-ng-change="onFolderNumberKeyPress($event)"  >
+
+                        </form>
+
                       </div>
                       <!--Grid column-->
 
 
+                        <!--Grid column-->
+                        <div class="col-lg-4 col-md-12 mx-auto">
 
-                  </div>
-                  <!--Grid row-->
+                          <div class="text-center mt-2" style="margin-top:0%;">
+                              <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#addUserModal"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add User</a>
+                          </div>
+                        </div>
+                        <!--Grid column-->
 
-              </div>
-              <!--Top Table UI-->
-              <tr ng-repeat="article in articles">
-                <td align="center">{{article.key}}</td>
-                <td align="center">{{article.value}}</td>
-                <td align="center">{{article.group}}</td>
-                <td align="center">{{article.date}}</td>
-                <td align="center">{{article.last}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(article.key) data-toggle="modal" data-target="#deleteUserModal">
-                <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
-              </tr>
-            </tbody>
 
-          </table>
+
+                    </div>
+                    <!--Grid row-->
+
+                </div>
+                <!--Top Table UI-->
+                <tr ng-repeat="article in articles">
+                  <td align="center">{{article.key}}</td>
+                  <td align="center">{{article.value}}</td>
+                  <td align="center">{{article.group}}</td>
+                  <td align="center">{{article.date}}</td>
+                  <td align="center">{{article.last}}</td>
+                  <td><button type="button" class="btn btn-danger mb-0 mt-0" id="deleteBtn" ng-click=getUser(article.key) data-toggle="modal" data-target="#deleteUserModal">
+                  <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
+                </tr>
+              </tbody>
+
+            </table>
+
+          </div>
 
           <!--Pagination blue-->
           <nav style="background-color:white;" id="paginationBtnsUsers">
@@ -297,111 +309,120 @@
           </nav>
           <!--/Pagination blue-->
 
-          <table id = "userTableTwo" class="table table-hover mt-0 mb-0" style="width:80%; margin:auto; display:none;">
+          <div class="table-responsive mx-auto">
+            <table id = "userTableTwo" class="table table-hover mt-0 mb-0 mx-auto" style="width:80%; margin:auto; display:none;">
 
-            <thead>
-              <tr>
-                <th class="text-center">Username</th>
-                <th class="text-center">Drinking Episodes</th>
-                <th class="text-center">Group</th>
-                <th class="text-center">Start Date</th>
-                <th class="text-center">Last Episode</th>
-                <th class="text-center">Delete User</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="data in datas|filter:search">
-                <td align="center">{{data.key}}</td>
-                <td align="center">{{data.value}}</td>
-                <td align="center">{{data.group}}</td>
-                <td align="center">{{data.date}}</td>
-                <td align="center">{{data.last}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(data.key) data-toggle="modal" data-target="#myModal">
-                <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
-              </tr>
-            </tbody>
+              <thead>
+                <tr>
+                  <th class="text-center">Username</th>
+                  <th class="text-center">Drinking Episodes</th>
+                  <th class="text-center">Group</th>
+                  <th class="text-center">Start Date</th>
+                  <th class="text-center">Last Episode</th>
+                  <th class="text-center">Delete User</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="data in datas|filter:search">
+                  <td align="center">{{data.key}}</td>
+                  <td align="center">{{data.value}}</td>
+                  <td align="center">{{data.group}}</td>
+                  <td align="center">{{data.date}}</td>
+                  <td align="center">{{data.last}}</td>
+                  <td><button type="button" class="btn btn-danger mt-0 mb-0" id="deleteBtn" ng-click=getUser(data.key) data-toggle="modal" data-target="#myModal">
+                  <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
+                </tr>
+              </tbody>
 
-          </table>
+            </table>
+
+
+          </div>
 
 
         </section>
 
         <!-- ADMINS TAB -->
         <section ng-if="activeTab === 'birds'" ng-controller="AdminsCtrl">
-          <table id = "adminTable" class="table table-hover mb-0" style="width:80%; margin:auto;">
+          <div class="table-responsive mx-auto">
+            <table id = "adminTable" class="table table-hover mb-0 mx-auto" style="width:80%; margin:auto;">
 
-            <thead>
-              <tr>
-                <th class="text-center">Name</th>
-                <th class="text-center">Username</th>
-                <th class="text-center">Delete User</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!--Top Table UI-->
-              <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
+              <thead>
+                <tr>
+                  <th class="text-center">Name</th>
+                  <th class="text-center">Username</th>
+                  <th class="text-center">Delete User</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!--Top Table UI-->
+                <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
 
-                  <!--Grid row-->
-                  <div class="row">
-
-                    <!--Grid column-->
-                    <div class="col-lg-8 col-md-12">
-
-
-                      <form class="md-form mb-1">
-                          <input id="btnSearchAdmins" class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;"
-                          data-ng-change="onFolderNumberKeyPress($event)"  >
-
-                      </form>
-
-                    </div>
-                    <!--Grid column-->
-
+                    <!--Grid row-->
+                    <div class="row">
 
                       <!--Grid column-->
-                      <div class="col-lg-4 col-md-12 mx-auto">
-                        <div class="text-center">
-                            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#addAdminModal"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add Admin</a>
-                        </div>
+                      <div class="col-lg-8 col-md-12">
+
+
+                        <form class="md-form mb-1">
+                            <input id="btnSearchAdmins" class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;"
+                            data-ng-change="onFolderNumberKeyPress($event)"  >
+
+                        </form>
 
                       </div>
                       <!--Grid column-->
 
 
+                        <!--Grid column-->
+                        <div class="col-lg-4 col-md-12 mx-auto">
+                          <div class="text-center mt-2">
+                              <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#addAdminModal"><i class="fa fa-plus ml-1" style="padding-right:10px;"></i>Add Admin</a>
+                          </div>
 
-                  </div>
-                  <!--Grid row-->
+                        </div>
+                        <!--Grid column-->
 
-              </div>
-              <!--Top Table UI-->
-              <tr ng-repeat="article in articles">
-                <td align="center">{{article.name}}</td>
-                <td align="center">{{article.email}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getAdmin(article.name,article.email) data-toggle="modal" data-target="#deleteAdminModal">
-                  <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
-              </tr>
-            </tbody>
 
-          </table>
 
-          <table id = "adminTableTwo" class="table table-hover mb-0" style="width:80%; margin:auto; display:none;">
-            <thead>
-              <tr>
-                <th class="text-center">Name</th>
-                <th class="text-center">Username</th>
-                <th class="text-center">Delete User</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="data in datas|filter:search">
-                <td align="center">{{data.name}}</td>
-                <td align="center">{{data.email}}</td>
-                <td><button type="button" class="btn btn-danger" id="deleteBtn" ng-click=getUser(data.email) data-toggle="modal" data-target="#myModal">
-                  <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
-              </tr>
-            </tbody>
+                    </div>
+                    <!--Grid row-->
 
-          </table>
+                </div>
+                <!--Top Table UI-->
+                <tr ng-repeat="article in articles">
+                  <td align="center">{{article.name}}</td>
+                  <td align="center">{{article.email}}</td>
+                  <td><button type="button" class="btn btn-danger mt-0 mb-0" id="deleteBtn" ng-click=getAdmin(article.name,article.email) data-toggle="modal" data-target="#deleteAdminModal">
+                    <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
+                </tr>
+              </tbody>
+
+            </table>
+          </div>
+
+          <div class="table-responsive mx-auto">
+            <table id = "adminTableTwo" class="table table-hover mb-0 mx-auto" style="width:80%; margin:auto; display:none;">
+              <thead>
+                <tr>
+                  <th class="text-center">Name</th>
+                  <th class="text-center">Username</th>
+                  <th class="text-center">Delete User</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="data in datas|filter:search">
+                  <td align="center">{{data.name}}</td>
+                  <td align="center">{{data.email}}</td>
+                  <td><button type="button" class="btn btn-danger" id="deleteBtn mt-0 mb-0" ng-click=getUser(data.email) data-toggle="modal" data-target="#myModal">
+                    <span class="fa fa-trash fa-lg" aria-hidden="true" ></span></button></td>
+                </tr>
+              </tbody>
+
+            </table>
+          </div>
+
 
           <!--Pagination blue-->
           <nav style="background-color:white;" id="paginationBtnsAdmins">
