@@ -268,9 +268,9 @@
                 </div>
                 <!--Top Table UI-->
                 <tr ng-repeat="article in articles">
-                  <td align="center">{{article.key}}</td>
+                  <td align="center" ng-click=getUser(article.key,article.group)><a href = "#!/participantInfo">{{article.key}}</a></td>
                   <td align="center">{{article.value}}</td>
-                  <td align="center">{{article.group}}</td>
+                  <td align="center" >{{article.group}}</td>
                   <td align="center">{{article.date}}</td>
                   <td align="center">{{article.last}}</td>
                   <td><button type="button" class="btn btn-danger mb-0 mt-0" id="deleteBtn" ng-click=getUser(article.key) data-toggle="modal" data-target="#deleteUserModal">
@@ -324,7 +324,7 @@
               </thead>
               <tbody>
                 <tr ng-repeat="data in datas|filter:search">
-                  <td align="center">{{data.key}}</td>
+                  <td align="center"><a href = "#!/welcome">{{data.key}}</a></td>
                   <td align="center">{{data.value}}</td>
                   <td align="center">{{data.group}}</td>
                   <td align="center">{{data.date}}</td>

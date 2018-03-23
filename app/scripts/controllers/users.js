@@ -2,7 +2,7 @@
 var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
 
 
-.controller('UserCtrl', ['$scope', '$firebaseAuth', '$firebase','CommonProp', '$firebaseArray', '$firebaseObject' , function($scope, $firebaseAuth, $firebase, CommonProp,  $firebaseArray, $firebaseObject){
+.controller('UserCtrl', ['$scope', '$firebaseAuth', '$firebase','CommonProp', 'SetCurrentUser', '$firebaseArray', '$firebaseObject' , function($scope, $firebaseAuth, $firebase, CommonProp, SetCurrentUser, $firebaseArray, $firebaseObject){
 
 
   $scope.batches = []
@@ -13,8 +13,6 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
   $scope.names = [];
-  var controlList = [];
-  var experimentalList = [];
 
   updateTable();
 
@@ -53,8 +51,8 @@ function updateTable(){
     var userCount = 0;
     var nightCount = 1;
     var groupList = [];
-    var controlList = [];
-    var experimentalList = [];
+    $scope.controlList = [];
+    $scope.experimentalList = [];
     $scope.articles = [];
     $scope.datas = [];
     $scope.batches = []
@@ -66,16 +64,17 @@ function updateTable(){
           angular.forEach(dataRef, function(value, id) {
 
               angular.forEach(value, function(value, id){
+                console.log(id);
                 if (id == "Control Group"){
                   angular.forEach(value, function(value,id){
                     angular.forEach(value, function(value,id){
-                      controlList.push(value);
+                      $scope.controlList.push(value);
                     })
                   })
                 }if (id == "Experimental Group"){
                     angular.forEach(value, function(value,id){
                       angular.forEach(value, function(value,id){
-                        experimentalList.push(value);
+                        $scope.experimentalList.push(value);
                       })
                     })
                 }
@@ -149,7 +148,7 @@ function updateTable(){
               lastUsedList.push(dateList[total-1]);
             }
 
-            /*var bothGroup = controlList.concat(experimentalList);
+            /*var bothGroup = $scope.controlList.concat($scope.experimentalList);
             for(var i = 0; i< usernameList.length; i++){
               if(bothGroup.includes(usernameList[i]) == false){
                 groupList.push("unassigned");
@@ -157,56 +156,35 @@ function updateTable(){
             }*/
             var numControls = 0;
             var numExps = 0;
-            console.log(controlList);
-            for(var i = 0; i < experimentalList.length; i++){
-              if(usernameList.includes(experimentalList[i])){
+            console.log($scope.controlList);
+            for(var i = 0; i < $scope.experimentalList.length; i++){
+              if(usernameList.includes($scope.experimentalList[i])){
                 groupList.push("experimental");
                 numExps++;
               }
             }
-            for(var i = 0; i < controlList.length; i++){
-              if(usernameList.includes(controlList[i])){
+            for(var i = 0; i < $scope.controlList.length; i++){
+              if(usernameList.includes($scope.controlList[i])){
                 groupList.push("control");
                 numControls++;
               }
             }
 
-            for(var i = 0; i < (controlList.length-numControls); i++){
-              usernameList.push(controlList[numControls+i]);
+            for(var i = 0; i < ($scope.controlList.length-numControls); i++){
+              usernameList.push($scope.controlList[numControls+i]);
               nightList.push(0);
               groupList.push("control");
               startDateList.push("not started");
               lastUsedList.push("na")
             }
-            for(var i = 0; i< (experimentalList.length-numExps); i++){
-              usernameList.push(experimentalList[numExps+i]);
+            for(var i = 0; i< ($scope.experimentalList.length-numExps); i++){
+              usernameList.push($scope.experimentalList[numExps+i]);
               nightList.push(0);
               groupList.push("experimental");
               startDateList.push("not started");
               lastUsedList.push("na")
             }
-            /*
-            else{
 
-                usernameList.push(controlList[i]);
-                nightList.push(0);
-                groupList.push("control");
-                startDateList.push("not started");
-                lastUsedList.push("na")
-              }
-            }
-            for(var i = 0; i < experimentalList.length; i++){
-              if(usernameList.includes(experimentalList[i])){
-                groupList.push("experimental");
-              }else{
-                usernameList.push(experimentalList[i]);
-                nightList.push(0);
-                groupList.push("experimental");
-                startDateList.push("not started");
-                lastUsedList.push("na")
-              }
-            }
-            */
             for(var i = 0; i < usernameList.length; i++){
               $scope.articles.push({"key":usernameList[i], "value":nightList[i], "group":groupList[i], "date":startDateList[i], "last":lastUsedList[i]})
               $scope.datas.push({"key":usernameList[i], "value":nightList[i], "group":groupList[i], "date":startDateList[i], "last":lastUsedList[i]})
@@ -225,10 +203,15 @@ function updateTable(){
   						$scope.firstBool=true;
   						$scope.lastBool=true;
   					}
-      });
-  });
-}
 
+
+            SetCurrentUser.setControlList($scope.controlList);
+            SetCurrentUser.setExperimentalList($scope.experimentalList);
+      });
+
+  });
+
+}
 
   $scope.onFolderNumberKeyPress = function(event){
     var table1 = document.getElementById('userTable');
@@ -390,10 +373,16 @@ function updateTable(){
 
     }
 
-    $scope.getUser = function(key){
-      console.log(key);
-      $('#deleteUser').html( key );
-  }
+    $scope.getUser = function(key1, key2){
+      $('#deleteUser').html( key1 );
+      SetCurrentUser.setCurrentUser($("#deleteUser").text());
+      console.log(SetCurrentUser.getCurrentUser());
+
+      $('#groupOfUser').html( key2 );
+      //SetCurrentUser.setGroup(key2);
+      //console.log(key2);
+    //  console.log(SetCurrentUser.getGroup());
+    }
 
     var user = "";
     $scope.deleteUser = function(){
@@ -465,12 +454,39 @@ function updateTable(){
               }
   				});
     }
-
-
-
-
-
-
-
-
 }])
+
+.service('SetCurrentUser', ['$location', function($location, $firebaseAuth){
+	var user = "";
+  var group = "";
+  var controlList = [];
+  var experimentalList = [];
+
+
+	return {
+		getCurrentUser: function(){
+			user = localStorage.getItem("participantName");
+			return user;
+		},
+		setCurrentUser: function(value){
+			localStorage.setItem("participantName", value);
+			user = value;
+		},
+    getControlList: function(){
+			controlList = localStorage.getItem("controlList");
+			return controlList;
+		},
+    setControlList: function(value){
+			localStorage.setItem("controlList", value);
+			controlList = value;
+		},
+    getExperimentalList: function(){
+			experimentalList = localStorage.getItem("experimentalList");
+			return experimentalList;
+		},
+    setExperimentalList: function(value){
+			localStorage.setItem("experimentalList", value);
+			experimentalList = value;
+		},
+	};
+}]);
