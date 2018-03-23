@@ -65,6 +65,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
   var whoCounter = 0;
   var whereCounter = 0;
 	var locationCounter = 0;
+	var mqCounter = 0;
 	var controlGroup = [];
 	var expGroup = [];
 
@@ -204,6 +205,67 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 										$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"latitude":latti, "longitude":longi})
 										$scope.datas.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"latitude":latti, "longitude":longi})
 
+									})
+								}
+								else if(idStr == "MorningAnswers"){
+									angular.forEach(value,function(value,id){
+										mqCounter++;
+										var idStr = ""+id;
+										var timeStr = idStr.substr(11,idStr.length);
+										var dateStr = idStr.substr(0,10);
+										var anal = "";
+										var vaginal = "";
+										var oral = "";
+										var analCondom = "";
+										var vaginalCondom = "";
+										var friendPartner = "";
+										var monoPartner = "";
+										var naPartner = "";
+										var newPartner = "";
+										var numPartners = 0;
+										mqCounter = mqCounter+whoCounter+locationCounter;
+										angular.forEach(value, function(value,id){
+											if (id == "vaginal"){
+												vaginal = value;
+											}
+											if(id == "anal"){
+												anal = value;
+											}
+											if(id == "oral"){
+												oral = value;
+											}
+											if(id == "analCondom"){
+												analCondom = value;
+											}
+											if (id == "vaginalCondom"){
+												vaginalCondom = value;
+											}
+											if (id == "FriendPartner"){
+												friendPartner = value;
+											}
+											if (id == "MonogamousPartner"){
+												monoPartner = value;
+											}
+											if (id == "NewPartner"){
+												newPartner = value;
+											}
+											if (id == "NAPartner"){
+												naPartner = value;
+											}
+											if (id == "numPartners"){
+												numPartners = value;
+												console.log(value);
+											}
+										})
+										typeCounter++;
+										whoCounter++;
+										whereCounter++;
+										$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"oral":oral,"anal":anal,"analCondom":analCondom,
+										"vaginal":vaginal,"vaginalCondom":vaginalCondom, "FriendPartner":friendPartner, "MonogamousPartner":monoPartner, "NewPartner":newPartner,
+										"NAPartner":naPartner,"NumPartners":numPartners});
+										$scope.datas.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"oral":oral,"anal":anal,"analCondom":analCondom,
+										"vaginal":vaginal,"vaginalCondom":vaginalCondom, "FriendPartner":friendPartner, "MonogamousPartner":monoPartner, "NewPartner":newPartner,
+										"NAPartner":naPartner,"NumPartners":numPartners});
 									})
 								}
 
@@ -368,7 +430,17 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 									where: { type: String},
 									who: { type: String},
 									latitude: {type: String},
-									longitude: {type: String}
+									longitude: {type: String},
+									oral: {type:String},
+									anal: {type:String},
+									analCondom: {type:String},
+									vaginal: {type:String},
+									vaginalCondom: {type:String},
+									friendPartner: {type:String},
+									monogamousPartner: {type:String},
+									newPartner: {type:String},
+									naPartner: {type:String},
+									numPartners: {type:String}
 							}
 					}
 			});
@@ -459,6 +531,76 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 																		},
 																		type: String,
 																		value: "longitude"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "oral"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "anal"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "analCondom"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "vaginal"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "vaginalCondom"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "friendPartner"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "monogamousPartner"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "newPartner"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "naPartner"
+																	},
+																	{
+																		style: {
+																			bold: true
+																		},
+																		type: String,
+																		value: "numPartners"
 																	}
 															]
 													}
@@ -475,7 +617,17 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 																	{type:String, value: item.where},
 																	{type:String, value: item.who},
 																	{type:String, value: item.latitude},
-																	{type:String, value: item.longitude}
+																	{type:String, value: item.longitude},
+																	{type:String, value: item.oral},
+																	{type:String, value: item.anal},
+																	{type:String, value: item.analCondom},
+																	{type:String, value: item.vaginal},
+																	{type:String, value: item.vaginalCondom},
+																	{type:String, value: item.friendPartner},
+																	{type:String, value: item.monogamousPartner},
+																	{type:String, value: item.newPartner},
+																	{type:String, value: item.naPartner},
+																	{type:String, value: item.numPartners}
 															]
 													};
 											}))
