@@ -20,7 +20,8 @@ angular
     'angularAppApp.welcome',
     'angularAppApp.addUser',
     'angularAppApp.users',
-    'angularAppApp.admins'
+    'angularAppApp.admins',
+    'angularAppApp.participantInfo'
   ])
   .config(function ($routeProvider, $locationProvider) {
     //$locationProvider.hashPrefix('!');
@@ -58,6 +59,11 @@ angular
         templateUrl:'views/users.html',
         controller:'UserCtrl',
         controllerAs:'user'
+      })
+      .when('/participantInfo', {
+        templateUrl:'views/participantInfo.html',
+        controller:'ParticipantInfoCtrl',
+        controllerAs:'participantInfo'
       })
       .otherwise({
         redirectTo: '/home'
