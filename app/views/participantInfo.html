@@ -2,14 +2,11 @@
 <html>
   <head>
     <title>Boozyanalytics Home Page</title>
-    <link rel="stylesheet" href="styles/welcome.css">
+    <link rel="stylesheet" href="styles/participantInfo.css">
+
 
   </head>
   <body >
-
-
-
-
 
 <div class="container-fluid" style="background-color:#283E54">
 
@@ -49,7 +46,62 @@
         </div>
       </div>
     </div>
+
 </div>
+
+<div class="container" ng-controller="ParticipantInfoCtrl" id="participantcontroller">
+  <ul ng-repeat="size in sizeList track by $index" class="list-group">
+    <li class="list-group-item">Size: {{size}}</li>
+  </ul>
+  <ul class="list-group">
+    <li class="list-group-item">Total Calories Consumed: {{totalCalConsumed}}</li>
+    <li class="list-group-item">Total Liters Consumed: {{totalLitersConsumed}}</li>
+    <li class="list-group-item">Number of Locations: {{locationCounter}}</li>
+    <li class="list-group-item">Total # of Drinks: {{totalDrinks}}</li>
+    <li class="list-group-item">Percent Wine: {{percentWine}}</li>
+    <li class="list-group-item">Percent Liquor: {{percentLiquor}}</li>
+    <li class="list-group-item">Percent Beer: {{percentBeer}}</li>
+
+  </ul>
+
+</div>
+
+
+
+<div class="col-md-4" ng-controller="ParticipantInfoCtrl">
+  <canvas id="myChart"></canvas>
+</div>
+
+
+<!--Grid row-->
+<div class="row">
+
+    <!--Grid column-->
+    <div class="col-md-6 mb-r">
+
+        <!--Card-->
+        <div class="card card-cascade narrower">
+
+            <!--Card image-->
+            <div class="view gradient-card-header blue-gradient">
+                <h5 class="mb-0">Regular map</h5>
+            </div>
+            <!--/Card image-->
+
+            <!--Card content-->
+            <div class="card-body text-center">
+
+                <!--Google map-->
+                <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
+
+            </div>
+            <!--/.Card content-->
+
+        </div>
+        <!--/.Card-->
+
+    </div>
+    <!--Grid column-->
 
 
 
