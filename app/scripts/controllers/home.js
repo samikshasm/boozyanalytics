@@ -45,8 +45,9 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 
 				});
 
-    firebase.auth().onAuthStateChanged(function(user) {
-			//var user = ref.auth().currentUser;
+    /*firebase.auth().onAuthStateChanged(function(user) {
+			var user = firebase.auth().currentUser;
+			console.log(user);
       if (user) {
         displayName = user.displayName;
 				//console.log(displayName);
@@ -57,19 +58,20 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
           });
         }
       }
-    });
+    });*/
 
       auth.$signInWithEmailAndPassword(username, password).then(function(){
-				console.log("User Login Successful");
+				//console.log("User Login Successful");
 				firebase.auth().onAuthStateChanged(function(user){
 					if ($scope.adminChecker == "matches") {
 	    			CommonProp.setUser($scope.user.email);
 	          CommonProp.setDisplayName(displayName); //set the displayname to the current user's display name
-	          console.log(CommonProp.getDisplayName()); //testing this to see if the console logs it correctly;
+	          //console.log(CommonProp.getDisplayName()); //testing this to see if the console logs it correctly;
 						$scope.$apply(function() {
 			  			$location.path('/welcome');
 						});
 					}else {
+						//make this a modal and error check!
 						window.alert("User is not an admin. Please enter a valid email address.");
 						CommonProp.logoutUser();
 					}

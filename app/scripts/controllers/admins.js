@@ -210,6 +210,11 @@ function updateTable(){
               adminApp.auth().onAuthStateChanged(function(user){
                 adminApp.auth().signOut();
                 var user = adminApp.auth().currentUser;
+                if(user){
+                  user.updateProfile({
+                    displayName: Name
+                  });
+                }
                 if (!user) {
                   adminApp.delete();
                   updateTable();
