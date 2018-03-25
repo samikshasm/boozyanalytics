@@ -73,8 +73,46 @@
 
         <!-- this section will only show if the activeTab value is set to dogs -->
         <section ng-if="activeTab === 'dogs'" ng-controller="WelcomeCtrl">
+          <!--Top Table UI Export Table-->
+          <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
 
-          <div class="table-responsive mx-auto">
+              <!--Grid row-->
+              <div class="row">
+
+                <!--Grid column-->
+                <div class="col-lg-8 col-md-12">
+
+
+                    <form class="md-form mb-1">
+                        <input id="btnSearch" class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;"
+                        data-ng-change="onFolderNumberKeyPress($event)"  >
+
+                    </form>
+
+                </div>
+                <!--Grid column
+                <i ng-click="enterClick()" class="fa fa-search fa-lg grey-text mt-4"></i>
+              -->
+                <!--Grid column-->
+
+
+                  <!--Grid column-->
+                  <div class="col-lg-4 col-md-12 mx-auto">
+
+                    <div class="text-center mt-2">
+                      <button id="exportButton" ng-click="exportTable()" class="btn btn-success btn-rounded mb-4"><span class="fa fa-file-excel ml-1 mr-1"></span> Export</button>
+                    </div>
+
+                  </div>
+                  <!--Grid column-->
+
+              </div>
+              <!--Grid row-->
+
+          </div>
+          <!--Top Table UI-->
+
+          <div class="table-responsive mx-auto" style="width:80%;">
             <table id = "exportTable" class="table table-hover mx-auto" style="width:80%;">
 
               <thead>
@@ -103,44 +141,7 @@
                 </tr>
               </thead>
               <tbody>
-                <!--Top Table UI Export Table-->
-                <div class="card mt-0 mb-2 mx-auto" style="width:80%;">
 
-                    <!--Grid row-->
-                    <div class="row">
-
-                      <!--Grid column-->
-                      <div class="col-lg-8 col-md-12">
-
-
-                          <form class="md-form mb-1">
-                              <input id="btnSearch" class="form-control mx-auto" type="text" ng-model="search" placeholder="Search" style="width:90%;"
-                              data-ng-change="onFolderNumberKeyPress($event)"  >
-
-                          </form>
-
-                      </div>
-                      <!--Grid column
-                      <i ng-click="enterClick()" class="fa fa-search fa-lg grey-text mt-4"></i>
-                    -->
-                      <!--Grid column-->
-
-
-                        <!--Grid column-->
-                        <div class="col-lg-4 col-md-12 mx-auto">
-
-                          <div class="text-center mt-2">
-                            <button id="exportButton" ng-click="exportTable()" class="btn btn-success btn-rounded mb-4"><span class="fa fa-file-excel ml-1 mr-1"></span> Export</button>
-                          </div>
-
-                        </div>
-                        <!--Grid column-->
-
-                    </div>
-                    <!--Grid row-->
-
-                </div>
-                <!--Top Table UI-->
                 <tr ng-repeat="article in articles" >
 
                   <td>{{article.key}}</td>
@@ -171,7 +172,7 @@
           </div>
 
 
-          <div class="table-responsive mx-auto">
+          <div class="table-responsive mx-auto" style="width:80%;">
             <table id = "exportTableTwo" class="table mx-auto" style="width:80%; display:none; ">
 
               <thead>
