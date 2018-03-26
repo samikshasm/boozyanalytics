@@ -28,7 +28,7 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
   updateTable();
 
 function updateTable(){
-  console.log("updating Admin table");
+  //console.log("updating Admin table");
 
   var userRef = firebase.database().ref('Admins/');
   userRef.on('value', function(snapshot) {
@@ -122,7 +122,7 @@ function updateTable(){
   			var length = $scope.batches.length-1;
   			var lengthStr = ""+length;
   			if(number == "0"){
-  				console.log("testing");
+  				//console.log("testing");
   				$scope.firstBool = true;
   				$scope.lastBool = false;
   			}
@@ -186,7 +186,7 @@ function updateTable(){
 
     $scope.adminSignUp = function(userName,Name,password,result){
       var adminApp = firebase.initializeApp(config,"Add Admin");
-      console.log("adding Admin");
+      //console.log("adding Admin");
       $scope.adminChecker = "";
       var username = userName;
       var password = password;
@@ -206,7 +206,7 @@ function updateTable(){
         if(userChecker == "not matches"){
           if(username && password) {
             adminApp.auth().createUserWithEmailAndPassword(username,password).then(function(){
-              console.log("User Successfully Created");
+              //console.log("User Successfully Created");
               adminApp.auth().onAuthStateChanged(function(user){
                 adminApp.auth().signOut();
                 var user = adminApp.auth().currentUser;

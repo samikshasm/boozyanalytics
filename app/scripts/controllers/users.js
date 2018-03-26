@@ -29,7 +29,7 @@ var userModule = angular.module('angularAppApp.users', ['ngRoute','firebase'])
 function updateTable(){
   var userRef = firebase.database().ref('Users/');
   userRef.on('value', function(snapshot) {
-    console.log("updating Table");
+    //console.log("updating Table");
     //console.log("getting Data");
     var uid ="";
     var nightCount = "";
@@ -64,7 +64,7 @@ function updateTable(){
           angular.forEach(dataRef, function(value, id) {
 
               angular.forEach(value, function(value, id){
-                console.log(id);
+                //console.log(id);
                 if (id == "Control Group"){
                   angular.forEach(value, function(value,id){
                     angular.forEach(value, function(value,id){
@@ -156,7 +156,7 @@ function updateTable(){
             }*/
             var numControls = 0;
             var numExps = 0;
-            console.log($scope.controlList);
+            //console.log($scope.controlList);
             for(var i = 0; i < $scope.experimentalList.length; i++){
               if(usernameList.includes($scope.experimentalList[i])){
                 groupList.push("experimental");
@@ -235,7 +235,7 @@ function updateTable(){
     var length = $scope.batches.length-1;
     var lengthStr = ""+length;
     if(number == "0"){
-      console.log("testing");
+      //console.log("testing");
       $scope.firstBool = true;
       $scope.lastBool = false;
     }
@@ -254,9 +254,9 @@ function updateTable(){
   $scope.switchBatch = function(number){
 
     if(number == "-1"){
-      console.log("previous");
+      //console.log("previous");
       if($scope.batchNumber == 1){
-        console.log("first element");
+        //console.log("first element");
         $scope.batchNumber = $scope.batchNumber -1;
         $scope.articles = $scope.batches[$scope.batchNumber];
         $scope.firstBool = true;
@@ -265,7 +265,7 @@ function updateTable(){
 
       }else{
         $scope.batchNumber = $scope.batchNumber-1;
-        console.log($scope.batchNumber);
+        //console.log($scope.batchNumber);
         $scope.articles = $scope.batches[$scope.batchNumber];
         $scope.firstBool = false;
         $scope.lastBool = false;
@@ -273,7 +273,7 @@ function updateTable(){
 
     }if(number == "-2"){
       if($scope.batchNumber+1 == $scope.batches.length-1){
-        console.log("last element");
+        //console.log("last element");
         $scope.articles = $scope.batches[$scope.batchNumber+1];
         $scope.batchNumber = $scope.batches.length-1;
         $scope.lastBool = true;
@@ -304,8 +304,8 @@ function updateTable(){
 
     $scope.addUser = function(result){
       var userName = $("#addUserForm").val();
-      console.log(userName);
-      console.log(result);
+      //console.log(userName);
+      //console.log(result);
       $scope.signUp(userName,result);
 
     }
@@ -318,6 +318,17 @@ function updateTable(){
       var userChecker = "";
       var controlUsers = [];
       var experimentalUsers = [];
+      var validUser = false;
+
+      if (!result){
+        $scope.errorMessage = "Please select a group";
+        $('#errorMsg').html($scope.errorMessage);
+        $(document).ready(function(){
+            $("#errorModalUser").modal();
+        });
+        addApp.delete();
+        console.log("error");
+      }
 
       for (var i =0; i< $scope.controlList.length;i++){
         if( $scope.controlList[i]==username){
@@ -332,42 +343,58 @@ function updateTable(){
       }
 
     if(userChecker == "matches"){
-      console.log('else statement');
-      window.alert("User already exists.");
+      $scope.errorMessage = "The user already exists";
+      $('#errorMsg').html($scope.errorMessage);
+      $(document).ready(function(){
+          $("#errorModalUser").modal();
+      });
       addApp.delete();
+      console.log("error");
     }else{
 
-      if(username && password) {
+      if(username && password && result) {
         addApp.auth().createUserWithEmailAndPassword(usernameEmail,password).then(function(){
-          console.log("User Successfully Created");
+          //console.log("User Successfully Created");
           updateTable();
 
 
           addApp.auth().onAuthStateChanged(function(user){
-            console.log("auth changing");
+            //console.log("auth changing");
             addApp.auth().signOut();
             var user = addApp.auth().currentUser;
             if (!user) {
-              console.log("null User");
+              //console.log("null User");
+              if (result == "control") {
+                //console.log("control user!");
+                var reference = firebase.database(); //get a reference to the firbase database
+                reference.ref('Users/Control Group/' + username).set({
+                  username: username
+                });
+              }else{
+                //console.log("experimentalUser!");
+                var reference = firebase.database(); //get a reference to the firbase database
+                reference.ref('Users/Experimental Group/' + username).set({
+                  username: username
+                });
+              }
+              $('#addUserModal').modal('hide');
               addApp.delete();
             }
           })
-        });
+        }).catch(function(error){
+    			$scope.errMsg = true;
+    			$scope.errorMessage = "Username is badly formatted";
+          $('#errorMsg').html($scope.errorMessage);
+          $(document).ready(function(){
+              $("#errorModalUser").modal();
+          });
+          addApp.delete();
+          console.log("error");
+    		});
       }
 
-      if (result == "control") {
-        console.log("control user!");
-        var reference = firebase.database(); //get a reference to the firbase database
-        reference.ref('Users/Control Group/' + username).set({
-          username: username
-        });
-      }else{
-        console.log("experimentalUser!");
-        var reference = firebase.database(); //get a reference to the firbase database
-        reference.ref('Users/Experimental Group/' + username).set({
-          username: username
-        });
-      }
+
+
     }
 
 
@@ -376,7 +403,7 @@ function updateTable(){
     $scope.getUser = function(key1, key2){
       $('#deleteUser').html( key1 );
       SetCurrentUser.setCurrentUser($("#deleteUser").text());
-      console.log(SetCurrentUser.getCurrentUser());
+      //console.log(SetCurrentUser.getCurrentUser());
 
       $('#groupOfUser').html( key2 );
       //SetCurrentUser.setGroup(key2);
@@ -395,7 +422,7 @@ function updateTable(){
         deleteApp.auth().signInWithEmailAndPassword(usernameEmail, password).then(function(){
           var user = deleteApp.auth().currentUser;
           user.delete().then(function() {
-            console.log("User Successfully Deleted");
+            //console.log("User Successfully Deleted");
             var user = deleteApp.auth().currentUser;
             if(!user){
               deleteApp.delete();

@@ -96,13 +96,13 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
             if(substr == "UID"){
               uid = id.substr(5,id.length);
 							if(controlGroup.includes(uid)){
-								console.log("control!");
+								//console.log("control!");
 								group = "control"
 							}else if(expGroup.includes(uid)){
 								group = "experimental";
-								console.log("experimental!");
+								//console.log("experimental!");
 							}else{
-								console.log("unassigned!")
+								//console.log("unassigned!")
 								group = "unassigned";
 							}
               //$scope.articles.push({"key":uid})
@@ -254,7 +254,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 											}
 											if (id == "numPartners"){
 												numPartners = value;
-												console.log(value);
+											//	console.log(value);
 											}
 										})
 										typeCounter++;
