@@ -46,6 +46,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   queryDatabase();
 
   function queryDatabase(){
+    $scope.lattitudeList = []
+    $scope.longitudeList = []
     var userRef = firebase.database().ref('Users/');
     userRef.on('value', function(snapshot){
       dataRef.$loaded()
@@ -221,30 +223,59 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               }
               });
 
-              var var_location = [];
-              for(var i =0;i<$scope.lattitudeList.length;i++){
-                var_location.push(new google.maps.LatLng(parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])));
-}
-            var var_markers = [];
 
-            for(var i=0; i<$scope.locationCounter;i++){
+    var locations = [];
 
-              var var_map = new google.maps.Map(document.getElementById("map-container-5"),
-                  var_mapoptions);
 
-              var var_mapoptions = {
-                  center: var_location[i],
-                  zoom: 14
-               };
+      for(var i =0;i<$scope.lattitudeList.length;i++){
+        locations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+        console.log(locations[i]);
 
-              var_markers.push(new google.maps.Marker({
-                position: var_location[i],
-                map: var_map,
-                title: ""+i
-              }));
-            }
+      }
+      console.log($scope.lattitudeList);
+
+
+
+    var map = new google.maps.Map(document.getElementById("map-container-5"), {
+      zoom: 14,
+      //center: new google.maps.LatLng(38.6364953, -90.2350996),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+    var markers = [];
+
+    console.log(locations[0][0]);
+
+    for (i = 0; i < locations.length; i++) {
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+        map: map
+      });
+
+      markers.push(marker);
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          //infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+
+    function autocenter(){
+      var bounds = new google.maps.LatLngBounds();
+      for(var i=0;i<markers.length;i++){
+        bounds.extend(markers[i].position);
+      }
+      map.fitBounds(bounds);
+    }
+
+    autocenter();
         });
     })
   }
-
 }])
