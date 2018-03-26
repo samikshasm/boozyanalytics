@@ -616,6 +616,28 @@
     </div>
 </div>
 
+<div class="modal fade" id= "fileNameModal" ng-controller="WelcomeCtrl">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info">
+        <h5 class="modal-title">Enter Filename</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="md-form form-inline" name="form4" style="width:90%">
+            <input type="text" id="fileNameText" class="form-control" name="fileNameForm">
+            <p>.xlsx</p>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" ng-click=getFilename()>Export</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id= "errorModalUser" ng-controller="UserCtrl">
   <div class="modal-dialog" role="document">
@@ -633,27 +655,7 @@
   </div>
 </div>
 
-<div class="modal fade" id= "fileNameModal" ng-controller="WelcomeCtrl">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-info">
-        <h5 class="modal-title">Enter Filename</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="md-form mb-4" name="form4" style="width:90%">
-            <input type="text" id="fileNameText" class="form-control" name="fileNameForm">
-            <label for="addUserForm">Filename</label>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click=exportTable() >Export</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 
 

@@ -411,12 +411,262 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
       var age = snapshot.child("age").val(); // null
     });*/
 
-		$scope.exportTable = function(){
-			console.log("clicking button");
-			var filename = $('fileNameText').val();
-			console.log(filename);
-			if(filename){
-				$('fileNameModal').modal('hide');
+		$('#fileNameModal').on('hidden.bs.modal', function (e) {
+			$(this)
+				.find("input,textarea,select")
+					 .val('')
+					 .end()
+				.find("input[type=checkbox], input[type=radio]")
+					 .prop("checked", "")
+					 .end()
+				.find('form')[0].reset();
+
+		})
+
+		$scope.getFilename = function(){
+			var filename = $('#fileNameText').val();
+			//console.log(filename);
+			var validFilename = !/[^a-z0-9_.@()-]/i.test(filename);
+			console.log(validFilename);
+			if(validFilename == true){
+				$scope.exportTable(filename);
+			}else{
+				$scope.errorMessage = "Filename is badly formatted";
+				$('#errorMsg').html($scope.errorMessage);
+				$(document).ready(function(){
+						$("#errorModalUser").modal();
+				});
+				console.log("error");
+			}
+
+		}
+
+		$scope.exportTable = function(filename){
+			var fileName = filename;
+			if(fileName){
+				$('#fileNameModal').modal('hide');
+				var dataSource = shield.DataSource.create({
+						data: "#exportTableTwo",
+						schema: {
+								type: "table",
+								fields: {
+										uid: { type: String },
+										group: { type: String},
+										nightCount: { type: String },
+										date: { type: String},
+										time: { type: String},
+										size: { type: String},
+										type: { type: String},
+										where: { type: String},
+										who: { type: String},
+										latitude: {type: String},
+										longitude: {type: String},
+										oral: {type:String},
+										anal: {type:String},
+										analCondom: {type:String},
+										vaginal: {type:String},
+										vaginalCondom: {type:String},
+										friendPartner: {type:String},
+										monogamousPartner: {type:String},
+										newPartner: {type:String},
+										naPartner: {type:String},
+										numPartners: {type:String}
+								}
+						}
+				});
+
+				// when parsing is done, export the data to Excel
+				dataSource.read().then(function (data) {
+						new shield.exp.OOXMLWorkbook({
+								author: "BoozyAnalytics",
+								worksheets: [
+										{
+												name: "BoozyAnalytics Table",
+												rows: [
+														{
+																cells: [
+																		{
+																				style: {
+																						bold: true
+																				},
+																				type: String,
+																				value: "uid"
+																		},
+																		{
+																			style:{
+																				bold:true
+																			},
+																			type: String,
+																			value: "group"
+																		},
+																		{
+																				style: {
+																						bold: true
+																				},
+																				type: String,
+																				value: "nightCount"
+																		},
+																		{
+																				style: {
+																						bold: true
+																				},
+																				type: String,
+																				value: "date"
+																		},
+																		{
+																				style: {
+																						bold: true
+																				},
+																				type: String,
+																				value: "time"
+																		},
+																		{
+																				style: {
+																						bold: true
+																				},
+																				type: String,
+																				value: "size"
+																		},
+																		{
+																				style: {
+																						bold: true
+																				},
+																				type: String,
+																				value: "type"
+																		},
+																		{
+																				style: {
+																						bold: true
+																				},
+																				type: String,
+																				value: "where"
+																		},
+																		{
+																				style: {
+																						bold: true
+																				},
+																				type: String,
+																				value: "who"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "latitude"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "longitude"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "oral"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "anal"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "analCondom"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "vaginal"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "vaginalCondom"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "friendPartner"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "monogamousPartner"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "newPartner"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "naPartner"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "numPartners"
+																		}
+																]
+														}
+												].concat($.map(data, function(item) {
+														return {
+																cells: [
+																		{ type: String, value: item.uid },
+																		{ type: String, value: item.group},
+																		{ type: String, value: item.nightCount },
+																		{ type: String, value: item.date},
+																		{type: String, value: item.time},
+																		{type:String, value: item.size},
+																		{type:String, value: item.type},
+																		{type:String, value: item.where},
+																		{type:String, value: item.who},
+																		{type:String, value: item.latitude},
+																		{type:String, value: item.longitude},
+																		{type:String, value: item.oral},
+																		{type:String, value: item.anal},
+																		{type:String, value: item.analCondom},
+																		{type:String, value: item.vaginal},
+																		{type:String, value: item.vaginalCondom},
+																		{type:String, value: item.friendPartner},
+																		{type:String, value: item.monogamousPartner},
+																		{type:String, value: item.newPartner},
+																		{type:String, value: item.naPartner},
+																		{type:String, value: item.numPartners}
+																]
+														};
+												}))
+										}
+								]
+						}).saveAs({
+								fileName: fileName
+						});
+				});
 			}else{
 				$scope.errorMessage = "Please enter a filename";
 				$('#errorMsg').html($scope.errorMessage);
@@ -427,228 +677,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 			}
 			//var fileName = "BoozyAnalytics";
 
-			var dataSource = shield.DataSource.create({
-					data: "#exportTableTwo",
-					schema: {
-							type: "table",
-							fields: {
-									uid: { type: String },
-									group: { type: String},
-									nightCount: { type: String },
-									date: { type: String},
-									time: { type: String},
-									size: { type: String},
-									type: { type: String},
-									where: { type: String},
-									who: { type: String},
-									latitude: {type: String},
-									longitude: {type: String},
-									oral: {type:String},
-									anal: {type:String},
-									analCondom: {type:String},
-									vaginal: {type:String},
-									vaginalCondom: {type:String},
-									friendPartner: {type:String},
-									monogamousPartner: {type:String},
-									newPartner: {type:String},
-									naPartner: {type:String},
-									numPartners: {type:String}
-							}
-					}
-			});
 
-			// when parsing is done, export the data to Excel
-			dataSource.read().then(function (data) {
-					new shield.exp.OOXMLWorkbook({
-							author: "BoozyAnalytics",
-							worksheets: [
-									{
-											name: "BoozyAnalytics Table",
-											rows: [
-													{
-															cells: [
-																	{
-																			style: {
-																					bold: true
-																			},
-																			type: String,
-																			value: "uid"
-																	},
-																	{
-																		style:{
-																			bold:true
-																		},
-																		type: String,
-																		value: "group"
-																	},
-																	{
-																			style: {
-																					bold: true
-																			},
-																			type: String,
-																			value: "nightCount"
-																	},
-																	{
-																			style: {
-																					bold: true
-																			},
-																			type: String,
-																			value: "date"
-																	},
-																	{
-																			style: {
-																					bold: true
-																			},
-																			type: String,
-																			value: "time"
-																	},
-																	{
-																			style: {
-																					bold: true
-																			},
-																			type: String,
-																			value: "size"
-																	},
-																	{
-																			style: {
-																					bold: true
-																			},
-																			type: String,
-																			value: "type"
-																	},
-																	{
-																			style: {
-																					bold: true
-																			},
-																			type: String,
-																			value: "where"
-																	},
-																	{
-																			style: {
-																					bold: true
-																			},
-																			type: String,
-																			value: "who"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "latitude"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "longitude"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "oral"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "anal"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "analCondom"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "vaginal"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "vaginalCondom"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "friendPartner"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "monogamousPartner"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "newPartner"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "naPartner"
-																	},
-																	{
-																		style: {
-																			bold: true
-																		},
-																		type: String,
-																		value: "numPartners"
-																	}
-															]
-													}
-											].concat($.map(data, function(item) {
-													return {
-															cells: [
-																	{ type: String, value: item.uid },
-																	{ type: String, value: item.group},
-																	{ type: String, value: item.nightCount },
-																	{ type: String, value: item.date},
-																	{type: String, value: item.time},
-																	{type:String, value: item.size},
-																	{type:String, value: item.type},
-																	{type:String, value: item.where},
-																	{type:String, value: item.who},
-																	{type:String, value: item.latitude},
-																	{type:String, value: item.longitude},
-																	{type:String, value: item.oral},
-																	{type:String, value: item.anal},
-																	{type:String, value: item.analCondom},
-																	{type:String, value: item.vaginal},
-																	{type:String, value: item.vaginalCondom},
-																	{type:String, value: item.friendPartner},
-																	{type:String, value: item.monogamousPartner},
-																	{type:String, value: item.newPartner},
-																	{type:String, value: item.naPartner},
-																	{type:String, value: item.numPartners}
-															]
-													};
-											}))
-									}
-							]
-					}).saveAs({
-							fileName: fileName
-					});
-			});
 		}
 
 
