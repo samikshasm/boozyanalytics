@@ -224,9 +224,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               var var_location = [];
               for(var i =0;i<$scope.lattitudeList.length;i++){
                 var_location.push(new google.maps.LatLng(parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])));
-
+}
             var var_markers = [];
-
 
             for(var i=0; i<$scope.locationCounter;i++){
 
@@ -240,15 +239,10 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
 
               var_markers.push(new google.maps.Marker({
                 position: var_location[i],
-                map: var_map
-              //  title: ""+i
+                map: var_map,
+                title: ""+i
               }));
             }
-
-
-
-            //  google.maps.event.addDomListener(window, 'load', regular_map);
-
         });
     })
   }
