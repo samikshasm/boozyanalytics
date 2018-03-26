@@ -319,8 +319,8 @@ function updateTable(){
       var controlUsers = [];
       var experimentalUsers = [];
 
-      for (var i =0; i< controlList.length;i++){
-        if( controlList[i]==username){
+      for (var i =0; i< $scope.controlList.length;i++){
+        if( $scope.controlList[i]==username){
            userChecker = "matches";
         }
       }
