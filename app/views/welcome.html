@@ -100,7 +100,7 @@
                   <div class="col-lg-4 col-md-12 mx-auto">
 
                     <div class="text-center mt-2">
-                      <button id="exportButton" ng-click="exportTable()" class="btn btn-success btn-rounded mb-4"><span class="fa fa-file-excel ml-1 mr-1"></span> Export</button>
+                      <button id="exportButton" class="btn btn-success btn-rounded mb-4" data-toggle="modal" data-target="#fileNameModal"><span class="fa fa-file-excel ml-1 mr-1"></span> Export</button>
                     </div>
 
                   </div>
@@ -591,15 +591,16 @@
             </div>
             <div class="modal-body mx-3">
 
-                <form class="md-form mb-4" name="form4">
-                    <i class="fa fa-envelope prefix grey-text" style="padding-left:50%;"></i>
-                    <input type="text" id="addAdminFormUsername" class="form-control" name="usernameForm">
-                    <label for="addAdminForm">Email</label>
-                </form>
+
                 <form class="md-form mb-4" name="form4">
                     <i class="fa fa-user prefix grey-text" style="padding-left:50%;"></i>
                     <input type="text" id="addAdminFormName" class="form-control" name="usernameForm">
                     <label for="addUserForm">Name</label>
+                </form>
+                <form class="md-form mb-4" name="form4">
+                    <i class="fa fa-envelope prefix grey-text" style="padding-left:50%;"></i>
+                    <input type="text" id="addAdminFormUsername" class="form-control" name="usernameForm">
+                    <label for="addAdminForm">Email</label>
                 </form>
                 <form class="md-form mb-4" name="form4">
                     <i class="fa fa-lock prefix grey-text" style="padding-left:50%;"></i>
@@ -609,7 +610,7 @@
 
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button class="btn btn-indigo" ng-click=addAdmin(result) data-dismiss="modal">Add</button>
+                <button class="btn btn-indigo" ng-click=addAdmin(result)>Add</button>
             </div>
         </div>
     </div>
@@ -632,7 +633,27 @@
   </div>
 </div>
 
-
+<div class="modal fade" id= "fileNameModal" ng-controller="WelcomeCtrl">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info">
+        <h5 class="modal-title">Enter Filename</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="md-form mb-4" name="form4" style="width:90%">
+            <input type="text" id="fileNameText" class="form-control" name="fileNameForm">
+            <label for="addUserForm">Filename</label>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click=exportTable() >Export</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

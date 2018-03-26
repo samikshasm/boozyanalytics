@@ -14,7 +14,7 @@ var userModule = angular.module('angularAppApp.admins', ['ngRoute','firebase'])
   var dataRef = $firebaseArray(ref);
   var adminUsernames = [];
   var adminNames =[];
-  var userChecker = "";
+  var userChecker = "not matches";
 
   var config = {
     apiKey: "AIzaSyB0QGhWIaE6wjxO9Y_AJCLXm8h3hJjj34Y",
@@ -196,15 +196,47 @@ function updateTable(){
       //var adminRef = firebase.database().ref();
       //adminRef.on('value', function(snapshot) {
         for (var i=0; i< adminUsernames.length;i++){
+          //console.log(adminUsernames[i]);
           if( adminUsernames[i]==username){
+            //console.log("here");
             userChecker = "matches";
           }else {
-            userChecker = "not matches";
+            //userChecker = "not matches";
           }
         }
 
+        if(!name){
+          $scope.errorMessage = "Please enter a display name";
+          $('#errorMsg').html($scope.errorMessage);
+          $(document).ready(function(){
+              $("#errorModalUser").modal();
+          });
+          adminApp.delete();
+          //console.log("error");
+        }
+
+        if(!password){
+          $scope.errorMessage = "Please enter a password";
+          $('#errorMsg').html($scope.errorMessage);
+          $(document).ready(function(){
+              $("#errorModalUser").modal();
+          });
+          adminApp.delete();
+          //console.log("error");
+        }
+
+        if(!username){
+          $scope.errorMessage = "Please enter a valid email address";
+          $('#errorMsg').html($scope.errorMessage);
+          $(document).ready(function(){
+              $("#errorModalUser").modal();
+          });
+          adminApp.delete();
+          //console.log("error");
+        }
+
         if(userChecker == "not matches"){
-          if(username && password) {
+          if(username && password && name) {
             adminApp.auth().createUserWithEmailAndPassword(username,password).then(function(){
               //console.log("User Successfully Created");
               adminApp.auth().onAuthStateChanged(function(user){
@@ -216,32 +248,47 @@ function updateTable(){
                   });
                 }
                 if (!user) {
+                  var user = firebase.auth().currentUser;
+                  //console.log(user);
+                  var reference = firebase.database();
+                  firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                      reference.ref('Admins/' + name).set({
+                          username: username,
+                          password: password
+                      });
+                      //console.log(username);
+                    }
+
+                  })
                   adminApp.delete();
+                  $('#addAdminModal').modal('hide');
                   updateTable();
-                  userChecker = "";
+                  userChecker = "not matches";
                 }
               })
+            }).catch(function(error){
+              $scope.errMsg = true;
+        			$scope.errorMessage = "Admin email is badly formatted";
+              $('#errorMsg').html($scope.errorMessage);
+              $(document).ready(function(){
+                  $("#errorModalUser").modal();
+              });
+              adminApp.delete();
+              console.log("error");
             });
 
-          var user = firebase.auth().currentUser;
-          console.log(user);
-          var reference = firebase.database();
-          firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-              reference.ref('Admins/' + name).set({
-                  username: username,
-                  password: password
-              });
-              console.log(username);
-            }
 
-          })
         }
       }else{
-        console.log('else statement');
-        window.alert("Admin already exists.");
-        userChecker == "";
+        $scope.errorMessage = "The admin already exists";
+        $('#errorMsg').html($scope.errorMessage);
+        $(document).ready(function(){
+            $("#errorModalUser").modal();
+        });
         adminApp.delete();
+        console.log("error");
+        userChecker = "not matches";
       }
 
     //})

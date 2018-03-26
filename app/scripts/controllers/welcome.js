@@ -413,7 +413,19 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 
 		$scope.exportTable = function(){
 			console.log("clicking button");
-			var fileName = "BoozyAnalytics";
+			var filename = $('fileNameText').val();
+			console.log(filename);
+			if(filename){
+				$('fileNameModal').modal('hide');
+			}else{
+				$scope.errorMessage = "Please enter a filename";
+				$('#errorMsg').html($scope.errorMessage);
+				$(document).ready(function(){
+						$("#errorModalUser").modal();
+				});
+				console.log("error");
+			}
+			//var fileName = "BoozyAnalytics";
 
 			var dataSource = shield.DataSource.create({
 					data: "#exportTableTwo",

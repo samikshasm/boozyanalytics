@@ -64,6 +64,8 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 				//console.log("User Login Successful");
 				firebase.auth().onAuthStateChanged(function(user){
 					if ($scope.adminChecker == "matches") {
+						var user = firebase.auth().currentUser;
+						displayName = user.displayName;
 	    			CommonProp.setUser($scope.user.email);
 	          CommonProp.setDisplayName(displayName); //set the displayname to the current user's display name
 	          //console.log(CommonProp.getDisplayName()); //testing this to see if the console logs it correctly;

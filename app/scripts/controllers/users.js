@@ -330,6 +330,16 @@ function updateTable(){
         console.log("error");
       }
 
+      if (!username){
+        $scope.errorMessage = "Please enter username";
+        $('#errorMsg').html($scope.errorMessage);
+        $(document).ready(function(){
+            $("#errorModalUser").modal();
+        });
+        addApp.delete();
+        console.log("error");
+      }
+
       for (var i =0; i< $scope.controlList.length;i++){
         if( $scope.controlList[i]==username){
            userChecker = "matches";
