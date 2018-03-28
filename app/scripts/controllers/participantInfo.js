@@ -29,7 +29,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   var wineCounter = 0;
   var beerCounter = 0;
   var liquorCounter = 0;
-
+  $scope.costList = [];
 
 
   for(var i=0;i<$scope.controlList.length;i++){
@@ -102,6 +102,12 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                       whoList.push(value);
                                     })
                                   }
+                                  if(id=="Cost"){
+                                    angular.forEach(value,function(value,id){
+                                      $scope.costList.push(value);
+
+                                    })
+                                  }
                                 })
                               })
                             }
@@ -110,6 +116,18 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                 var tempList = []
                                 $scope.locationCounter++;
                                 tempList = value.split("&");
+                                var tempCounter = 0;
+                                if ($scope.lattitudeList!=0){
+                                  for(var i=0;i<$scope.lattitudeList;i++){
+                                    if($scope.lattitudeList[i]==tempList[0]){
+                                      for(var j=0;j<$scope.longitudeList;j++){
+                                        if($scope.longitudeList[j]==tempList[1]){
+                                          tempCounter++;
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
                                 $scope.lattitudeList.push(tempList[0]);
                                 $scope.longitudeList.push(tempList[1]);
                               })
@@ -324,46 +342,33 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
       //console.log($scope.lattitudeList);
 
 
+            var map = new google.maps.Map(document.getElementById("map-container-5"), {
+              zoom: 14,
+              //center: new google.maps.LatLng(38.6364953, -90.2350996),
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
 
-    var map = new google.maps.Map(document.getElementById("map-container-5"), {
-      zoom: 14,
-      //center: new google.maps.LatLng(38.6364953, -90.2350996),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
+            var marker, i;
+            var markers = [];
 
+            for (i = 0; i < locations.length; i++) {
+              marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+                map: map
+              });
 
-    var infowindow = new google.maps.InfoWindow();
+              markers.push(marker);
+            }
 
-    var marker, i;
-    var markers = [];
+            function autocenter(){
+              var bounds = new google.maps.LatLngBounds();
+              for(var i=0;i<markers.length;i++){
+                bounds.extend(markers[i].position);
+              }
+              map.fitBounds(bounds);
+            }
 
-    //console.log(locations[0][0]);
-
-    for (i = 0; i < locations.length; i++) {
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][0], locations[i][1]),
-        map: map
-      });
-
-      markers.push(marker);
-
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          //infowindow.setContent(locations[i][0]);
-          infowindow.open(map, marker);
-        }
-      })(marker, i));
-    }
-
-    function autocenter(){
-      var bounds = new google.maps.LatLngBounds();
-      for(var i=0;i<markers.length;i++){
-        bounds.extend(markers[i].position);
-      }
-      map.fitBounds(bounds);
-    }
-
-    autocenter();
+            autocenter();
         });
     })
   }
