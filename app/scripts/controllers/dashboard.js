@@ -46,8 +46,9 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   queryDatabase();
 
   function queryDatabase(){
-    $scope.lattitudeList = []
-    $scope.longitudeList = []
+    $scope.lattitudeList = [];
+    $scope.longitudeList = [];
+    $scope.dates = [];
     var userRef = firebase.database().ref('Users/');
     userRef.on('value', function(snapshot){
       dataRef.$loaded()
@@ -71,6 +72,11 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                           angular.forEach(value, function(value, id){
                             if(id == "Answers"){
                               angular.forEach(value, function(value,id){
+                                var date_val = id.substr(6,id.length);
+                                var date_values = date_val.split("-");
+                                var date = new Date(date_values[0], date_values[1], date_values[2]);
+                                //console.log(date.getDay());
+                                $scope.dates.push(date.getDay());
                                 angular.forEach(value, function(value,id){
                                   if(id == "Size"){
                                     angular.forEach(value,function(value,id){
@@ -219,6 +225,87 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               options: {
                   responsive: true
               }
+              });
+
+              var days = [];
+              var mon = 0;
+              var tues = 0;
+              var wed = 0;
+              var thurs = 0;
+              var fri = 0;
+              var sat = 0;
+              var sun =0;
+              for (var i = 0; i<$scope.dates.length; i++){
+                if ($scope.dates[i] == 0){
+                  sun++
+                }
+                if ($scope.dates[i] == 1){
+                  mon++
+                }
+                if ($scope.dates[i] == 2){
+                  tues++
+                }
+                if ($scope.dates[i] == 3){
+                  wed++
+                }
+                if ($scope.dates[i] == 4){
+                  thurs++
+                }
+                if ($scope.dates[i] == 5){
+                  fri++
+                }
+                if ($scope.dates[i] == 6){
+                  sat++
+                }
+              }
+              days.push(sun);
+              days.push(mon);
+              days.push(tues);
+              days.push(wed);
+              days.push(thurs);
+              days.push(fri);
+              days.push(sat);
+
+              //days = [1,1,2,3,4,5,6];
+
+              var context = document.getElementById("barChart").getContext('2d');
+              var barChart = new Chart(context, {
+                  type: 'bar',
+                  data: {
+                      labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
+                      datasets: [{
+                          label: 'Drinking Episodes per Day of Week',
+                          data: days,
+                          backgroundColor: [
+                              'rgba(255, 99, 132, 0.2)',
+                              'rgba(54, 162, 235, 0.2)',
+                              'rgba(255, 206, 86, 0.2)',
+                              'rgba(75, 192, 192, 0.2)',
+                              'rgba(153, 102, 255, 0.2)',
+                              'rgba(255, 159, 64, 0.2)',
+                              'rgba(236, 110, 145, 0.2)'
+                          ],
+                          borderColor: [
+                              'rgba(255,99,132,1)',
+                              'rgba(54, 162, 235, 1)',
+                              'rgba(255, 206, 86, 1)',
+                              'rgba(75, 192, 192, 1)',
+                              'rgba(153, 102, 255, 1)',
+                              'rgba(255, 159, 64, 1)',
+                              'rgba(236, 110, 145, 1)'
+                          ],
+                          borderWidth: 1
+                      }]
+                  },
+                  options: {
+                      scales: {
+                          yAxes: [{
+                              ticks: {
+                                  beginAtZero:true
+                              }
+                          }]
+                      }
+                  }
               });
 
             var locations = [];

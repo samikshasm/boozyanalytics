@@ -113,23 +113,32 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                             }
                             if(id == "Location"){
                               angular.forEach(value,function(value,id){
-                                var tempList = []
-                                $scope.locationCounter++;
-                                tempList = value.split("&");
-                                var tempCounter = 0;
-                                if ($scope.lattitudeList!=0){
-                                  for(var i=0;i<$scope.lattitudeList;i++){
-                                    if($scope.lattitudeList[i]==tempList[0]){
-                                      for(var j=0;j<$scope.longitudeList;j++){
-                                        if($scope.longitudeList[j]==tempList[1]){
-                                          tempCounter++;
-                                        }
-                                      }
-                                    }
-                                  }
+                                var splitList = []
+                                splitList = value.split("&");
+                                if ($scope.lattitudeList.length==0) {
+                                  $scope.lattitudeList.push(parseFloat(splitList[0]));
+                                  $scope.longitudeList.push(parseFloat(splitList[1]));
                                 }
-                                $scope.lattitudeList.push(tempList[0]);
-                                $scope.longitudeList.push(tempList[1]);
+                                else{
+                                  var fromLatPrevious = $scope.lattitudeList[$scope.locationCounter-1];
+                                  var fromLongPrevious = $scope.longitudeList[$scope.locationCounter-1];
+                                  var fromLatCurrent = parseFloat(splitList[0]);
+                                  var fromLongCurrent = parseFloat(splitList[1]);
+
+
+                                  var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
+
+                                  console.log(distance);
+
+                                  if (distance > 100){
+                                    $scope.lattitudeList.push(parseFloat(splitList[0]));
+                                    $scope.longitudeList.push(parseFloat(splitList[1]));
+                                  }
+
+                                }
+
+                                $scope.locationCounter++;
+
                               })
                             }
                             if(id == "MorningAnswers"){
@@ -248,7 +257,6 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               }
               });
 
-              console.log($scope.dates);
               var days = [];
               var mon = 0;
               var tues = 0;
@@ -296,6 +304,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   data: {
                       labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
                       datasets: [{
+
                           label: 'Drinking Episodes per Day of Week',
                           data: days,
                           backgroundColor: [
@@ -317,6 +326,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                               'rgba(236, 110, 145, 1)'
                           ],
                           borderWidth: 1
+
                       }]
                   },
                   options: {
