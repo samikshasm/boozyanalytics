@@ -22,6 +22,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   $scope.locationCounter = 0;
   $scope.lattitudeList = [];
   $scope.longitudeList = [];
+  $scope.locationCount = [];
   $scope.percentWine = 0.0;
   $scope.percentLiquor = 0.0;
   $scope.percentBeer = 0.0;
@@ -49,6 +50,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   function queryDatabase(){
     $scope.lattitudeList = []
     $scope.longitudeList = []
+    $scope.locationCount = [];
     $scope.dates = []
     var userRef = firebase.database().ref('Users/');
     userRef.on('value', function(snapshot){
@@ -118,26 +120,32 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                 if ($scope.lattitudeList.length==0) {
                                   $scope.lattitudeList.push(parseFloat(splitList[0]));
                                   $scope.longitudeList.push(parseFloat(splitList[1]));
+                                  $scope.locationCount[0] = 1;
+                                  $scope.locationCounter++;
                                 }
                                 else{
                                   var fromLatPrevious = $scope.lattitudeList[$scope.locationCounter-1];
                                   var fromLongPrevious = $scope.longitudeList[$scope.locationCounter-1];
                                   var fromLatCurrent = parseFloat(splitList[0]);
                                   var fromLongCurrent = parseFloat(splitList[1]);
-
+                                  //console.log(fromLatPrevious+","+fromLongPrevious);
+                                  //console.log(fromLatCurrent+","+fromLongCurrent);
 
                                   var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
 
-                                  console.log(distance);
+                                  //console.log(distance);
 
-                                  if (distance > 100){
+                                  if (distance > 200){
                                     $scope.lattitudeList.push(parseFloat(splitList[0]));
                                     $scope.longitudeList.push(parseFloat(splitList[1]));
+                                    $scope.locationCount[$scope.locationCount.length]=1;
+                                    $scope.locationCounter++;
+                                  }else{
+                                    $scope.locationCount[$scope.locationCounter-1]=$scope.locationCount[$scope.locationCounter-1]+1;
                                   }
 
                                 }
 
-                                $scope.locationCounter++;
 
                               })
                             }
@@ -342,6 +350,39 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
 
 
     var locations = [];
+    var tempLocations = [];
+
+    for(var i = 0; i<$scope.lattitudeList.length; i++){
+      if (i==0) {
+        tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+      }
+      else{
+        for(var j = 1; j<$scope.lattitudeList.length; j++){
+          if(i != j){
+            var fromLatPrevious = $scope.lattitudeList[i];
+            var fromLongPrevious = $scope.longitudeList[i];
+            var fromLatCurrent = $scope.lattitudeList[j];
+            var fromLongCurrent = $scope.longitudeList[j];
+
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
+            //console.log(distance);
+            if(distance < 200){
+              //console.log($scope.lattitudeList[i]+","+$scope.lattitudeList[j]);
+              $scope.lattitudeList.splice(j,1);
+              $scope.longitudeList.splice(j,1);
+              var tempCount = $scope.locationCount[j];
+              $scope.locationCount.splice(j,1);
+              $scope.locationCount[i] = $scope.locationCount[i]+tempCount;
+              //console.log($scope.locationCount);
+            }else{
+              tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+            }
+          }
+
+        }
+
+      }
+    }
 
 
       for(var i =0;i<$scope.lattitudeList.length;i++){
@@ -363,7 +404,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
 
             for (i = 0; i < locations.length; i++) {
               marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+                position: new google.maps.LatLng(tempLocations[i][0], tempLocations[i][1]),
+                label: $scope.locationCount[i]+"",
                 map: map
               });
 
