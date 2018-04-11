@@ -142,13 +142,14 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 												})
 											}
 											if(idStr == "Type"){
+												console.log(typeCounter);
 												var counter = 0;
 												angular.forEach(value,function(value,id){
 													var idStr = ""+id;
 													var subStr = idStr.substr(0,4);
 													if(subStr == "Time"){
 														time = idStr.substr(5,idStr.length);
-														type = value;
+														var type = value;
 														$scope.articles[typeCounter].type = type;
 														$scope.datas[typeCounter].type = type;
 
