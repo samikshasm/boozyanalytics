@@ -296,7 +296,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               days.push(fri);
               days.push(sat);
 
-              days = [1,1,2,3,4,5,6];
+              //days = [1,1,2,3,4,5,6];
 
               var context = document.getElementById("barChart").getContext('2d');
               var barChart = new Chart(context, {
@@ -304,7 +304,6 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   data: {
                       labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
                       datasets: [{
-
                           label: 'Drinking Episodes per Day of Week',
                           data: days,
                           backgroundColor: [
@@ -326,7 +325,6 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                               'rgba(236, 110, 145, 1)'
                           ],
                           borderWidth: 1
-
                       }]
                   },
                   options: {
@@ -349,7 +347,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
         //console.log(locations[i]);
 
       }
-      //console.log($scope.lattitudeList);
+      console.log($scope.lattitudeList);
 
 
             var map = new google.maps.Map(document.getElementById("map-container-5"), {
