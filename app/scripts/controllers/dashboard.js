@@ -28,20 +28,21 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   var wineCounter = 0;
   var beerCounter = 0;
   var liquorCounter = 0;
+  $scope.costList = [];
+  var averageCostList = [];
 
-
-
-  for(var i=0;i<$scope.controlList.length;i++){
-    if($scope.currentParticpant == $scope.controlList[i]){
-      group = "control";
-    }
-  }
-
-  for(var i=0;i<$scope.experimentalList.length;i++){
-    if($scope.currentParticpant == $scope.experimentalList[i]){
-      group = "experimental";
-    }
-  }
+  $scope.numDrinksControl = [];
+  $scope.numDrinksExp = [];
+  var numDrinksControl = 0;
+  var numDrinksExp = 0;
+  $scope.friendsCounter = 0;
+  $scope.partnerCounter = 0;
+  $scope.nobodyCounter = 0;
+  $scope.whoOtherCounter = 0;
+  $scope.workCounter = 0;
+  $scope.homeCounter = 0;
+  $scope.barCounter = 0;
+  $scope.whereOtherCounter = 0;
 
   queryDatabase();
 
@@ -56,32 +57,51 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             angular.forEach(dataRef, function(value, id) {
 
                 angular.forEach(value, function(value, id){
+                  numDrinksControl = 0;
+                  numDrinksExp = 0;
                   if(id != "Control Group" || id != "Experimental Group"){
-
                     var substr = id.substr(0,3);
                     if(substr == "UID"){
+                        participantName = id.substr(5,id.length);
                         angular.forEach(value, function(value, id){
                           var idStr = ""+id;
                           var substr = idStr.substr(0,11);
                           if(substr == "Night Count"){
                             nightCounter++;
                           }
+                          if ($scope.controlList.includes(participantName)) {
+                            group = "control";
+                          }
+                          else if ($scope.experimentalList.includes(participantName)){
+                            group = "experimental";
+                          }
                         })
+
+
 
                         angular.forEach(value, function(value, id){
                           angular.forEach(value, function(value, id){
                             if(id == "Answers"){
                               angular.forEach(value, function(value,id){
+
                                 var date_val = id.substr(6,id.length);
                                 var date_values = date_val.split("-");
                                 var date = new Date(date_values[0], date_values[1], date_values[2]);
-                                //console.log(date.getDay());
                                 $scope.dates.push(date.getDay());
                                 angular.forEach(value, function(value,id){
+
                                   if(id == "Size"){
                                     angular.forEach(value,function(value,id){
                                       $scope.sizeList.push(value);
                                       $scope.totalDrinks++;
+                                      if (group == "control"){
+                                        numDrinksControl++;
+                                        console.log(numDrinksControl);
+                                      }
+                                      else if (group == "experimental"){
+                                        numDrinksExp++;
+
+                                      }
                                     })
                                   }
                                   if(id == "Type"){
@@ -99,7 +119,17 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                                       whoList.push(value);
                                     })
                                   }
+                                  if(id=="Cost"){
+                                    angular.forEach(value,function(value,id){
+                                      $scope.costList.push(value);
+                                      averageCostList.push(date.getDay());
+                                      averageCostList.push(value);
+                                    })
+                                  }
                                 })
+                                $scope.numDrinksExp.push(numDrinksExp);
+                                $scope.numDrinksControl.push(numDrinksControl);
+
                               })
                             }
                             if(id == "Location"){
@@ -111,17 +141,19 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                                 $scope.longitudeList.push(tempList[1]);
                               })
                             }
-                            if(id == "MorningAnswers"){
 
-                            }
                           })
                         })
 
+                    //  console.log($scope.numDrinksExp);
+                    //  console.log($scope.numDrinksControl);
+                    console.log($scope.numDrinksExp);
 
-                    }
+                      }
                     }
                   })
-              })
+                })
+
               var calorieWineShot = 100; //i made this up
               var calorieWineEight = 188;
               var calorieWineSixteen = 377;
@@ -201,6 +233,152 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   }
                 }
               }
+              var totalCostList = [];
+              var sunCounter =0 ;
+              var monCounter=0;
+              var tuesCounter=0;
+              var wedCounter=0;
+              var thursCounter=0;
+              var friCoutner=0;
+              var satCounter=0;
+              var averageCost =0;
+
+
+              for (var i=0;i<averageCostList.length;i+=2){
+                if (averageCostList[i] == 0){
+                    if (averageCostList[i+1] == "$0.00"){
+                      averageCost = 0;
+                    }
+                    else if (averageCostList[i+1] == "$1.00-$5.00"){
+                      averageCost = 4;
+                    }
+                    else if(averageCostList[i+1] == "$6.00-$10.00"){
+                      averageCost = 8;
+                    }
+                    else if(averageCostList[i+1] == "$11.00-$15.00"){
+                      averageCost = 13;
+                    }
+                    else if(averageCostList[i+1] == "$16.00+"){
+                      averageCost = 20;
+                    }
+                    sunCounter += averageCost;
+                }
+                if (averageCostList[i] == 1){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    monCounter += averageCost;
+                }
+                if (averageCostList[i] == 2){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    tuesCounter += averageCost;
+                }
+                if (averageCostList[i] == 3){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    wedCounter += averageCost;
+                }
+                if (averageCostList[i] == 4){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    thursCounter += averageCost;
+                }
+                if (averageCostList[i] == 5){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    friCoutner+= averageCost;
+                }
+                if (averageCostList[i] == 6){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    satCounter += averageCost;
+                }
+              }
+              totalCostList.push(sunCounter);
+              totalCostList.push(monCounter);
+              totalCostList.push(tuesCounter);
+              totalCostList.push(wedCounter);
+              totalCostList.push(thursCounter);
+              totalCostList.push(friCoutner);
+              totalCostList.push(satCounter);
 
               $scope.totalLitersConsumed = (totalOuncesConsumed * 0.03);
 
@@ -225,6 +403,39 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               options: {
                   responsive: true
               }
+              });
+
+              var ctxL = document.getElementById("lineChart").getContext('2d');
+              var myLineChart = new Chart(ctxL, {
+                  type: 'line',
+                  data: {
+                      //labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Saturday"],
+                      datasets: [
+                          {
+                              label: "My First dataset",
+                              fillColor: "rgba(220,220,220,0.2)",
+                              strokeColor: "rgba(220,220,220,1)",
+                              pointColor: "rgba(220,220,220,1)",
+                              pointStrokeColor: "#fff",
+                              pointHighlightFill: "#fff",
+                              pointHighlightStroke: "rgba(220,220,220,1)",
+                              data: $scope.numDrinksControl
+                          },
+                          {
+                              label: "My Second dataset",
+                              fillColor: "rgba(151,187,205,0.2)",
+                              strokeColor: "rgba(151,187,205,1)",
+                              pointColor: "rgba(151,187,205,1)",
+                              pointStrokeColor: "#fff",
+                              pointHighlightFill: "#fff",
+                              pointHighlightStroke: "rgba(151,187,205,1)",
+                              data: $scope.numDrinksExp
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true
+                  }
               });
 
               var days = [];
@@ -266,14 +477,53 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               days.push(fri);
               days.push(sat);
 
-              //days = [1,1,2,3,4,5,6];
+              var totalWhoCounter = 0
+              var totalWhereCounter = 0
+              for (var i = 0; i<whoList.length; i++){
+                if (whoList[i] == ("Friends")){
+                  $scope.friendsCounter++
+                }
+                if (whoList[i] == ("Partner")){
+                  $scope.partnerCounter++
+                }
+                if (whoList[i] == ("Nobody")){
+                  $scope.nobodyCounter++
+                }
+                if (whoList[i] == ("Other")){
+                  $scope.whoOtherCounter++
+                }
+                if (whereList[i] == ("Work")){
+                  $scope.workCounter++
+                }
+                if (whereList[i] == ("Home")){
+                  $scope.homeCounter++
+                }
+                if (whereList[i] == ("Bar")){
+                  $scope.barCounter++
+                }
+                if (whereList[i] == ("Other")){
+                  $scope.whereOtherCounter++
+                }
+              }
+              totalWhoCounter = $scope.friendsCounter + $scope.partnerCounter + $scope.nobodyCounter + $scope.whoOtherCounter;
+              $scope.friendsCounter = ($scope.friendsCounter / totalWhoCounter)*100;
+              $scope.partnerCounter = ($scope.partnerCounter / totalWhoCounter)*100;
+              $scope.nobodyCounter = ($scope.nobodyCounter / totalWhoCounter)*100;
+              $scope.whoOtherCounter = ($scope.whoOtherCounter / totalWhoCounter)*100;
+
+              totalWhereCounter = $scope.workCounter + $scope.homeCounter + $scope.barCounter + $scope.whereOtherCounter;
+              $scope.workCounter = ($scope.workCounter / totalWhereCounter)*100;
+              $scope.homeCounter = ($scope.homeCounter / totalWhereCounter)*100;
+              $scope.barCounter = ($scope.barCounter / totalWhereCounter)*100;
+              $scope.whereOtherCounter = ($scope.whereOtherCounter / totalWhereCounter)*100;
 
               var context = document.getElementById("barChart").getContext('2d');
               var barChart = new Chart(context, {
                   type: 'bar',
                   data: {
                       labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-                      datasets: [{
+                      datasets: [
+                        {
                           label: 'Drinking Episodes per Day of Week',
                           data: days,
                           backgroundColor: [
@@ -295,7 +545,31 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                               'rgba(236, 110, 145, 1)'
                           ],
                           borderWidth: 1
-                      }]
+                      },
+                      {
+                        label: 'Total Money Spent',
+                        data: totalCostList,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(236, 110, 145, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(236, 110, 145, 1)'
+                        ],
+                        borderWidth: 1
+                      }
+                    ]
                   },
                   options: {
                       scales: {

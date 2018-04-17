@@ -27,10 +27,13 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   $scope.percentLiquor = 0.0;
   $scope.percentBeer = 0.0;
   $scope.dates = [];
+  $scope.totalCost1 = 0;
+  $scope.totalCost = 0;
   var wineCounter = 0;
   var beerCounter = 0;
   var liquorCounter = 0;
   $scope.costList = [];
+  var averageCostList = [];
 
 
   for(var i=0;i<$scope.controlList.length;i++){
@@ -79,8 +82,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                               angular.forEach(value, function(value,id){
                                 var date_val = id.substr(6,id.length);
                                 var date_values = date_val.split("-");
-                                var date = new Date(date_values[0], date_values[1], date_values[2]);
-                                //console.log(date.getDay());
+                                var date = new Date(date_values[0], date_values[1]-1, date_values[2]);
                                 $scope.dates.push(date.getDay());
                                 angular.forEach(value, function(value,id){
                                   if(id == "Size"){
@@ -107,7 +109,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                   if(id=="Cost"){
                                     angular.forEach(value,function(value,id){
                                       $scope.costList.push(value);
-
+                                      averageCostList.push(date.getDay());
+                                      averageCostList.push(value);
                                     })
                                   }
                                 })
@@ -128,25 +131,19 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                   var fromLongPrevious = $scope.longitudeList[$scope.locationCounter-1];
                                   var fromLatCurrent = parseFloat(splitList[0]);
                                   var fromLongCurrent = parseFloat(splitList[1]);
-                                  //console.log(fromLatPrevious+","+fromLongPrevious);
-                                  //console.log(fromLatCurrent+","+fromLongCurrent);
 
                                   var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
-
-                                  //console.log(distance);
 
                                   if (distance > 200){
                                     $scope.lattitudeList.push(parseFloat(splitList[0]));
                                     $scope.longitudeList.push(parseFloat(splitList[1]));
                                     $scope.locationCount[$scope.locationCount.length]=1;
                                     $scope.locationCounter++;
-                                  }else{
+                                  }
+                                  else{
                                     $scope.locationCount[$scope.locationCounter-1]=$scope.locationCount[$scope.locationCounter-1]+1;
                                   }
-
                                 }
-
-
                               })
                             }
                             if(id == "MorningAnswers"){
@@ -155,11 +152,11 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                           })
                         })
                       }
-
                     }
-                    }
-                  })
+                  }
+                })
               })
+
               var calorieWineShot = 100; //i made this up
               var calorieWineEight = 188;
               var calorieWineSixteen = 377;
@@ -246,24 +243,174 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               $scope.percentBeer = (beerCounter/$scope.totalDrinks) *100;
               $scope.percentLiquor = (liquorCounter/$scope.totalDrinks) *100;
 
+              var averageCost;
+              for (var i=0; i<$scope.costList.length;i++) {
+                if ($scope.costList[i] == "$0.00"){
+                  averageCost = 0;
+                }
+                else if ($scope.costList[i] == "$1.00-$5.00"){
+                  averageCost = 4;
+                }
+                else if($scope.costList[i] == "$6.00-$10.00"){
+                  averageCost = 8;
+                }
+                else if($scope.costList[i] == "$11.00-$15.00"){
+                  averageCost = 13;
+                }
+                else if($scope.costList[i] == "$16.00+"){
+                  averageCost = 20;
+                }
+                $scope.totalCost1 += averageCost;
 
-              var ctxP = document.getElementById("myChart").getContext('2d');
-              var myPieChart = new Chart(ctxP, {
-              type: 'pie',
-              data: {
-                  labels: ["Wine", "Beer", "Liquor"],
-                  datasets: [
-                      {
-                          data: [$scope.percentWine,$scope.percentBeer,$scope.percentLiquor],
-                          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
-                          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
-                      }
-                  ]
-              },
-              options: {
-                  responsive: true
               }
-              });
+
+              var totalCostList = [];
+              var sunCounter =0 ;
+              var monCounter=0;
+              var tuesCounter=0;
+              var wedCounter=0;
+              var thursCounter=0;
+              var friCoutner=0;
+              var satCounter=0;
+
+
+              for (var i=0;i<averageCostList.length;i+=2){
+                if (averageCostList[i] == 0){
+                    if (averageCostList[i+1] == "$0.00"){
+                      averageCost = 0;
+                    }
+                    else if (averageCostList[i+1] == "$1.00-$5.00"){
+                      averageCost = 4;
+                    }
+                    else if(averageCostList[i+1] == "$6.00-$10.00"){
+                      averageCost = 8;
+                    }
+                    else if(averageCostList[i+1] == "$11.00-$15.00"){
+                      averageCost = 13;
+                    }
+                    else if(averageCostList[i+1] == "$16.00+"){
+                      averageCost = 20;
+                    }
+                    sunCounter += averageCost;
+                }
+                if (averageCostList[i] == 1){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    monCounter += averageCost;
+                }
+                if (averageCostList[i] == 2){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    tuesCounter += averageCost;
+                }
+                if (averageCostList[i] == 3){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    wedCounter += averageCost;
+                }
+                if (averageCostList[i] == 4){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    thursCounter += averageCost;
+                }
+                if (averageCostList[i] == 5){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    friCoutner+= averageCost;
+                }
+                if (averageCostList[i] == 6){
+                  if (averageCostList[i+1] == "$0.00"){
+                    averageCost = 0;
+                  }
+                  else if (averageCostList[i+1] == "$1.00-$5.00"){
+                    averageCost = 4;
+                  }
+                  else if(averageCostList[i+1] == "$6.00-$10.00"){
+                    averageCost = 8;
+                  }
+                  else if(averageCostList[i+1] == "$11.00-$15.00"){
+                    averageCost = 13;
+                  }
+                  else if(averageCostList[i+1] == "$16.00+"){
+                    averageCost = 20;
+                  }
+                    satCounter += averageCost;
+                }
+              }
+              totalCostList.push(sunCounter);
+              totalCostList.push(monCounter);
+              totalCostList.push(tuesCounter);
+              totalCostList.push(wedCounter);
+              totalCostList.push(thursCounter);
+              totalCostList.push(friCoutner);
+              totalCostList.push(satCounter);
+
+
 
               var days = [];
               var mon = 0;
@@ -273,6 +420,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               var fri = 0;
               var sat = 0;
               var sun =0;
+
               for (var i = 0; i<$scope.dates.length; i++){
                 if ($scope.dates[i] == 0){
                   sun++
@@ -304,14 +452,51 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               days.push(fri);
               days.push(sat);
 
-              //days = [1,1,2,3,4,5,6];
+              var friendsCounter = 0;
+              var partnerCounter = 0;
+              var nobodyCounter = 0;
+              var otherCounter = 0;
+              for (var i = 0; i<whoList.length; i++){
+                if (whoList[i] == ("Friends")){
+                  friendsCounter++
+                }
+                if (whoList[i] == ("Partner")){
+                  partnerCounter++
+                }
+                if (whoList[i] == ("Nobody")){
+                  nobodyCounter++
+                }
+                if (whoList[i] == ("Other")){
+                  otherCounter++
+                }
+              }
+
+
+              var ctxP = document.getElementById("myChart").getContext('2d');
+              var myPieChart = new Chart(ctxP, {
+              type: 'pie',
+              data: {
+                  labels: ["Wine", "Beer", "Liquor"],
+                  datasets: [
+                      {
+                          data: [$scope.percentWine,$scope.percentBeer,$scope.percentLiquor],
+                          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
+                          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
+                      }
+                  ]
+              },
+              options: {
+                  responsive: true
+              }
+              });
 
               var context = document.getElementById("barChart").getContext('2d');
               var barChart = new Chart(context, {
                   type: 'bar',
                   data: {
                       labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-                      datasets: [{
+                      datasets: [
+                        {
                           label: 'Drinking Episodes per Day of Week',
                           data: days,
                           backgroundColor: [
@@ -333,7 +518,31 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                               'rgba(236, 110, 145, 1)'
                           ],
                           borderWidth: 1
-                      }]
+                      },
+                      {
+                        label: 'Total Money Spent',
+                        data: totalCostList,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(236, 110, 145, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(236, 110, 145, 1)'
+                        ],
+                        borderWidth: 1
+                      }
+                    ]
                   },
                   options: {
                       scales: {
@@ -346,80 +555,74 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   }
               });
 
+              var locations = [];
+              var tempLocations = [];
 
-    var locations = [];
-    var tempLocations = [];
+              for(var i = 0; i<$scope.lattitudeList.length; i++){
+                if (i==0) {
+                  tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+                }
+                else{
+                  for(var j = 1; j<$scope.lattitudeList.length; j++){
+                    if(i != j){
+                      var fromLatPrevious = $scope.lattitudeList[i];
+                      var fromLongPrevious = $scope.longitudeList[i];
+                      var fromLatCurrent = $scope.lattitudeList[j];
+                      var fromLongCurrent = $scope.longitudeList[j];
 
-    for(var i = 0; i<$scope.lattitudeList.length; i++){
-      if (i==0) {
-        tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
-      }
-      else{
-        for(var j = 1; j<$scope.lattitudeList.length; j++){
-          if(i != j){
-            var fromLatPrevious = $scope.lattitudeList[i];
-            var fromLongPrevious = $scope.longitudeList[i];
-            var fromLatCurrent = $scope.lattitudeList[j];
-            var fromLongCurrent = $scope.longitudeList[j];
-
-            var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
-            //console.log(distance);
-            if(distance < 200){
-              //console.log($scope.lattitudeList[i]+","+$scope.lattitudeList[j]);
-              $scope.lattitudeList.splice(j,1);
-              $scope.longitudeList.splice(j,1);
-              var tempCount = $scope.locationCount[j];
-              $scope.locationCount.splice(j,1);
-              $scope.locationCount[i] = $scope.locationCount[i]+tempCount;
-              //console.log($scope.locationCount);
-            }else{
-              tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
-            }
-          }
-
-        }
-
-      }
-    }
-
-
-      for(var i =0;i<$scope.lattitudeList.length;i++){
-        locations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
-        //console.log(locations[i]);
-
-      }
-      console.log($scope.lattitudeList);
-
-
-            var map = new google.maps.Map(document.getElementById("map-container-5"), {
-              zoom: 14,
-              //center: new google.maps.LatLng(38.6364953, -90.2350996),
-              mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
-
-            var marker, i;
-            var markers = [];
-
-            for (i = 0; i < locations.length; i++) {
-              marker = new google.maps.Marker({
-                position: new google.maps.LatLng(tempLocations[i][0], tempLocations[i][1]),
-                label: $scope.locationCount[i]+"",
-                map: map
-              });
-
-              markers.push(marker);
-            }
-
-            function autocenter(){
-              var bounds = new google.maps.LatLngBounds();
-              for(var i=0;i<markers.length;i++){
-                bounds.extend(markers[i].position);
+                      var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
+                      if(distance < 200){
+                        $scope.lattitudeList.splice(j,1);
+                        $scope.longitudeList.splice(j,1);
+                        var tempCount = $scope.locationCount[j];
+                        $scope.locationCount.splice(j,1);
+                        $scope.locationCount[i] = $scope.locationCount[i]+tempCount;
+                      }else{
+                        tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+                      }
+                    }
+                  }
+                }
               }
-              map.fitBounds(bounds);
+
+                for(var i =0;i<$scope.lattitudeList.length;i++){
+                  locations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+                  //console.log(locations[i]);
+
+                }
+                //console.log($scope.lattitudeList);
+
+
+                      var map = new google.maps.Map(document.getElementById("map-container-5"), {
+                        zoom: 14,
+                        //center: new google.maps.LatLng(38.6364953, -90.2350996),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                      });
+
+                      var marker, i;
+                      var markers = [];
+
+                      for (i = 0; i < locations.length; i++) {
+                        marker = new google.maps.Marker({
+                          position: new google.maps.LatLng(tempLocations[i][0], tempLocations[i][1]),
+                          label: $scope.locationCount[i]+"",
+                          map: map
+                        });
+
+                        markers.push(marker);
+                      }
+
+                      function autocenter(){
+                        var bounds = new google.maps.LatLngBounds();
+                        for(var i=0;i<markers.length;i++){
+                          bounds.extend(markers[i].position);
+                        }
+                        map.fitBounds(bounds);
+                      }
+
+                      autocenter();
+                  });
+              })
             }
 
-            autocenter();
-        });
-    })
-  }
 }])
