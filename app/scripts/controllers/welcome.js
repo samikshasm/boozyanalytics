@@ -142,7 +142,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 												})
 											}
 											if(idStr == "Type"){
-												console.log(typeCounter);
+												//console.log(typeCounter);
 												var counter = 0;
 												angular.forEach(value,function(value,id){
 													var idStr = ""+id;
