@@ -44,10 +44,6 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
     messagingSenderId: "931206697482"
   };
 
-
-
-
-
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
   $scope.articles = [];
@@ -206,6 +202,8 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 										$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"latitude":latti, "longitude":longi})
 										$scope.datas.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"latitude":latti, "longitude":longi})
 
+										console.log(controlGroup);
+										console.log(expGroup);
 									})
 								}
 								else if(idStr == "MorningAnswers"){
@@ -373,44 +371,6 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 			}
 
 		}
-
-
-
-
-    /*var temp = [];
-    for(var i in values){
-      console.log(values[i]);
-      temp.push({
-        "key":values[i],
-        "value":ids[i]
-      });
-    }
-    $scope.articles = temp;*/
-
-
-
-  /*dataRef.$loaded().then(function() {
-    angular.forEach(dataRef, function(value, key){
-      console.log(key + ': ' + value);
-    })
-    console.log("loaded record:", dataRef.$id, dataRef.$value);
-    // To iterate the key/value pairs of the object, use angular.forEach()
-    angular.forEach(dataRef, function(value, id) {
-      $scope.ids = id;
-      $scope.names=value;
-      console.log(id, value);
-    });
-  });*/
-
-/*
-  ref.once("value")
-    .then(function(snapshot) {
-      var name = snapshot.child().val(); // {first:"Ada",last:"Lovelace"}
-      console.log(name);
-      var uid = snapshot.child("name/first").val(); // "Ada"
-      var nightCount = snapshot.child("name").child("last").val(); // "Lovelace"
-      var age = snapshot.child("age").val(); // null
-    });*/
 
 		$('#fileNameModal').on('hidden.bs.modal', function (e) {
 			$(this)
@@ -677,11 +637,5 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 				console.log("error");
 			}
 			//var fileName = "BoozyAnalytics";
-
-
 		}
-
-
-
-
 }])

@@ -58,12 +58,16 @@
     <li class="list-group-item">Percent Wine: {{percentWine}}</li>
     <li class="list-group-item">Percent Liquor: {{percentLiquor}}</li>
     <li class="list-group-item">Percent Beer: {{percentBeer}}</li>
-
+    <li class="list-group-item">Friends Percentage: {{friendsCounter}}</li>
+    <li class="list-group-item">Partner Percentage: {{partnerCounter}}</li>
+    <li class="list-group-item">Nobody Percentage: {{nobodyCounter}}</li>
+    <li class="list-group-item">Who Other Percentage: {{whoOtherCounter}}</li>
+    <li class="list-group-item">Work Percentage: {{workCounter}}</li>
+    <li class="list-group-item">Home Percentage: {{homeCounter}}</li>
+    <li class="list-group-item">Bar Percentage: {{barCounter}}</li>
+    <li class="list-group-item">Where Other Percentage: {{whereOtherCounter}}</li>
   </ul>
-
 </div>
-
-
 
 <div class="col-md-4" ng-controller="DashboardCtrl">
   <canvas id="myChart"></canvas>
@@ -79,7 +83,7 @@
         <!--Card-->
         <div class="card card-cascade narrower">
 
-          
+
 
             <!--Card content-->
             <div class="card-body text-center">
@@ -99,6 +103,7 @@
       <canvas id="barChart" ></canvas>
     </div>
 
+<canvas id="lineChart"></canvas>
 
 </body>
 
