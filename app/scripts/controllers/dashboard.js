@@ -33,8 +33,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
   $scope.numDrinksControl = [];
   $scope.numDrinksExp = [];
-  var numDrinksControl = 0;
-  var numDrinksExp = 0;
+
   $scope.friendsCounter = 0;
   $scope.partnerCounter = 0;
   $scope.nobodyCounter = 0;
@@ -43,8 +42,32 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   $scope.homeCounter = 0;
   $scope.barCounter = 0;
   $scope.whereOtherCounter = 0;
+  $scope.sortedDateList = []
 
   queryDatabase();
+  //controlExperimental();
+
+  function controlExperimental(){
+    var userRef = firebase.database().ref('Users/');
+    userRef.on('value', function(snapshot){
+      dataRef.$loaded()
+      .then(function(){
+        angular.forEach(dataRef, function(value,id){
+          angular.forEach(dataRef, function(value, id){
+            if(id != "Control Group" || id != "Experimental Group"){
+              var substr = id.substr(0,3);
+              if (substr == "UID"){
+                participantName = id.substr(5,id.length);
+                angular.forEach(value, function(value, id){
+
+                })
+              }
+            }
+          })
+        })
+      })
+    })
+  }
 
   function queryDatabase(){
     $scope.lattitudeList = [];
@@ -57,11 +80,11 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             angular.forEach(dataRef, function(value, id) {
 
                 angular.forEach(value, function(value, id){
-                  numDrinksControl = 0;
-                  numDrinksExp = 0;
+
                   if(id != "Control Group" || id != "Experimental Group"){
                     var substr = id.substr(0,3);
                     if(substr == "UID"){
+
                         participantName = id.substr(5,id.length);
                         angular.forEach(value, function(value, id){
                           var idStr = ""+id;
@@ -76,11 +99,11 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                             group = "experimental";
                           }
                         })
-
-
-
                         angular.forEach(value, function(value, id){
+                          numDrinksControl = 0;
+                          numDrinksExp = 0;
                           angular.forEach(value, function(value, id){
+
                             if(id == "Answers"){
                               angular.forEach(value, function(value,id){
 
@@ -88,6 +111,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                                 var date_values = date_val.split("-");
                                 var date = new Date(date_values[0], date_values[1], date_values[2]);
                                 $scope.dates.push(date.getDay());
+
+                                //console.log("number of drinks initial: "+ numDrinksExp)
                                 angular.forEach(value, function(value,id){
 
                                   if(id == "Size"){
@@ -95,11 +120,12 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                                       $scope.sizeList.push(value);
                                       $scope.totalDrinks++;
                                       if (group == "control"){
-                                        numDrinksControl++;
-                                        console.log(numDrinksControl);
+                                      //  numDrinksControl++;
+                                      //  console.log("number of control drinks if statement "+ numDrinksControl)
                                       }
                                       else if (group == "experimental"){
-                                        numDrinksExp++;
+                                      //  numDrinksExp++;
+                                      //  console.log("number of experimental drinks if statement " + participantName+ numDrinksExp);
 
                                       }
                                     })
@@ -127,10 +153,13 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                                     })
                                   }
                                 })
-                                $scope.numDrinksExp.push(numDrinksExp);
-                                $scope.numDrinksControl.push(numDrinksControl);
+
 
                               })
+                            //  $scope.numDrinksExp.push(numDrinksExp);
+                            //  $scope.numDrinksControl.push(numDrinksControl);
+                            //  console.log("number of drinks list: "+$scope.numDrinksExp);
+
                             }
                             if(id == "Location"){
                               angular.forEach(value,function(value,id){
@@ -143,11 +172,10 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                             }
 
                           })
+
                         })
 
-                    //  console.log($scope.numDrinksExp);
-                    //  console.log($scope.numDrinksControl);
-                    console.log($scope.numDrinksExp);
+
 
                       }
                     }
@@ -242,7 +270,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               var friCoutner=0;
               var satCounter=0;
               var averageCost =0;
-
 
               for (var i=0;i<averageCostList.length;i+=2){
                 if (averageCostList[i] == 0){
@@ -405,11 +432,16 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               }
               });
 
-              var ctxL = document.getElementById("lineChart").getContext('2d');
+              var labelsList = []
+              for (var i = 0;i<$scope.numDrinksExp;i++){
+                labelsList.push(i);
+              }
+
+              /*var ctxL = document.getElementById("lineChart").getContext('2d');
               var myLineChart = new Chart(ctxL, {
                   type: 'line',
                   data: {
-                      //labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Saturday"],
+                      labels: [labelsList],
                       datasets: [
                           {
                               label: "My First dataset",
@@ -429,14 +461,14 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                               pointStrokeColor: "#fff",
                               pointHighlightFill: "#fff",
                               pointHighlightStroke: "rgba(151,187,205,1)",
-                              data: $scope.numDrinksExp
+                              data: $
                           }
                       ]
                   },
                   options: {
                       responsive: true
                   }
-              });
+              });*/
 
               var days = [];
               var mon = 0;
@@ -505,6 +537,51 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   $scope.whereOtherCounter++
                 }
               }
+
+              var ctxD = document.getElementById("doughnutChartWho").getContext('2d');
+              ctxD.textAlign = "center";
+              var myLineChart = new Chart(ctxD, {
+                  type: 'doughnut',
+                  data: {
+                      labels: ["Friends", "Partner", "Nobody", "Other"],
+                      datasets: [
+                          {
+                              data: [$scope.friendsCounter, $scope.partnerCounter, $scope.nobodyCounter, $scope.whoOtherCounter],
+                              backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                              hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true
+                  }
+              });
+
+              var ctxD = document.getElementById("doughnutChartWhere").getContext('2d');
+              var myLineChart = new Chart(ctxD, {
+                  type: 'doughnut',
+                  data: {
+                      labels: ["Work", "Home", "Bar", "Other"],
+                      datasets: [
+                          {
+                              data: [$scope.workCounter, $scope.homeCounter, $scope.barCounter, $scope.whereOtherCounter],
+                              backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                              hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true,
+                      elements: {
+                        center: {
+                              text: 'Desktop',
+                              color: '#36A2EB', //Default black
+                              fontStyle: 'Helvetica', //Default Arial
+                              sidePadding: 15 //Default 20 (as a percentage)
+                            }                      }
+                  }
+              });
+
               totalWhoCounter = $scope.friendsCounter + $scope.partnerCounter + $scope.nobodyCounter + $scope.whoOtherCounter;
               $scope.friendsCounter = ($scope.friendsCounter / totalWhoCounter)*100;
               $scope.partnerCounter = ($scope.partnerCounter / totalWhoCounter)*100;

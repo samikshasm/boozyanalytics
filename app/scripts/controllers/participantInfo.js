@@ -34,8 +34,13 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   var liquorCounter = 0;
   $scope.costList = [];
   var averageCostList = [];
-
-
+  $scope.numDrinksControl = [];
+  $scope.numDrinksExp = [];
+  $scope.numDrinksParticipant = [];
+  $scope.numDrinksDatesLabels = [];
+  $scope.testDates = [];
+  $scope.testNum = [];
+  var numDrinksParticipant;
   for(var i=0;i<$scope.controlList.length;i++){
     if($scope.currentParticpant == $scope.controlList[i]){
       group = "control";
@@ -77,18 +82,27 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                         })
 
                         angular.forEach(value, function(value, id){
+                          numDrinksParticipant=0;
+
                           angular.forEach(value, function(value, id){
                             if(id == "Answers"){
                               angular.forEach(value, function(value,id){
                                 var date_val = id.substr(6,id.length);
                                 var date_values = date_val.split("-");
                                 var date = new Date(date_values[0], date_values[1]-1, date_values[2]);
+                                var date1 = (date.getMonth()+1)   + "-" + date.getDate() + "-" + date.getFullYear();
+
+                                $scope.numDrinksDatesLabels.push(date1+"");
                                 $scope.dates.push(date.getDay());
                                 angular.forEach(value, function(value,id){
+
                                   if(id == "Size"){
                                     angular.forEach(value,function(value,id){
                                       $scope.sizeList.push(value);
                                       $scope.totalDrinks++;
+                                      numDrinksParticipant++;
+                                      $scope.testDates.push(date1);
+                                      $scope.testNum.push(value);
                                     })
                                   }
                                   if(id == "Type"){
@@ -115,7 +129,12 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                   }
                                 })
                               })
+
                             }
+
+                          //  $scope.numDrinksParticipant.push(numDrinksParticipant);
+
+
                             if(id == "Location"){
                               angular.forEach(value,function(value,id){
                                 var splitList = []
@@ -146,11 +165,10 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                 }
                               })
                             }
-                            if(id == "MorningAnswers"){
 
-                            }
                           })
                         })
+
                       }
                     }
                   }
@@ -471,6 +489,48 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                 }
               }
 
+              var test = []
+              for(var i =0; i<$scope.testDates.length;i++){
+                var numDrinks = 1;
+                console.log($scope.testDates);
+                console.log($scope.testNum);
+                for (var j =1; j<$scope.testDates.length;j++){
+                  if ($scope.testDates[i] == $scope.testDates[j]){
+                    if(i!=j){
+                      numDrinks++;
+                      $scope.testDates.splice(j,1);
+                      $scope.testNum.splice(j,1);
+                      j=j-1;
+                    }
+                  }
+                }
+                test.push(numDrinks);
+              }
+
+              console.log(test);
+            
+              var ctxL = document.getElementById("lineChart").getContext('2d');
+              var myLineChart = new Chart(ctxL, {
+                  type: 'line',
+                  data: {
+                      labels: $scope.testDates,
+                      datasets: [
+                          {
+                              label: "Number of Drinks Consumed",
+                              fillColor: "rgba(220,220,220,0.2)",
+                              strokeColor: "rgba(220,220,220,1)",
+                              pointColor: "rgba(220,220,220,1)",
+                              pointStrokeColor: "#fff",
+                              pointHighlightFill: "#fff",
+                              pointHighlightStroke: "rgba(220,220,220,1)",
+                              data: test
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true
+                  }
+              });
 
               var ctxP = document.getElementById("myChart").getContext('2d');
               var myPieChart = new Chart(ctxP, {
