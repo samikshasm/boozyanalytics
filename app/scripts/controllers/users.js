@@ -156,34 +156,38 @@ function updateTable(){
             }*/
             var numControls = 0;
             var numExps = 0;
-            //console.log($scope.controlList);
-            for(var i = 0; i < $scope.experimentalList.length; i++){
-              if(usernameList.includes($scope.experimentalList[i])){
+            //console.log(nightList);
+            var newUsernameList = [];
+            //console.log(usernameList);
+            //console.log($scope.experimentalList);
+            for (var i = 0; i < usernameList.length; i++){
+              if($scope.experimentalList.includes(usernameList[i])){
+                $scope.experimentalList.splice($scope.experimentalList.indexOf(usernameList[i]),1);
                 groupList.push("experimental");
-                numExps++;
               }
-            }
-            for(var i = 0; i < $scope.controlList.length; i++){
-              if(usernameList.includes($scope.controlList[i])){
+              if($scope.controlList.includes(usernameList[i])){
+                $scope.controlList.splice($scope.controlList.indexOf(usernameList[i]),1);
                 groupList.push("control");
-                numControls++;
               }
+
+            }
+            for(var i = 0; i < ($scope.controlList.length); i++){
+                usernameList.push($scope.controlList[i]);
+                nightList.push(0);
+                groupList.push("control");
+                startDateList.push("not started");
+                lastUsedList.push("na")
+              //usernameList.push($scope.controlList[numControls]);
+            }
+            for(var i = 0; i< ($scope.experimentalList.length); i++){
+                usernameList.push($scope.experimentalList[i]);
+                nightList.push(0);
+                groupList.push("experimental");
+                startDateList.push("not started");
+                lastUsedList.push("na")
             }
 
-            for(var i = 0; i < ($scope.controlList.length-numControls); i++){
-              usernameList.push($scope.controlList[numControls+i]);
-              nightList.push(0);
-              groupList.push("control");
-              startDateList.push("not started");
-              lastUsedList.push("na")
-            }
-            for(var i = 0; i< ($scope.experimentalList.length-numExps); i++){
-              usernameList.push($scope.experimentalList[numExps+i]);
-              nightList.push(0);
-              groupList.push("experimental");
-              startDateList.push("not started");
-              lastUsedList.push("na")
-            }
+            //console.log(newUsernameList);
 
             for(var i = 0; i < usernameList.length; i++){
               $scope.articles.push({"key":usernameList[i], "value":nightList[i], "group":groupList[i], "date":startDateList[i], "last":lastUsedList[i]})

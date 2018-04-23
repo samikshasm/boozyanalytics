@@ -56,10 +56,12 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   queryDatabase();
 
   function queryDatabase(){
+    $scope.locationCounter = 0;
     $scope.lattitudeList = []
     $scope.longitudeList = []
     $scope.locationCount = [];
-    $scope.dates = []
+    $scope.dates = [];
+    var episodeCounter = 0;
     var userRef = firebase.database().ref('Users/');
     userRef.on('value', function(snapshot){
       dataRef.$loaded()
@@ -82,17 +84,26 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                         })
 
                         angular.forEach(value, function(value, id){
+<<<<<<< HEAD
                           numDrinksParticipant=0;
 
+=======
+                          episodeCounter++;
+>>>>>>> 325f3e42a08f081c18ddc63ab07ef34277ef1a12
                           angular.forEach(value, function(value, id){
                             if(id == "Answers"){
                               angular.forEach(value, function(value,id){
                                 var date_val = id.substr(6,id.length);
                                 var date_values = date_val.split("-");
+                                //console.log(date_values[1]-1);
                                 var date = new Date(date_values[0], date_values[1]-1, date_values[2]);
+<<<<<<< HEAD
                                 var date1 = (date.getMonth()+1)   + "-" + date.getDate() + "-" + date.getFullYear();
 
                                 $scope.numDrinksDatesLabels.push(date1+"");
+=======
+                                //console.log(date.getDay());
+>>>>>>> 325f3e42a08f081c18ddc63ab07ef34277ef1a12
                                 $scope.dates.push(date.getDay());
                                 angular.forEach(value, function(value,id){
 
@@ -136,15 +147,17 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
 
 
                             if(id == "Location"){
+                              //console.log("night counter: "+episodeCounter);
+                              var testIndex = 0;
                               angular.forEach(value,function(value,id){
+                                //console.log("testIndex: "+testIndex);
                                 var splitList = []
                                 splitList = value.split("&");
-                                if ($scope.lattitudeList.length==0) {
+                                if (testIndex==0) {
                                   $scope.lattitudeList.push(parseFloat(splitList[0]));
                                   $scope.longitudeList.push(parseFloat(splitList[1]));
-                                  $scope.locationCount[0] = 1;
-                                  $scope.locationCounter++;
-                                }
+                                  $scope.locationCount[episodeCounter-1] = 1;
+                               }
                                 else{
                                   var fromLatPrevious = $scope.lattitudeList[$scope.locationCounter-1];
                                   var fromLongPrevious = $scope.longitudeList[$scope.locationCounter-1];
@@ -158,12 +171,15 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                     $scope.longitudeList.push(parseFloat(splitList[1]));
                                     $scope.locationCount[$scope.locationCount.length]=1;
                                     $scope.locationCounter++;
-                                  }
-                                  else{
-                                    $scope.locationCount[$scope.locationCounter-1]=$scope.locationCount[$scope.locationCounter-1]+1;
+                                    $scope.locationCount[episodeCounter-1]=$scope.locationCount[episodeCounter-1]+1;
+                                  }else{
+                                    //console.log($scope.locationCount[$scope.locationCounter]);
+                                    //sconsole.log($scope.locationCount);
                                   }
                                 }
+                                testIndex++;
                               })
+
                             }
 
                           })
@@ -618,40 +634,88 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               var locations = [];
               var tempLocations = [];
 
-              for(var i = 0; i<$scope.lattitudeList.length; i++){
-                if (i==0) {
-                  tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
-                }
-                else{
-                  for(var j = 1; j<$scope.lattitudeList.length; j++){
-                    if(i != j){
-                      var fromLatPrevious = $scope.lattitudeList[i];
-                      var fromLongPrevious = $scope.longitudeList[i];
-                      var fromLatCurrent = $scope.lattitudeList[j];
-                      var fromLongCurrent = $scope.longitudeList[j];
+    var locations = [];
+    var tempLocations = [];
+    var newLocations = [];
 
-                      var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
-                      if(distance < 200){
-                        $scope.lattitudeList.splice(j,1);
-                        $scope.longitudeList.splice(j,1);
-                        var tempCount = $scope.locationCount[j];
-                        $scope.locationCount.splice(j,1);
-                        $scope.locationCount[i] = $scope.locationCount[i]+tempCount;
-                      }else{
-                        tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
-                      }
-                    }
-                  }
+
+    for(var i = 0; i < $scope.locationCount.length; i++){
+      //console.log($scope.locationCount[i]);
+      if($scope.locationCount[i] === undefined){
+        $scope.locationCount.splice(i,1);
+        i--;
+      }
+    }
+    console.log($scope.locationCount);
+
+
+    for(var i = 0; i<$scope.lattitudeList.length; i++){
+
+      /*
+      if (i==0) {
+        tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+        newLocations[0] = 1;
+      }
+
+      else{
+      */
+        for(var j = 1; j<=$scope.lattitudeList.length; j++){
+
+
+            var fromLatPrevious = $scope.lattitudeList[i];
+            var fromLongPrevious = $scope.longitudeList[i];
+            var fromLatCurrent = $scope.lattitudeList[j];
+            var fromLongCurrent = $scope.longitudeList[j];
+
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
+            //console.log(distance);
+            if(i != j){
+              if(distance < 200){
+                //console.log("less than 200");
+                if(j == 1){
+                  //tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+                  $scope.lattitudeList.splice(j,1);
+                  $scope.longitudeList.splice(j,1);
+                  var counter = parseInt($scope.locationCount.splice(j,1));
+                  $scope.locationCount[i] = parseInt($scope.locationCount[i])+counter;
+                  j--;
+                }else{
+                  $scope.lattitudeList.splice(j,1);
+                  $scope.longitudeList.splice(j,1);
+                  var counter = parseInt($scope.locationCount.splice(j,1));
+                  $scope.locationCount[i] = parseInt($scope.locationCount[i])+counter;
+                  j--;
                 }
+                //console.log($scope.lattitudeList[i]+","+$scope.lattitudeList[j]);
+                //newLocations[i] = newLocations[i]+1;
+                /*$scope.lattitudeList.splice(j,1);
+                $scope.longitudeList.splice(j,1);
+                var tempCount = $scope.locationCount[j];
+                $scope.locationCount.splice(i,1);
+                $scope.locationCount[i-1] = $scope.locationCount[i-1]+tempCount;*/
+              }else if(distance > 200){
+                //console.log("more than 200")
+                //tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+              }else{
               }
+            }
 
-                for(var i =0;i<$scope.lattitudeList.length;i++){
-                  locations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
-                  //console.log(locations[i]);
 
-                }
-                //console.log($scope.lattitudeList);
 
+        }
+
+      //}
+    }
+
+    //console.log($scope.lattitudeList);
+
+      for(var i =0;i<$scope.lattitudeList.length;i++){
+        //console.log(i);
+        tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+
+      }
+
+      //console.log(tempLocations);
 
                       var map = new google.maps.Map(document.getElementById("map-container-5"), {
                         zoom: 14,
@@ -668,7 +732,16 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                           label: $scope.locationCount[i]+"",
                           map: map
                         });
+                        markers.push(marker);
+                      }
 
+
+            for (i = 0; i < tempLocations.length; i++) {
+              marker = new google.maps.Marker({
+                position: new google.maps.LatLng(tempLocations[i][0], tempLocations[i][1]),
+                label: $scope.locationCount[i]+"",
+                map: map
+              });
                         markers.push(marker);
                       }
 
