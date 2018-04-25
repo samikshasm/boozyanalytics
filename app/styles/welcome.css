@@ -29,7 +29,16 @@ h3{
   padding:0px;
 }
 .classic-tabs{
-  background-color:#283E54;
+  background-color:#FFFFFF;
+}
+.classic-tabs>li{
+  color:black;
+}
+.classic-tabs>li.active> a{
+  color:#ec6e91
+}
+.classic-tabs>li.active{
+  color:#ec6e91;
 }
 .btn{
   margin-left: 0%;
