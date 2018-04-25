@@ -4,14 +4,12 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 .controller('DashboardCtrl', ['$scope', '$firebaseAuth', '$firebase','CommonProp', 'SetCurrentUser', '$firebaseArray', '$firebaseObject' , function($scope, $firebaseAuth, $firebase, CommonProp, SetCurrentUser, $firebaseArray, $firebaseObject){
 
   $scope.currentParticpant = SetCurrentUser.getCurrentUser()
-  $scope.controlList = SetCurrentUser.getControlList();
-  $scope.experimentalList = SetCurrentUser.getExperimentalList();
   $scope.totalCalConsumed = 0;
   $scope.totalLitersConsumed = 0;
 
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
-  var group = "";
+  $scope.group = "";
   var participantName = "";
   var nightCounter = 0;
   $scope.sizeList = [];
@@ -33,6 +31,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
   $scope.numDrinksControl = [];
   $scope.numDrinksExp = [];
+  $scope.numDrinks = [];
 
   $scope.friendsCounter = 0;
   $scope.partnerCounter = 0;
@@ -43,33 +42,15 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   $scope.barCounter = 0;
   $scope.whereOtherCounter = 0;
   $scope.sortedDateList = []
+  $scope.test = [];
+  var nightCountList = [];
+  var counter1 = 0;
+
 
   queryDatabase();
-  //controlExperimental();
-
-  function controlExperimental(){
-    var userRef = firebase.database().ref('Users/');
-    userRef.on('value', function(snapshot){
-      dataRef.$loaded()
-      .then(function(){
-        angular.forEach(dataRef, function(value,id){
-          angular.forEach(dataRef, function(value, id){
-            if(id != "Control Group" || id != "Experimental Group"){
-              var substr = id.substr(0,3);
-              if (substr == "UID"){
-                participantName = id.substr(5,id.length);
-                angular.forEach(value, function(value, id){
-
-                })
-              }
-            }
-          })
-        })
-      })
-    })
-  }
-
   function queryDatabase(){
+    $scope.controlList = [];
+    $scope.experimentalList = [];
     $scope.lattitudeList = [];
     $scope.longitudeList = [];
     $scope.dates = [];
@@ -80,7 +61,19 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             angular.forEach(dataRef, function(value, id) {
 
                 angular.forEach(value, function(value, id){
-
+                  if (id == "Control Group"){
+                    angular.forEach(value, function(value,id){
+                      angular.forEach(value, function(value,id){
+                        $scope.controlList.push(value);
+                      })
+                    })
+                  }if (id == "Experimental Group"){
+                      angular.forEach(value, function(value,id){
+                        angular.forEach(value, function(value,id){
+                          $scope.experimentalList.push(value);
+                        })
+                      })
+                  }
                   if(id != "Control Group" || id != "Experimental Group"){
                     var substr = id.substr(0,3);
                     if(substr == "UID"){
@@ -92,86 +85,82 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                           if(substr == "Night Count"){
                             nightCounter++;
                           }
-                          if ($scope.controlList.includes(participantName)) {
-                            group = "control";
-                          }
-                          else if ($scope.experimentalList.includes(participantName)){
-                            group = "experimental";
-                          }
                         })
                         angular.forEach(value, function(value, id){
-                          numDrinksControl = 0;
-                          numDrinksExp = 0;
-                          angular.forEach(value, function(value, id){
-
-                            if(id == "Answers"){
-                              angular.forEach(value, function(value,id){
-
-                                var date_val = id.substr(6,id.length);
-                                var date_values = date_val.split("-");
-                                var date = new Date(date_values[0], date_values[1], date_values[2]);
-                                $scope.dates.push(date.getDay());
-
-                                //console.log("number of drinks initial: "+ numDrinksExp)
+                          var numDrinksControl = 0;
+                          var numDrinksExp = 0;
+                          var nightCounter1 = 0;
+                          var idStr = ""+id;
+                          var substr = idStr.substr(0,11);
+                          var substr1 = idStr.substr(13);
+                          if(substr == "Night Count"){
+                            angular.forEach(value, function(value, id){
+                              if(id == "Answers"){
                                 angular.forEach(value, function(value,id){
 
-                                  if(id == "Size"){
-                                    angular.forEach(value,function(value,id){
-                                      $scope.sizeList.push(value);
-                                      $scope.totalDrinks++;
-                                      if (group == "control"){
-                                      //  numDrinksControl++;
-                                      //  console.log("number of control drinks if statement "+ numDrinksControl)
-                                      }
-                                      else if (group == "experimental"){
-                                      //  numDrinksExp++;
-                                      //  console.log("number of experimental drinks if statement " + participantName+ numDrinksExp);
+                                  var date_val = id.substr(6,id.length);
+                                  var date_values = date_val.split("-");
+                                  var date = new Date(date_values[0], date_values[1], date_values[2]);
+                                  $scope.dates.push(date.getDay());
 
-                                      }
-                                    })
-                                  }
-                                  if(id == "Type"){
-                                    angular.forEach(value,function(value,id){
-                                      $scope.typeList.push(value);
-                                    })
-                                  }
-                                  if(id == "Where"){
-                                    angular.forEach(value,function(value,id){
-                                      whereList.push(value);
-                                    })
-                                  }
-                                  if(id == "Who"){
-                                    angular.forEach(value,function(value,id){
-                                      whoList.push(value);
-                                    })
-                                  }
-                                  if(id=="Cost"){
-                                    angular.forEach(value,function(value,id){
-                                      $scope.costList.push(value);
-                                      averageCostList.push(date.getDay());
-                                      averageCostList.push(value);
-                                    })
-                                  }
+                                  //console.log("number of drinks initial: "+ numDrinksExp)
+                                  angular.forEach(value, function(value,id){
+
+                                    if(id == "Size"){
+                                      angular.forEach(value,function(value,id){
+                                        $scope.sizeList.push(value);
+                                        $scope.totalDrinks++;
+                                        $scope.numDrinks.push(substr1 + " " + participantName + " " + value);
+                                      })
+
+                                      counter1++;
+                                    }
+                                    if(id == "Type"){
+                                      angular.forEach(value,function(value,id){
+                                        $scope.typeList.push(value);
+                                      })
+                                    }
+                                    if(id == "Where"){
+                                      angular.forEach(value,function(value,id){
+                                        whereList.push(value);
+                                      })
+                                    }
+                                    if(id == "Who"){
+                                      angular.forEach(value,function(value,id){
+                                        whoList.push(value);
+                                      })
+                                    }
+                                    if(id=="Cost"){
+                                      angular.forEach(value,function(value,id){
+                                        $scope.costList.push(value);
+                                        averageCostList.push(date.getDay());
+                                        averageCostList.push(value);
+                                      })
+                                    }
+
+
+
+                                  })
+
+
+
                                 })
 
+                              }
+                              if(id == "Location"){
+                                angular.forEach(value,function(value,id){
+                                  var tempList = []
+                                  $scope.locationCounter++;
+                                  tempList = value.split("&");
+                                  $scope.lattitudeList.push(tempList[0]);
+                                  $scope.longitudeList.push(tempList[1]);
+                                })
+                              }
 
-                              })
-                            //  $scope.numDrinksExp.push(numDrinksExp);
-                            //  $scope.numDrinksControl.push(numDrinksControl);
-                            //  console.log("number of drinks list: "+$scope.numDrinksExp);
+                            })
+                          }
 
-                            }
-                            if(id == "Location"){
-                              angular.forEach(value,function(value,id){
-                                var tempList = []
-                                $scope.locationCounter++;
-                                tempList = value.split("&");
-                                $scope.lattitudeList.push(tempList[0]);
-                                $scope.longitudeList.push(tempList[1]);
-                              })
-                            }
 
-                          })
 
                         })
 
@@ -433,42 +422,124 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               });
 
               var labelsList = []
-              for (var i = 0;i<$scope.numDrinksExp;i++){
+              for (var i = 0;i<$scope.numDrinks;i++){
                 labelsList.push(i);
               }
 
-              /*var ctxL = document.getElementById("lineChart").getContext('2d');
+              var controlCounter = 1;
+              var experimentalCounter = 1;
+              var controlNightCountFinal = [];
+              var controlDrinkTotalFinal = [];
+              var expNightCountFinal = [];
+              var expDrinkTotalFinal = [];
+              var unsortedControlList = [];
+              var unsortedExpList = [];
+              var group = "";
+              for (var i = 0; i<$scope.numDrinks.length;i++) {
+                var nightCount = $scope.numDrinks[i].split(" ")[0];
+                var name = $scope.numDrinks[i].split(" ")[1];
+                var drink = $scope.numDrinks[i].split(" ")[2];
+                for (var j=1;j<$scope.numDrinks.length;j++){
+                //  console.log(name);
+                  if ($scope.controlList.includes(name)) {
+                    group = "control";
+                    var nightCount1 = $scope.numDrinks[j].split(" ")[0];
+                    var name1 = $scope.numDrinks[j].split(" ")[1];
+                    if(i!=j){
+                      if ($scope.controlList.includes(name1)){
+                        if (nightCount == nightCount1) {
+                          controlCounter++;
+                          $scope.numDrinks.splice(j,1);
+                          j=j-1
+                        }
+                      }
+                    }
+
+                  }
+                  else if($scope.experimentalList.includes(name)){
+                    group = "experimental";
+                    var nightCount1 = $scope.numDrinks[j].split(" ")[0];
+                    var name1 = $scope.numDrinks[j].split(" ")[1];
+                    if (i!=j){
+                      if($scope.experimentalList.includes(name1)){
+                        if (nightCount == nightCount1) {
+                          experimentalCounter++;
+                          $scope.numDrinks.splice(j,1);
+                          j=j-1;
+                        }
+                      }
+                    }
+                  }
+                }
+                if (group == "control") {
+                  controlDrinkTotalFinal.push(controlCounter);
+                  unsortedControlList.push(parseInt(nightCount));
+                }
+                else if (group=="experimental"){
+                  expDrinkTotalFinal.push(experimentalCounter);
+                  unsortedExpList.push(parseInt(nightCount));
+                }
+                controlCounter =1;
+                experimentalCounter=1;
+              }
+
+
+              var sortedControlList = unsortedControlList.slice().sort(function(a, b) { return a > b ? 1 : -1});
+              var realControlSortedList = [];
+              for (var i =0;i<sortedControlList.length;i++){
+                for (var j = 0;j<sortedControlList.length;j++){
+                  if(sortedControlList[i]==unsortedControlList[j]) {
+                    realControlSortedList.push(controlDrinkTotalFinal[j]);
+                  }
+                }
+              }
+
+              var sortedExpList = unsortedExpList.slice().sort(function(a, b) { return a > b ? 1 : -1});
+              var realExpSortedList = [];
+              for (var i =0;i<sortedExpList.length;i++){
+                for (var j = 0;j<sortedExpList.length;j++){
+                  if(sortedExpList[i]==unsortedExpList[j]) {
+                    realExpSortedList.push(controlDrinkTotalFinal[j]);
+                  }
+                }
+              }
+
+
+              var ctxL = document.getElementById("lineChart").getContext('2d');
               var myLineChart = new Chart(ctxL, {
                   type: 'line',
                   data: {
-                      labels: [labelsList],
+                      labels: sortedControlList,
                       datasets: [
                           {
-                              label: "My First dataset",
+                              label: "Control Users",
                               fillColor: "rgba(220,220,220,0.2)",
                               strokeColor: "rgba(220,220,220,1)",
                               pointColor: "rgba(220,220,220,1)",
                               pointStrokeColor: "#fff",
                               pointHighlightFill: "#fff",
                               pointHighlightStroke: "rgba(220,220,220,1)",
-                              data: $scope.numDrinksControl
+                              data: realControlSortedList
                           },
                           {
-                              label: "My Second dataset",
-                              fillColor: "rgba(151,187,205,0.2)",
-                              strokeColor: "rgba(151,187,205,1)",
-                              pointColor: "rgba(151,187,205,1)",
-                              pointStrokeColor: "#fff",
-                              pointHighlightFill: "#fff",
-                              pointHighlightStroke: "rgba(151,187,205,1)",
-                              data: $
+                              label: "Experimental Users",
+                              backgroundColor : '#FCB857',
+                              borderWidth : 2,
+                              borderColor : '#4EBA75',
+                              pointBackgroundColor : '#4EBA75',
+                              pointBorderColor : '#FCB857',
+                              pointBorderWidth : 1,
+                              pointRadius : 4,
+                              pointHoverBackgroundColor : '#4EBA75',
+                              pointHoverBorderColor : '#4EBA75',
+                              data: realExpSortedList
                           }
                       ]
                   },
                   options: {
                       responsive: true
                   }
-              });*/
+              });
 
               var days = [];
               var mon = 0;

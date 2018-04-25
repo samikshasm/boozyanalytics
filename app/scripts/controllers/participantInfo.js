@@ -8,6 +8,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   $scope.experimentalList = SetCurrentUser.getExperimentalList();
   $scope.totalCalConsumed = 0;
   $scope.totalLitersConsumed = 0;
+  $scope.averageDrinksConsumed = 0;
 
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
@@ -40,6 +41,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   $scope.numDrinksDatesLabels = [];
   $scope.testDates = [];
   $scope.testNum = [];
+  $scope.startDate = "";
   var numDrinksParticipant;
   for(var i=0;i<$scope.controlList.length;i++){
     if($scope.currentParticpant == $scope.controlList[i]){
@@ -84,12 +86,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                         })
 
                         angular.forEach(value, function(value, id){
-<<<<<<< HEAD
                           numDrinksParticipant=0;
 
-=======
-                          episodeCounter++;
->>>>>>> 325f3e42a08f081c18ddc63ab07ef34277ef1a12
                           angular.forEach(value, function(value, id){
                             if(id == "Answers"){
                               angular.forEach(value, function(value,id){
@@ -97,13 +95,9 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                 var date_values = date_val.split("-");
                                 //console.log(date_values[1]-1);
                                 var date = new Date(date_values[0], date_values[1]-1, date_values[2]);
-<<<<<<< HEAD
                                 var date1 = (date.getMonth()+1)   + "-" + date.getDate() + "-" + date.getFullYear();
 
                                 $scope.numDrinksDatesLabels.push(date1+"");
-=======
-                                //console.log(date.getDay());
->>>>>>> 325f3e42a08f081c18ddc63ab07ef34277ef1a12
                                 $scope.dates.push(date.getDay());
                                 angular.forEach(value, function(value,id){
 
@@ -191,6 +185,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                 })
               })
 
+              $scope.startDate = $scope.numDrinksDatesLabels[0];
               var calorieWineShot = 100; //i made this up
               var calorieWineEight = 188;
               var calorieWineSixteen = 377;
@@ -524,7 +519,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               }
 
               console.log(test);
-            
+
               var ctxL = document.getElementById("lineChart").getContext('2d');
               var myLineChart = new Chart(ctxL, {
                   type: 'line',
@@ -576,14 +571,14 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                           label: 'Drinking Episodes per Day of Week',
                           data: days,
                           backgroundColor: [
-                              'rgba(255, 99, 132, 0.2)',
-                              'rgba(54, 162, 235, 0.2)',
-                              'rgba(255, 206, 86, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(153, 102, 255, 0.2)',
-                              'rgba(255, 159, 64, 0.2)',
-                              'rgba(236, 110, 145, 0.2)'
-                          ],
+                              '#4EBA75',
+                              '#4EBA75',
+                              '#4EBA75',
+                              '#4EBA75',
+                              '#4EBA75',
+                              '#4EBA75',
+                              '#4EBA75'
+                          ]/*,
                           borderColor: [
                               'rgba(255,99,132,1)',
                               'rgba(54, 162, 235, 1)',
@@ -593,20 +588,20 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                               'rgba(255, 159, 64, 1)',
                               'rgba(236, 110, 145, 1)'
                           ],
-                          borderWidth: 1
+                          borderWidth: 1*/
                       },
                       {
                         label: 'Total Money Spent',
                         data: totalCostList,
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(236, 110, 145, 0.2)'
-                        ],
+                            '#818DC6',
+                            '#818DC6',
+                            '#818DC6',
+                            '#818DC6',
+                            '#818DC6',
+                            '#818DC6',
+                            '#818DC6'
+                        ] /*,
                         borderColor: [
                             'rgba(255,99,132,1)',
                             'rgba(54, 162, 235, 1)',
@@ -617,7 +612,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                             'rgba(236, 110, 145, 1)'
                         ],
                         borderWidth: 1
-                      }
+                      */}
                     ]
                   },
                   options: {
@@ -646,8 +641,6 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
         i--;
       }
     }
-    console.log($scope.locationCount);
-
 
     for(var i = 0; i<$scope.lattitudeList.length; i++){
 
