@@ -138,7 +138,10 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 												})
 											}
 											if(idStr == "Type"){
+<<<<<<< HEAD
+=======
 												//console.log(typeCounter);
+>>>>>>> 325f3e42a08f081c18ddc63ab07ef34277ef1a12
 												var counter = 0;
 												angular.forEach(value,function(value,id){
 													var idStr = ""+id;
@@ -202,8 +205,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 										$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"latitude":latti, "longitude":longi})
 										$scope.datas.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"latitude":latti, "longitude":longi})
 
-										console.log(controlGroup);
-										console.log(expGroup);
+
 									})
 								}
 								else if(idStr == "MorningAnswers"){
@@ -319,7 +321,6 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 			var length = $scope.batches.length-1;
 			var lengthStr = ""+length;
 			if(number == "0"){
-				console.log("testing");
 				$scope.firstBool = true;
 				$scope.lastBool = false;
 			}
@@ -338,9 +339,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 		$scope.switchBatch = function(number){
 
 			if(number == "-1"){
-				console.log("previous");
 				if($scope.batchNumber == 1){
-					console.log("first element");
 					$scope.batchNumber = $scope.batchNumber -1;
 					$scope.articles = $scope.batches[$scope.batchNumber];
 					$scope.firstBool = true;
@@ -349,7 +348,6 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 
 				}else{
 					$scope.batchNumber = $scope.batchNumber-1;
-					console.log($scope.batchNumber);
 					$scope.articles = $scope.batches[$scope.batchNumber];
 					$scope.firstBool = false;
 					$scope.lastBool = false;
@@ -357,7 +355,6 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 
 			}if(number == "-2"){
 				if($scope.batchNumber+1 == $scope.batches.length-1){
-					console.log("last element");
 					$scope.articles = $scope.batches[$scope.batchNumber+1];
 					$scope.batchNumber = $scope.batches.length-1;
 					$scope.lastBool = true;
@@ -388,7 +385,6 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 			var filename = $('#fileNameText').val();
 			//console.log(filename);
 			var validFilename = !/[^a-z0-9_.@()-]/i.test(filename);
-			console.log(validFilename);
 			if(validFilename == true){
 				$scope.exportTable(filename);
 			}else{
