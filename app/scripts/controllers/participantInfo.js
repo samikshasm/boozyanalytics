@@ -87,7 +87,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
 
                         angular.forEach(value, function(value, id){
                           numDrinksParticipant=0;
-
+                          episodeCounter++;
                           angular.forEach(value, function(value, id){
                             if(id == "Answers"){
                               angular.forEach(value, function(value,id){
@@ -145,6 +145,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                               var testIndex = 0;
                               angular.forEach(value,function(value,id){
                                 //console.log("testIndex: "+testIndex);
+                                //console.log(value);
                                 var splitList = []
                                 splitList = value.split("&");
                                 if (testIndex==0) {
@@ -153,6 +154,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                   $scope.locationCount[episodeCounter-1] = 1;
                                }
                                 else{
+                                  //console.log(testIndex);
                                   var fromLatPrevious = $scope.lattitudeList[$scope.locationCounter-1];
                                   var fromLongPrevious = $scope.longitudeList[$scope.locationCounter-1];
                                   var fromLatCurrent = parseFloat(splitList[0]);
@@ -175,6 +177,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                               })
 
                             }
+                            //console.log(episodeCounter);
+
 
                           })
                         })
@@ -503,8 +507,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               var test = []
               for(var i =0; i<$scope.testDates.length;i++){
                 var numDrinks = 1;
-                console.log($scope.testDates);
-                console.log($scope.testNum);
+                //console.log($scope.testDates);
+                //console.log($scope.testNum);
                 for (var j =1; j<$scope.testDates.length;j++){
                   if ($scope.testDates[i] == $scope.testDates[j]){
                     if(i!=j){
@@ -518,7 +522,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                 test.push(numDrinks);
               }
 
-              console.log(test);
+              //console.log(test);
 
               var ctxL = document.getElementById("lineChart").getContext('2d');
               var myLineChart = new Chart(ctxL, {
@@ -633,7 +637,6 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
     var tempLocations = [];
     var newLocations = [];
 
-
     for(var i = 0; i < $scope.locationCount.length; i++){
       //console.log($scope.locationCount[i]);
       if($scope.locationCount[i] === undefined){
@@ -652,6 +655,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
 
       else{
       */
+      //console.log($scope.lattitudeList);
+      //console.log($scope.longitudeList)
         for(var j = 1; j<=$scope.lattitudeList.length; j++){
 
 
@@ -701,6 +706,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
     }
 
     //console.log($scope.lattitudeList);
+    //console.log($scope.locationCount);
 
       for(var i =0;i<$scope.lattitudeList.length;i++){
         //console.log(i);
