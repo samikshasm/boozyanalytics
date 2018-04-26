@@ -71,6 +71,19 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
             angular.forEach(dataRef, function(value, id) {
 
                 angular.forEach(value, function(value, id){
+                  if (id == "Control Group"){
+                    angular.forEach(value, function(value,id){
+                      angular.forEach(value, function(value,id){
+                        $scope.controlList.push(value);
+                      })
+                    })
+                  }if (id == "Experimental Group"){
+                      angular.forEach(value, function(value,id){
+                        angular.forEach(value, function(value,id){
+                          $scope.experimentalList.push(value);
+                        })
+                      })
+                  }
                   if(id != "Control Group" || id != "Experimental Group"){
 
                     var substr = id.substr(0,3);
@@ -134,11 +147,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                   }
                                 })
                               })
-
                             }
-
-                          //  $scope.numDrinksParticipant.push(numDrinksParticipant);
-
 
                             if(id == "Location"){
                               //console.log("night counter: "+episodeCounter);
@@ -169,20 +178,15 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                     $scope.locationCounter++;
                                     $scope.locationCount[episodeCounter-1]=$scope.locationCount[episodeCounter-1]+1;
                                   }else{
-                                    //console.log($scope.locationCount[$scope.locationCounter]);
-                                    //sconsole.log($scope.locationCount);
+
                                   }
                                 }
                                 testIndex++;
                               })
 
                             }
-                            //console.log(episodeCounter);
-
-
                           })
                         })
-
                       }
                     }
                   }
@@ -442,8 +446,6 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               totalCostList.push(thursCounter);
               totalCostList.push(friCoutner);
               totalCostList.push(satCounter);
-
-
 
               var days = [];
               var mon = 0;
