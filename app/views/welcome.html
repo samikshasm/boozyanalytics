@@ -249,7 +249,7 @@
 
                   <ul ng-repeat="batch in batches" ng-click="switchNumber($index)">
                     <!--Numbers-->
-                    <li class="page-item" ng-class="{ 'active': batchNumber === $index}"><a class="page-link">{{$index+1}}</a></li>
+                    <li class="page-item" ng-class="{ 'active': batchNumber === $index + getClass(batchNumber)}" ng-show="checkBatch($index)"><a class="page-link">{{$index+1}}</a></li>
                   </ul>
 
                   <!--Arrow right-->
@@ -262,6 +262,8 @@
               </ul>
           </nav>
           <!--/Pagination blue-->
+
+
 
         </section>
 

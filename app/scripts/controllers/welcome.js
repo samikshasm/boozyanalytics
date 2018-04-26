@@ -289,9 +289,25 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
             "date": date*/
             //"time": time
           //})
+					$scope.batchNumbers = [];
+					var numbers = [];
+					for(var i = 0; i < $scope.batches.length; i++){
+						if(i == 0){
 
+						}else{
+							if(i % 5 == 0){
+								numbers.push(i);
+								$scope.batchNumbers.push(numbers);
+								numbers = [];
+							}else{
+								numbers.push(i);
+							}
+						}
+
+					}
 
     });
+
 
 
 
@@ -314,6 +330,7 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 
 
 		$scope.switchNumber = function(number){
+
 			var length = $scope.batches.length-1;
 			var lengthStr = ""+length;
 			if(number == "0"){
@@ -331,6 +348,41 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 			$scope.batchNumber = number;
 		}
 
+		$scope.checkBatch = function(index){
+			var backwardRange = $scope.batchNumber % 10;
+			var forwardRange = 10 - backwardRange;
+			//console.log($scope.batchNumber);
+			//console.log("backward: " + backwardRange + " forwardRange: "+ forwardRange);
+
+			if(index >= $scope.batchNumber-backwardRange && index <= $scope.batchNumber+forwardRange){
+				return true;
+			}
+			else{
+				return false;
+			}
+
+			/*
+				if(index < $scope.batchNumber+5){
+					return true;
+				}else{
+					return false;
+				}
+				*/
+
+			/*
+			console.log("index of item in list: " + index);
+			if(index < 6){
+				return true;
+			}else{
+				return false;
+			}
+			*/
+		}
+
+		$scope.getClass = function(batchNum){
+			$scope.activeBatchNumber = batchNum;
+			//console.log(batchNum+1);
+		}
 
 		$scope.switchBatch = function(number){
 
@@ -364,6 +416,16 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 			}
 
 		}
+
+		/*$scope.filterFn = function(batch){
+		    // Do some tests
+		    if(car.carDetails.doors > 2)
+		    {
+		        return true; // this will be listed in the results
+		    }
+
+		    return false; // otherwise it won't be within the results
+		};*/
 
 		$('#fileNameModal').on('hidden.bs.modal', function (e) {
 			$(this)
