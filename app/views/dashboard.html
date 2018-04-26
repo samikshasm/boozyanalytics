@@ -69,54 +69,95 @@
   </ul>
 </div>
 
-<div class="col-md-4" ng-controller="DashboardCtrl">
-  <canvas id="myChart"></canvas>
+
+
+<!--Grid column-->
+<div class="col-md-6 mx-auto" >
+    <!--Card-->
+    <div class="card card-cascade narrower">
+        <!--Card content-->
+        <div class="card-body text-center" ng-controller="DashboardCtrl" >
+            <!--Google map-->
+            <canvas id="myChart"></canvas>
+        </div>
+        <!--/.Card content-->
+    </div>
+    <!--/.Card-->
 </div>
+<!--Grid column-->
 
 
-<!--Grid row-->
-<div class="row">
 
     <!--Grid column-->
-    <div class="col-md-6 mb-r">
-
+    <div class="col-md-6 mx-auto">
         <!--Card-->
         <div class="card card-cascade narrower">
-
-
-
             <!--Card content-->
             <div class="card-body text-center">
-
                 <!--Google map-->
                 <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
-
             </div>
             <!--/.Card content-->
         </div>
         <!--/.Card-->
-
     </div>
     <!--Grid column-->
 
-    <div class="col-md-5">
-      <canvas id="barChart" ></canvas>
+    <div class="col-md-6 mx-auto">
+        <!--Card-->
+        <div class="card card-cascade narrower">
+            <!--Card content-->
+            <div class="card-body text-center">
+                <!--Google map-->
+                <canvas id="barChart" ></canvas>
+            </div>
+            <!--/.Card content-->
+        </div>
+        <!--/.Card-->
+    </div>
+    <!--Grid column-->
+
+    <div class="col-md-6 mx-auto">
+        <!--Card-->
+        <div class="card card-cascade narrower">
+            <!--Card content-->
+            <div class="card-body text-center">
+                <!--Google map-->
+                <canvas id="lineChart"></canvas>
+            </div>
+            <!--/.Card content-->
+        </div>
+        <!--/.Card-->
+    </div>
+    <!--Grid column-->
+
+
+    <div class="col-md-6 mx-auto">
+        <!--Card-->
+        <div class="card card-cascade narrower">
+            <!--Card content-->
+            <div class="card-body text-center">
+                <!--Google map-->
+                <canvas id="doughnutChartWhere" class="card-body"></canvas>
+            </div>
+            <!--/.Card content-->
+        </div>
+        <!--/.Card-->
     </div>
 
-<canvas id="lineChart"></canvas>
+    <div class="col-md-6 mx-auto">
+        <!--Card-->
+        <div class="card card-cascade narrower">
+            <!--Card content-->
+            <div class="card-body text-center">
+                <!--Google map-->
+                <canvas id="doughnutChartWho" class="card-body"><p>Who</p></canvas>
+            </div>
+            <!--/.Card content-->
+        </div>
+        <!--/.Card-->
+    </div>
 
-<div class="container-fluid">
-  <div class="card card-cascade narrower">
-    <div class="col-md-5 md-r">
-    <canvas id="doughnutChartWho" class="card-body"><p>Who</p></canvas>
-  </div>
-  </div>
-  <div class="card card-cascade narrower">
-    <div class="col-md-5 md-r">
-      <canvas id="doughnutChartWhere" class="card-body"></canvas>
-  </div>
-  </div>
-</div>
 
 
 
