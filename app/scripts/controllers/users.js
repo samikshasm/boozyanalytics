@@ -406,13 +406,8 @@ function updateTable(){
           console.log("error");
     		});
       }
-
-
-
     }
-
-
-    }
+  }
 
     $scope.getUser = function(key1, key2){
       $('#deleteUser').html( key1 );

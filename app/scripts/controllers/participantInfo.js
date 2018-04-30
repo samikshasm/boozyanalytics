@@ -63,6 +63,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
     $scope.longitudeList = []
     $scope.locationCount = [];
     $scope.dates = [];
+    var tempControl = []
+    var tempExp = []
     var episodeCounter = 0;
     var userRef = firebase.database().ref('Users/');
     userRef.on('value', function(snapshot){
@@ -74,13 +76,13 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   if (id == "Control Group"){
                     angular.forEach(value, function(value,id){
                       angular.forEach(value, function(value,id){
-                        $scope.controlList.push(value);
+                        tempControl.push(value)
                       })
                     })
                   }if (id == "Experimental Group"){
                       angular.forEach(value, function(value,id){
                         angular.forEach(value, function(value,id){
-                          $scope.experimentalList.push(value);
+                          tempExp.push(value)
                         })
                       })
                   }
@@ -192,6 +194,12 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   }
                 })
               })
+
+              $scope.controlList = [];
+              $scope.experimentalList =[];
+              $scope.controlList.push(tempControl);
+              $scope.experimentalList.push(tempExp);
+
 
               $scope.startDate = $scope.numDrinksDatesLabels[0];
               var calorieWineShot = 100; //i made this up
@@ -557,13 +565,28 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   datasets: [
                       {
                           data: [$scope.percentWine,$scope.percentBeer,$scope.percentLiquor],
-                          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
-                          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
+                          backgroundColor: ["#62CAE2", "#FCB857", "#EC6E91"],
+                          hoverBackgroundColor: ["#93dbeb", "#fdd49b", "#f3a5bb"]
                       }
                   ]
               },
               options: {
-                  responsive: true
+                  responsive: true,
+                  tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                          return tooltipItem.yLabel;
+                        }
+                      }
+                    },
+                  legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#ffffff'
+                    }
+                  }
               }
               });
 
@@ -584,17 +607,17 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                               '#4EBA75',
                               '#4EBA75',
                               '#4EBA75'
-                          ]/*,
-                          borderColor: [
-                              'rgba(255,99,132,1)',
-                              'rgba(54, 162, 235, 1)',
-                              'rgba(255, 206, 86, 1)',
-                              'rgba(75, 192, 192, 1)',
-                              'rgba(153, 102, 255, 1)',
-                              'rgba(255, 159, 64, 1)',
-                              'rgba(236, 110, 145, 1)'
                           ],
-                          borderWidth: 1*/
+                          borderColor: [
+                              '#ffffff',
+                              '#ffffff',
+                              '#ffffff',
+                              '#ffffff',
+                              '#ffffff',
+                              '#ffffff',
+                              '#ffffff'
+                          ],
+                          borderWidth: 1
                       },
                       {
                         label: 'Total Money Spent',
@@ -607,27 +630,46 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                             '#818DC6',
                             '#818DC6',
                             '#818DC6'
-                        ] /*,
+                        ] ,
                         borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(236, 110, 145, 1)'
+                            '#ffffff',
+                            '#ffffff',
+                            '#ffffff',
+                            '#ffffff',
+                            '#ffffff',
+                            '#ffffff',
+                            '#ffffff'
                         ],
                         borderWidth: 1
-                      */}
+                      }
                     ]
                   },
                   options: {
                       scales: {
-                          yAxes: [{
-                              ticks: {
-                                  beginAtZero:true
-                              }
-                          }]
+                        xAxes:[{
+                          labels: {
+                            fontColor: '#ffffff'
+                          },
+                          gridLines:{
+                            color:"#777777",
+                            zeroLineColor:"#777777"
+                          },
+                        }],
+                        yAxes: [{
+                            gridLines:{
+                              color:"#777777",
+                              zeroLineColor:"#777777"
+                            },
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                      },
+                      legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            fontColor: '#ffffff'
+                        }
                       }
                   }
               });
@@ -635,6 +677,13 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               var locations = [];
               var tempLocations = [];
 
+              $scope.averageDrinksConsumed = Math.round($scope.totalDrinks/nightCounter)
+              $scope.drinkingEpisodes = nightCounter;
+              $scope.averageCaloriesConsumed = Math.round($scope.totalCalConsumed/nightCounter)
+              $scope.averageMoneySpent = Math.round($scope.totalCost1/nightCounter)
+
+              console.log($scope.averageDrinksConsumed)
+              console.log($scope.averageCaloriesConsumed)
     var locations = [];
     var tempLocations = [];
     var newLocations = [];
@@ -719,7 +768,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
       //console.log(tempLocations);
 
                       var map = new google.maps.Map(document.getElementById("map-container-5"), {
-                        zoom: 14,
+                        maxZoom: 14,
                         //center: new google.maps.LatLng(38.6364953, -90.2350996),
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                       });

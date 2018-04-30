@@ -7,7 +7,7 @@
   <meta http-equiv='cache-control' content='no-cache'>
   <meta http-equiv='expires' content='0'>
   <meta http-equiv='pragma' content='no-cache'>
-  
+
 </head>
 <body ng-controller="HomeCtrl">
   <div class="jumbotron col-md-12 mx-auto text-center z-depth-0" style="padding-top: 10; padding-bottom:10;">
@@ -56,7 +56,21 @@
 
 </div>
 <!--/.Card-->
-
+<div class="modal fade" id= "errorModal" ng-controller="UserCtrl">
+  <div class="modal-dialog modal-sm modal-vert-align-center" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title" align="center">Invalid User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-blue-grey" data-dismiss="modal">Dismiss</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

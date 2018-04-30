@@ -38,6 +38,10 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   $scope.partnerCounter = 0;
   $scope.nobodyCounter = 0;
   $scope.whoOtherCounter = 0;
+  $scope.whereControlPercentage = 0;
+  $scope.whereExpPercentage = 0;
+  $scope.whoControlPerecentage = 0;
+  $scope.whoExpPercentage=0;
   $scope.sortedDateList = []
   $scope.test = [];
   var nightCountList = [];
@@ -107,7 +111,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
                                   //console.log("number of drinks initial: "+ numDrinksExp)
                                   angular.forEach(value, function(value,id){
-
                                     if(id == "Size"){
                                       angular.forEach(value,function(value,id){
                                         $scope.sizeList.push(value);
@@ -117,21 +120,25 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
                                       counter1++;
                                     }
+
                                     if(id == "Type"){
                                       angular.forEach(value,function(value,id){
                                         $scope.typeList.push(value);
                                       })
                                     }
+
                                     if(id == "Where"){
                                       angular.forEach(value,function(value,id){
                                         whereList.push(participantName + " " + value);
                                       })
                                     }
+
                                     if(id == "Who"){
                                       angular.forEach(value,function(value,id){
-                                        whoList.push(value);
+                                        whoList.push(participantName + " " + value);
                                       })
                                     }
+
                                     if(id=="Cost"){
                                       angular.forEach(value,function(value,id){
                                         $scope.costList.push(value);
@@ -142,6 +149,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                                   })
                                 })
                               }
+
                               if(id == "Location"){
                                 angular.forEach(value,function(value,id){
                                   var tempList = []
@@ -159,8 +167,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   })
                 })
 
-              var totalWhoCounter = 0
-              var totalWhereCounter = 0
               var workControlCounter = 0;
               var homeControlCounter = 0;
               var barControlCounter = 0;
@@ -171,6 +177,17 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               var whereExpOtherCounter = 0;
               var controlWhereList = []
               var expWhereList = []
+
+              var friendsControlCounter = 0;
+              var partnerControlCounter = 0;
+              var nobodyControlCounter = 0;
+              var whoControlOtherCounter = 0;
+              var friendsExpCounter = 0;
+              var partnerExpCounter = 0;
+              var nobodyExpCounter = 0;
+              var whoExpOtherCounter = 0;
+              var controlWhoList = []
+              var expWhoList = []
 
               for (var i =0; i<whereList.length;i++) {
                 var name = whereList[i].split(" ")[0];
@@ -205,6 +222,39 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                 }
               }
 
+              for (var i =0; i<whoList.length;i++) {
+                var name = whoList[i].split(" ")[0];
+                var who = whoList[i].split(" ")[1];
+                if($scope.controlList.includes(name)){
+                  if (who == ("Friends")){
+                    friendsControlCounter++
+                  }
+                  if (who == ("Partner")){
+                    partnerControlCounter++
+                  }
+                  if (who == ("Nobody")){
+                    nobodyControlCounter++
+                  }
+                  if (who == ("Other")){
+                    whoControlOtherCounter++
+                  }
+                }
+                if($scope.experimentalList.includes(name)){
+                  if (who == ("Friends")){
+                    friendsExpCounter++
+                  }
+                  if (who == ("Partner")){
+                    partnerExpCounter++
+                  }
+                  if (who == ("Nobody")){
+                    nobodyExpCounter++
+                  }
+                  if (who == ("Other")){
+                    whoExpOtherCounter++
+                  }
+                }
+              }
+              console.log(nightCounter)
               controlWhereList.push(workControlCounter)
               controlWhereList.push(homeControlCounter)
               controlWhereList.push(barControlCounter)
@@ -215,114 +265,153 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               expWhereList.push(barExpCounter)
               expWhereList.push(whereExpOtherCounter)
 
+              controlWhoList.push(friendsControlCounter)
+              controlWhoList.push(partnerControlCounter)
+              controlWhoList.push(nobodyControlCounter)
+              controlWhoList.push(whoControlOtherCounter)
+
+              expWhoList.push(friendsExpCounter)
+              expWhoList.push(partnerExpCounter)
+              expWhoList.push(nobodyExpCounter)
+              expWhoList.push(whoExpOtherCounter)
 
               function add(a, b) {
                 return a + b;
               }
               var whereLabelsList = ["Work", "Home", "Bar", "Other"]
+              var whoLabelsList = ["Friends", "Partner", "Alone", "Other"]
 
               var whereControlSum = controlWhereList.slice().reduce(add,0)
               var whereExpSum = expWhereList.slice().reduce(add,0)
+              var whoControlSum = controlWhoList.slice().reduce(add,0)
+              var whoExpSum = expWhoList.slice().reduce(add,0)
 
               var whereControlMax = Math.max.apply(Math, controlWhereList);
               var whereExpMax = Math.max.apply(Math, expWhereList);
+              var whoControlMax = Math.max.apply(Math, controlWhoList);
+              var whoExpMax = Math.max.apply(Math, expWhoList);
 
-              var iControl = controlWhereList.indexOf(whereControlMax);
-              var iExp = expWhereList.indexOf(whereExpMax);
+              var iWhereControl = controlWhereList.indexOf(whereControlMax);
+              var iWhereExp = expWhereList.indexOf(whereExpMax);
+              var iWhoControl = controlWhoList.indexOf(whoControlMax);
+              var iWhoExp = expWhoList.indexOf(whoExpMax);
 
-              var whereControlLabel = whereLabelsList[iControl]
-              var whereExpLabel = whereLabelsList[iExp]
 
-              var whereControlPercentage = whereControlMax/whereControlSum
-              var whereExpPercentage = whereExpMax/whereExpSum
+              var whereControlLabel = whereLabelsList[iWhereControl]
+              var whereExpLabel = whereLabelsList[iWhereExp]
+              var whoControlLabel = whoLabelsList[iWhoControl]
+              var whoExpLabel = whoLabelsList[iWhoExp]
 
-              
+              $scope.whereControlPercentage = Math.round((whereControlMax/whereControlSum)*100)
+              $scope.whereExpPercentage = Math.round((whereExpMax/whereExpSum)*100)
+              $scope.whoControlPerecentage = Math.round((whoControlMax/whoControlSum)*100)
+              $scope.whoExpPercentage = Math.round((whoExpMax/whoExpSum)*100)
 
-              /*  var totalWhoCounter = 0
-                var totalWhereCounter = 0
-                for (var i = 0; i<whoList.length; i++){
-                  if (whoList[i] == ("Friends")){
-                    $scope.friendsCounter++
+              //doughnut
+              var ctxD = document.getElementById("whereControlDonut").getContext('2d');
+              var myLineChart = new Chart(ctxD, {
+                  type: 'doughnut',
+                  data: {
+                      labels: [whereControlLabel, "Other"],
+                      datasets: [
+                          {
+                              data: [$scope.whereControlPercentage, 100-$scope.whereControlPercentage],
+                              backgroundColor: ["#FCB857", "#F5F5F5"],
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true
                   }
-                  if (whoList[i] == ("Partner")){
-                    $scope.partnerCounter++
-                  }
-                  if (whoList[i] == ("Nobody")){
-                    $scope.nobodyCounter++
-                  }
-                  if (whoList[i] == ("Other")){
-                    $scope.whoOtherCounter++
-                  }
-                  if (whereList[i] == ("Work")){
-                    $scope.workCounter++
-                  }
-                  if (whereList[i] == ("Home")){
-                    $scope.homeCounter++
-                  }
-                  if (whereList[i] == ("Bar")){
-                    $scope.barCounter++
-                  }
-                  if (whereList[i] == ("Other")){
-                    $scope.whereOtherCounter++
-                  }
-                }
+              });
 
-                var ctxD = document.getElementById("doughnutChartWho").getContext('2d');
-                ctxD.textAlign = "center";
-                var myLineChart = new Chart(ctxD, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ["Friends", "Partner", "Nobody", "Other"],
-                        datasets: [
-                            {
-                                data: [$scope.friendsCounter, $scope.partnerCounter, $scope.nobodyCounter, $scope.whoOtherCounter],
-                                backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-                                hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true
-                    }
-                });
+              var ctxD = document.getElementById("whoControlDonut").getContext('2d');
+              var myLineChart = new Chart(ctxD, {
+                  type: 'doughnut',
+                  data: {
+                      labels: [whoControlLabel, "Other"],
+                      datasets: [
+                          {
+                              data: [$scope.whoControlPerecentage, 100-$scope.whoControlPerecentage],
+                              backgroundColor: ["#EC6E91", "#F5F5F5"],
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true
+                  }
+              });
 
-                var ctxD = document.getElementById("doughnutChartWhere").getContext('2d');
-                var myLineChart = new Chart(ctxD, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ["Work", "Home", "Bar", "Other"],
-                        datasets: [
-                            {
-                                data: [$scope.workCounter, $scope.homeCounter, $scope.barCounter, $scope.whereOtherCounter],
-                                backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-                                hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        elements: {
-                          center: {
-                                text: 'Desktop',
-                                color: '#36A2EB', //Default black
-                                fontStyle: 'Helvetica', //Default Arial
-                                sidePadding: 15 //Default 20 (as a percentage)
-                              }                      }
-                    }
-                });
+              var ctxD = document.getElementById("whereExpDonut").getContext('2d');
+              var myLineChart = new Chart(ctxD, {
+                  type: 'doughnut',
+                  data: {
+                      labels: [whereExpLabel, "Other"],
+                      datasets: [
+                          {
+                              data: [$scope.whereExpPercentage, 100-$scope.whereExpPercentage],
+                              backgroundColor: ["#62CAE2", "#F5F5F5"],
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true
+                  }
+              });
 
-                totalWhoCounter = $scope.friendsCounter + $scope.partnerCounter + $scope.nobodyCounter + $scope.whoOtherCounter;
-                $scope.friendsCounter = ($scope.friendsCounter / totalWhoCounter)*100;
-                $scope.partnerCounter = ($scope.partnerCounter / totalWhoCounter)*100;
-                $scope.nobodyCounter = ($scope.nobodyCounter / totalWhoCounter)*100;
-                $scope.whoOtherCounter = ($scope.whoOtherCounter / totalWhoCounter)*100;
+              var ctxD = document.getElementById("whoExpDonut").getContext('2d');
+              var myLineChart = new Chart(ctxD, {
+                  type: 'doughnut',
+                  data: {
+                      labels: [whoExpLabel, "Other"],
+                      datasets: [
+                          {
+                              data: [$scope.whoExpPercentage, 100-$scope.whoExpPercentage],
+                              backgroundColor: ["#4EBA75", "#F5F5F5"],
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true
+                  }
+              });
 
-                totalWhereCounter = $scope.workCounter + $scope.homeCounter + $scope.barCounter + $scope.whereOtherCounter;
-                $scope.workCounter = ($scope.workCounter / totalWhereCounter)*100;
-                $scope.homeCounter = ($scope.homeCounter / totalWhereCounter)*100;
-                $scope.barCounter = ($scope.barCounter / totalWhereCounter)*100;
-                $scope.whereOtherCounter = ($scope.whereOtherCounter / totalWhereCounter)*100;
-  */
+/*
+              $('.min-chart#who-exp-chart').easyPieChart({
+                      barColor: "#4caf50",
+                      onStep: function (from, to, percent) {
+                          $(this.el).find('.percent').text($scope.whoControlPerecentage);
+                      }
+
+                    });
+                    var value = 50;
+
+              $scope.changePercent = function(){
+                console.log('changePercent')
+                $('.min-chart#who-exp-chart').attr("data-percent", value.toString());
+              }
+
+              $('.min-chart#where-exp-chart').easyPieChart({
+                      barColor: "#4caf50",
+                      onStep: function (from, to, percent) {
+                          $(this.el).find('.percent').text($scope.whoExpPercentage);
+                      }
+                    });
+
+              $('.min-chart#who-control-chart').easyPieChart({
+                      barColor: "#4caf50",
+                      onStep: function (from, to, percent1) {
+                          $(this.el).find('.percent').text($scope.whoControlPerecentage);
+                      }
+                    });
+
+              $('.min-chart#where-control-chart').easyPieChart({
+                      barColor: "#4caf50",
+                      onStep: function (from, to, percent) {
+                          $(this.el).find('.percent').text($scope.whereControlPercentage);
+                      }
+                    });
+*/
 
               var calorieWineShot = 100; //i made this up
               var calorieWineEight = 188;
@@ -541,6 +630,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                     satCounter += averageCost;
                 }
               }
+
               totalCostList.push(sunCounter);
               totalCostList.push(monCounter);
               totalCostList.push(tuesCounter);

@@ -12,6 +12,7 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 
 	$scope.username = CommonProp.getUser();
   $scope.adminChecker = "";
+	$scope.errorModal = "";
 
 	$scope.signIn = function(){
 		var username = $scope.user.email;
@@ -37,28 +38,12 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 					})
 
 					for (var i=0; i<adminUsernames.length;i++) {
-						console.log($scope.adminChecker);
 						if (adminUsernames[i] == username) {
 							$scope.adminChecker = "matches";
 						}
 					}
 
 				});
-
-    /*firebase.auth().onAuthStateChanged(function(user) {
-			var user = firebase.auth().currentUser;
-			console.log(user);
-      if (user) {
-        displayName = user.displayName;
-				//console.log(displayName);
-        if (displayName == null){
-          displayName = window.prompt("Please enter your display name: ");
-          user.updateProfile({
-            displayName: displayName
-          });
-        }
-      }
-    });*/
 
       auth.$signInWithEmailAndPassword(username, password).then(function(){
 				//console.log("User Login Successful");
@@ -74,7 +59,15 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
 						});
 					}else {
 						//make this a modal and error check!
-						window.alert("User is not an admin. Please enter a valid email address.");
+						$scope.errorModal = true;
+						console.log($scope.errorModal)
+						if ($scope.errorModal == true) {
+							$scope.errorMessage = "The user already exists";
+				      $('#errorMsg').html($scope.errorMessage);
+				      $(document).ready(function(){
+				          $("#errorModal").modal();
+				      });
+						}
 						CommonProp.logoutUser();
 					}
 				});
@@ -82,6 +75,7 @@ angular.module('angularAppApp.home', ['ngRoute', 'firebase'])
   			$scope.errMsg = true;
   			$scope.errorMessage = error.message;
   		});
+
 
   }
 }])

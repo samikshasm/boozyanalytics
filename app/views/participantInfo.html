@@ -40,20 +40,18 @@
 
     </nav>
 
-    <div class="container" style="background-color:#283E54">
+    <!--div class="container" style="background-color:#283E54">
       <div class="row">
         <div class="col-md-12">
           <h3>Participant Name: {{currentParticpant}}</h3>
         </div>
       </div>
-    </div>
+    </div-->
 
 </div>
 
-<div class="container" ng-controller="ParticipantInfoCtrl" id="participantcontroller">
-  <!--ul ng-repeat="size in costList track by $index" class="list-group">
-    <li class="list-group-item">cost: {{size}}</li>
-  </ul-->
+<!--div class="container" ng-controller="ParticipantInfoCtrl" id="participantcontroller">
+
   <ul class="list-group">
     <li class="list-group-item">Total Calories Consumed: {{totalCalConsumed}}</li>
     <li class="list-group-item">Total Money Spent: ${{totalCost1}}</li>
@@ -66,47 +64,97 @@
     <li class="list-group-item">Start date: {{startDate}}</li>
 
 
-  </ul>
-
-</div>
-
-
-
-<div class="col-md-4" ng-controller="ParticipantInfoCtrl">
-  <canvas id="myChart"></canvas>
-</div>
-
-
-<!--Grid row-->
+  </ul-->
 <div class="row">
+  <div class="col">
+    <div class="card card-cascade narrower">
+      <div class="card-body text-center" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+        <p><h4 class="card-title"><b><big>Participant Name: {{currentParticpant}}</big></b></h4></p>
+        <p><h6>Experimental Group</h6></p>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!--Grid column-->
-    <div class="col-md-6 mb-r">
+<div class="row">
+  <div class="col-md-3" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <img src="/images/card_1.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>{{drinkingEpisodes}} </big></b>Drinking Episodes</h4></p>
+            <p><h6>Start Date: {{startDate}}</h6></p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-3" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <img src="/images/card_2.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>{{averageDrinksConsumed}}</big></b> Drinks per Epsiode</p>
+            <p><h6>{{totalDrinks}} Total Drinks</h6></p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-3" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <img src="/images/card_3.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>{{averageCaloriesConsumed}}</big></b> Calories Per Episode</p>
+            <p><h6>{{totalCalConsumed}} Total Calories</h6></p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-3" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <img src="/images/card_4.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>${{averageMoneySpent}}</big></b> Dollars Per Episode</p>
+            <p><h6>${{totalCost1}} Total</h6></p>
+          </div>
+      </div>
+  </div>
+</div>
 
-        <!--Card-->
-        <div class="card card-cascade narrower">
-
-
-
-            <!--Card content-->
-            <div class="card-body text-center">
-
-                <!--Google map-->
-                <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
-
-            </div>
-            <!--/.Card content-->
+<div class="row">
+  <div class="col-md-4" >
+      <div class="card card-cascade narrower">
+        <div class="view overlay" id="pieChart">
+          <canvas id="myChart" class="z-depth-1"></canvas>
         </div>
-        <!--/.Card-->
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <p><h4 class="card-title" align="left">Breakdown of Types of Drinks</p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4" >
+      <div class="card card-cascade narrower">
+        <div class="view overlay" id="barChartColor">
+          <canvas id="barChart" class="z-depth-1"></canvas>
+        </div>
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <p><h4 class="card-title" align="left">Daily Average Number of Drinks and Average Cost</p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
+            <p><h4 class="card-title" align="left">Location Data</p>
+          </div>
+      </div>
+  </div>
+</div>
 
+<div class="col-md-auto" >
+    <div class="card card-cascade narrower">
+        <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+          <canvas id="lineChart" class="z-depth-1"></canvas>
+          <p><h4 class="card-title" align="left"></p>
+        </div>
     </div>
-    <!--Grid column-->
+</div>
 
-    <div class="col-md-5">
-      <canvas id="barChart" ></canvas>
-    </div>
-
-    <canvas id="lineChart"></canvas>
 
 
 
