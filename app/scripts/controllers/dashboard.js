@@ -321,8 +321,31 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       ]
                   },
                   options: {
-                      responsive: true
-                  }
+                      responsive: true,
+                      cutoutPercentage: 70
+                  },
+                  plugins: [{
+                    id: 'my-plugin',
+                    afterDraw: function (chart, option) {
+                      chart.ctx.fillStyle = '#FCB857'
+                      chart.ctx.textBaseline = 'middle'
+                      chart.ctx.textAlign = 'center'
+                      //chart.ctx.font = 'bold 3vw Arial'
+                      var string = $scope.whereControlPercentage+"%"+" "+whereControlLabel;
+                      var array = string.split(" ");
+                      var y = chart.canvas.height/2.7
+                      for (var i = 0; i < array.length; i++) {
+                        if(i == 0){
+                          chart.ctx.font = 'bold 7vw Arial'
+                        }else{
+                          chart.ctx.font = 'bold 3vw Arial'
+                        }
+                         chart.ctx.fillText(array[i], chart.canvas.width/2.7, y);
+                         y += 70;
+                      }
+                      //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
+                    }
+                  }]
               });
 
               var ctxD = document.getElementById("whoControlDonut").getContext('2d');
@@ -341,6 +364,20 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       responsive: true
                   }
               });
+              /*
+              var x = 50;
+              var y = chart.ctxD.height/2;
+              var fontSize = 20;
+              var string = "Hello Canvas";
+              var array = string.split(" ");
+              for (var i = 0; i < array.length; i++) {
+                 chart.ctxD.fillText(array[i], x, y);
+                 y += fontSize;
+              }
+              */
+
+
+
 
               var ctxD = document.getElementById("whereExpDonut").getContext('2d');
               var myLineChart = new Chart(ctxD, {

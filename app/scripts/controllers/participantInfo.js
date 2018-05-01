@@ -577,7 +577,9 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                     mode: 'single',
                     callbacks: {
                         label: function(tooltipItem, data) {
-                          return tooltipItem.yLabel;
+                          //return data.datasets[tooltipItem.index]
+                          //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                          return data.labels[tooltipItem.index] + ":"+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
                         }
                       }
                     },
