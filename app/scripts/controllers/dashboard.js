@@ -691,15 +691,26 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       //chart.ctx.font = 'bold 3vw Arial'
                       var string = $scope.whoExpPercentage+"%"+" "+whoExpLabel;
                       var array = string.split(" ");
+<<<<<<< HEAD
                       var y = chart.canvas.height/4
+=======
+                      var windowHeight = window.innerHeight;
+                      var windowWidth = window.innerWidth;
+                      var y = windowHeight/8;
+>>>>>>> 835c0bdab90733cb17946fd5442dfc05057286d5
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
                           chart.ctx.font = 'bold 4vw Arial'
                         }else{
                           chart.ctx.font = 'bold 1vw Arial'
                         }
+<<<<<<< HEAD
                          chart.ctx.fillText(array[i], chart.canvas.width/4, y);
                          y += chart.canvas.height/15;
+=======
+                         chart.ctx.fillText(array[i], windowWidth/12, y);
+                         y += chart.canvas.height/7;
+>>>>>>> 835c0bdab90733cb17946fd5442dfc05057286d5
                       }
                       //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
                     }
