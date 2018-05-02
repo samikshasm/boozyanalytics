@@ -51,6 +51,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   var group = "";
   var controlNightCounter=0
   var expNightCounter=0
+  var nightCounterList=[]
 
 
   queryDatabase();
@@ -94,6 +95,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                           var substr = idStr.substr(0,11);
                           if(substr == "Night Count"){
                             nightCounter++;
+                            nightCounterList.push(participantName + " " + id)
                           }
                         })
                         angular.forEach(value, function(value, id){
@@ -171,8 +173,16 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   })
                 })
 
-                console.log(controlNightCounter)
-                console.log(expNightCounter)
+              for(var i=0;i<nightCounterList.length;i++){
+                var name = nightCounterList[i].split(" ")[0]
+                if ($scope.controlList.includes(name)){
+                  controlNightCounter++
+                }
+                else if ($scope.experimentalList.includes(name)){
+                  expNightCounter++
+                }
+              }
+
               var calorieWineShot = 100; //i made this up
               var calorieWineEight = 188;
               var calorieWineSixteen = 377;
@@ -322,6 +332,11 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                 }
               }
 
+              $scope.averageCalControl = Math.round($scope.totalCalControl/controlNightCounter,1)
+              $scope.averageCalExp = Math.round($scope.totalCalExperimental/expNightCounter,1)
+              $scope.averageDrinksControl = Math.round($scope.controlDrinks/controlNightCounter, 1)
+              $scope.averageDrinksExp = Math.round($scope.expDrinks/expNightCounter,1)
+
               //$scope.totalLitersConsumed = (totalOuncesConsumed * 0.03);
 
               var percentControlWine = Math.round((controlWineCounter/$scope.controlDrinks) * 100)
@@ -347,7 +362,18 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   ]
               },
               options: {
-                  responsive: true
+                  responsive: true,
+                  tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                          //return data.datasets[tooltipItem.index]
+                          //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                          return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                        }
+                      }
+                    }
               }
             });
 
@@ -365,17 +391,20 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                 ]
             },
             options: {
-                responsive: true
+                responsive: true,
+                tooltips: {
+                  enabled: true,
+                  mode: 'single',
+                  callbacks: {
+                      label: function(tooltipItem, data) {
+                        //return data.datasets[tooltipItem.index]
+                        //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                        return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                      }
+                    }
+                  }
             }
           });
-
-
-
-
-
-
-
-
 
               var workControlCounter = 0;
               var homeControlCounter = 0;
@@ -548,7 +577,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       var array = string.split(" ");
                       var y = chart.canvas.height/3;
                       var test = window.innerHeight;
-                      console.log(test);
+                    //  console.log(test);
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
                           chart.ctx.font = 'bold 4vw Arial'
@@ -691,40 +720,22 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       //chart.ctx.font = 'bold 3vw Arial'
                       var string = $scope.whoExpPercentage+"%"+" "+whoExpLabel;
                       var array = string.split(" ");
-<<<<<<< HEAD
-                      var y = chart.canvas.height/4
-=======
                       var windowHeight = window.innerHeight;
                       var windowWidth = window.innerWidth;
                       var y = windowHeight/8;
->>>>>>> 835c0bdab90733cb17946fd5442dfc05057286d5
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
                           chart.ctx.font = 'bold 4vw Arial'
                         }else{
                           chart.ctx.font = 'bold 1vw Arial'
                         }
-<<<<<<< HEAD
-                         chart.ctx.fillText(array[i], chart.canvas.width/4, y);
-                         y += chart.canvas.height/15;
-=======
                          chart.ctx.fillText(array[i], windowWidth/12, y);
                          y += chart.canvas.height/7;
->>>>>>> 835c0bdab90733cb17946fd5442dfc05057286d5
                       }
                       //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
                     }
                   }]
               });
-
-
-
-
-
-
-
-
-
 
               var totalCostList = [];
               var sunCounter =0 ;
@@ -977,15 +988,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   }
               });
 
-
-
-
-
-
-
-
-
-
               var labelsList = []
               for (var i = 0;i<$scope.numDrinks;i++){
                 labelsList.push(i);
@@ -1077,40 +1079,68 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       datasets: [
                           {
                               label: "Control Users",
-                              fillColor: "rgba(220,220,220,0.2)",
-                              strokeColor: "rgba(220,220,220,1)",
-                              pointColor: "rgba(220,220,220,1)",
-                              pointStrokeColor: "#fff",
-                              pointHighlightFill: "#fff",
-                              pointHighlightStroke: "rgba(220,220,220,1)",
+                              fill: false,
+                              borderWidth : 5,
+                              borderColor : '#FCB857',
+                              pointBackgroundColor : '#FFFFFF',
+                              pointBorderColor : '#FFFFFF',
+                              pointBorderWidth : 1,
+                              pointRadius : 3,
+                              pointHoverBackgroundColor : '#FCB857',
+                              pointHoverBorderColor : '#FCB857',
                               data: realControlSortedList
                           },
                           {
                               label: "Experimental Users",
-                              backgroundColor : '#FCB857',
-                              borderWidth : 2,
-                              borderColor : '#4EBA75',
-                              pointBackgroundColor : '#4EBA75',
-                              pointBorderColor : '#FCB857',
+                              fill: false,
+                              borderWidth : 5,
+                              borderColor : '#EC6E91',
+                              pointBackgroundColor : '#FFFFFF',
+                              pointBorderColor : '#FFFFFF',
                               pointBorderWidth : 1,
-                              pointRadius : 4,
-                              pointHoverBackgroundColor : '#4EBA75',
-                              pointHoverBorderColor : '#4EBA75',
+                              pointRadius : 3,
+                              pointHoverBackgroundColor : '#EC6E91',
+                              pointHoverBorderColor : '#EC6E91',
                               data: realExpSortedList
                           }
                       ]
                   },
                   options: {
-                      responsive: true
+                    scaleFontColor: '#FFFFFF',
+                      responsive: true,
+                      legend: {
+                        display: true,
+                        labels: {
+                          fontColor: "#FFFFFF"
+                        }
+                    },
+                      scales: {
+                          yAxes: [{
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Number of Drinks',
+                              fontColor: "#FFFFFF"
+
+                            },
+                              ticks: {
+                                  beginAtZero:true,
+                                  fontColor: "#FFFFFF"
+                              }
+                          }],
+                          xAxes: [{
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Night Count',
+                              fontColor: "#FFFFFF"
+                            },
+                            ticks: {
+                                fontColor: "#FFFFFF"
+                            }
+                          }],
+
+                      }
                   }
               });
-
-
-
-
-
-
-
 
             var locations = [];
 

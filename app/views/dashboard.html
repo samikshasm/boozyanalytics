@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Boozyanalytics Home Page</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
 
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
@@ -49,30 +50,63 @@
 
 </div>
 
-<div class="container" ng-controller="DashboardCtrl" id="dashboardcontroller">
-  <ul class="list-group">
-    <li class="list-group-item">Total Calories Consumed: {{totalCalConsumed}}</li>
-    <li class="list-group-item">Total Liters Consumed: {{totalLitersConsumed}}</li>
-    <li class="list-group-item">Number of Locations: {{locationCounter}}</li>
-    <li class="list-group-item">Total # of Drinks: {{totalDrinks}}</li>
+  <div class="col-md-12 mx-auto">
+      <!--Card-->
+      <div class="card card-cascade narrower">
+          <!--Card content-->
+          <div class="card-body text-center">
+            <div class="view overlay" id="conExpLine">
+              <canvas id="lineChart"></canvas>
+            </div>
+          </div>
+          <!--/.Card content-->
+      </div>
+      <!--/.Card-->
+  </div>
 
-  </ul>
+<div class="row">
+  <div class="col-md-6 mx-auto">
+      <!--Card-->
+      <div class="card card-cascade narrower">
+          <!--Card content-->
+          <div class="card-body text-center">
+              <!--Google map-->
+              <canvas id="barChart" ></canvas>
+          </div>
+          <!--/.Card content-->
+      </div>
+      <!--/.Card-->
+  </div>
+  <!--Grid column-->
+  <div class="col-md-6 mx-auto">
+      <!--Card-->
+      <div class="card card-cascade narrower">
+          <!--Card content-->
+          <div class="card-body text-center">
+              <!--Google map-->
+              <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
+          </div>
+          <!--/.Card content-->
+      </div>
+      <!--/.Card-->
+  </div>
+
 </div>
 
 <div class="row">
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <p>Control: Drinks per epsiode</p>
-            <p><h6>{{controlDrinks}} Total</h6></p>
+            <p><h4 class="card-title" align="right"><b><big>{{averageDrinksControl}}</big></b> Drinks per Episode</h4></p>
+            <p><h6 align="right">{{controlDrinks}} Total</h6></p>
           </div>
       </div>
   </div>
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <p>Experimental: Drinks per epsiode</p>
-            <p><h6>{{expDrinks}} Total</h6></p>          </div>
+            <p><h4 class="card-title" align="right"><b><big>{{averageDrinksExp}}</big></b> Drinks per Episode</h4></p>
+            <p><h6 align="right">{{expDrinks}} Total</h6></p>          </div>
       </div>
   </div>
 </div>
@@ -81,16 +115,18 @@
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <p>Control: Calories</p>
-            <p><h6>{{totalCalControl}} Total</h6></p>
+            <img src="/images/card_3.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>{{averageCalControl}}</big></b> Calories per episode</h4></p>
+            <p><h6 align="right">{{totalCalControl}} Total</h6></p>
           </div>
       </div>
   </div>
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <p>Experimental: Calories</p>
-            <p><h6>{{totalCalExperimental}} Total</h6></p>          </div>
+            <img src="/images/card_3.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>{{averageCalExp}}</big></b> Calories per episode</h4></p>
+            <p><h6 align="right">{{totalCalExperimental}} Total</h6></p>          </div>
       </div>
   </div>
 </div>
@@ -122,65 +158,7 @@
 
 
 
-    <!--Grid column-->
-    <div class="col-md-6 mx-auto">
-        <!--Card-->
-        <div class="card card-cascade narrower">
-            <!--Card content-->
-            <div class="card-body text-center">
-                <!--Google map-->
-                <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
-            </div>
-            <!--/.Card content-->
-        </div>
-        <!--/.Card-->
-    </div>
-    <!--Grid column-->
 
-    <div class="col-md-6 mx-auto">
-        <!--Card-->
-        <div class="card card-cascade narrower">
-            <!--Card content-->
-            <div class="card-body text-center">
-                <!--Google map-->
-                <canvas id="barChart" ></canvas>
-            </div>
-            <!--/.Card content-->
-        </div>
-        <!--/.Card-->
-    </div>
-    <!--Grid column-->
-
-    <div class="col-md-6 mx-auto">
-        <!--Card-->
-        <div class="card card-cascade narrower">
-            <!--Card content-->
-            <div class="card-body text-center">
-                <!--Google map-->
-                <canvas id="lineChart"></canvas>
-            </div>
-            <!--/.Card content-->
-        </div>
-        <!--/.Card-->
-    </div>
-    <!--Grid column-->
-
-
-    <!--div class="col-md-6 mx-auto">
-        <div class="card card-cascade narrower">
-            <div class="card-body text-center">
-                <canvas id="doughnutChartWhere" class="card-body"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6 mx-auto">
-        <div class="card card-cascade narrower">
-            <div class="card-body text-center">
-                <canvas id="doughnutChartWho" class="card-body"><p>Who</p></canvas>
-            </div>
-        </div>
-    </div-->
 <div class="row">
     <div class="col-md-5 mx-auto">
         <div class="card card-cascade narrower">
