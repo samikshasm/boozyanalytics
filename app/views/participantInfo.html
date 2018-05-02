@@ -115,46 +115,81 @@
   </div>
 </div>
 
+<div class="row justify-content-md-center">
+  <div class="col-md-6" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <div class="view overlay">
+              <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
+            </div>
+            <p><h4 class="card-title" align="left">Location Data</p>
+          </div>
+      </div>
+  </div>
+
+</div>
 <div class="row">
+
+  <div class="col-md-4" >
+      <div class="card card-cascade narrower">
+        <div class="view overlay" id="whereType">
+          <canvas id="whereDonut"></canvas>
+        </div>
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <p><h4 class="card-t  itle" align="left">Breakdown of Type of Location</p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4" >
+      <div class="card card-cascade narrower">
+        <div class="view overlay" id="whoType">
+          <canvas id="whoDonut"></canvas>
+        </div>
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+            <p><h4 class="card-t  itle" align="left">Breakdown of Who</p>
+          </div>
+      </div>
+  </div>
   <div class="col-md-4" >
       <div class="card card-cascade narrower">
         <div class="view overlay" id="pieChart">
           <canvas id="myChart" class="z-depth-1"></canvas>
         </div>
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <p><h4 class="card-title" align="left">Breakdown of Types of Drinks</p>
+            <p><h4 class="card-t  itle" align="left">Breakdown of Types of Drinks</p>
           </div>
       </div>
   </div>
-  <div class="col-md-4" >
+
+</div>
+
+
+
+
+<div class="row">
+  <div class="col-md-6" >
       <div class="card card-cascade narrower">
-        <div class="view overlay" id="barChartColor">
-          <canvas id="barChart" class="z-depth-1"></canvas>
+        <div class="view overlay" id="dayOfWeekLineColor">
+          <canvas id="dayOfWeekLine" class="z-depth-1"></canvas>
         </div>
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
             <p><h4 class="card-title" align="left">Daily Average Number of Drinks and Average Cost</p>
           </div>
       </div>
   </div>
-  <div class="col-md-4" >
+
+  <div class="col-md-6" >
       <div class="card card-cascade narrower">
+        <div class="view overlay" id="dailyTrackerColor">
+          <canvas id="lineChart" class="z-depth-1"></canvas>
+        </div>
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
-            <p><h4 class="card-title" align="left">Location Data</p>
+            <p><h4 class="card-title" align="left">Daily Tracker</p>
           </div>
       </div>
   </div>
-</div>
 
-<div class="col-md-auto" >
-    <div class="card card-cascade narrower">
-        <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-          <canvas id="lineChart" class="z-depth-1"></canvas>
-          <p><h4 class="card-title" align="left"></p>
-        </div>
-    </div>
 </div>
-
 
 
 

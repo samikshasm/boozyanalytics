@@ -200,6 +200,130 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               $scope.controlList.push(tempControl);
               $scope.experimentalList.push(tempExp);
 
+              var workCounter = 0;
+              var homeCounter = 0;
+              var barCounter = 0;
+              var otherCounter = 0;
+              var whereListChart = [];
+              var whereLabelsList = ["Work", "Home", "Bar", "Other"]
+
+              var friendsCounter = 0;
+              var partnerCounter = 0;
+              var nobodyCounter = 0;
+              var whoOtherCounter = 0;
+              var whoListChart = [];
+              var whoLabelsList = ["Friends", "Partner", "Alone", "Other"]
+
+              for (var i =0; i<whereList.length;i++) {
+                  if (whereList[i] == ("Work")){
+                    workCounter++
+                  }
+                  if (whereList[i] == ("Home")){
+                    homeCounter++
+                  }
+                  if (whereList[i] == ("Bar/Restaurant")){
+                    barCounter++
+                  }
+                  if (whereList[i] == ("Other")){
+                    otherCounter++
+                  }
+              }
+
+              for (var i =0;i<whoList.length;i++) {
+                if (whoList[i] == ("Friends")){
+                  friendsCounter++
+                }
+                if (whoList[i] == ("Partner")){
+                  partnerCounter++
+                }
+                if (whoList[i] == ("Nobody")){
+                  nobodyCounter++
+                }
+                if (whoList[i] == ("Other")){
+                  whoOtherCounter++
+                }
+              }
+
+              whereListChart.push(workCounter)
+              whereListChart.push(homeCounter)
+              whereListChart.push(barCounter)
+              whereListChart.push(otherCounter)
+              whoListChart.push(friendsCounter)
+              whoListChart.push(partnerCounter)
+              whoListChart.push(nobodyCounter)
+              whoListChart.push(whoOtherCounter)
+
+              function add(a, b) {
+                return a + b;
+              }
+
+              var whereSum = whereListChart.slice().reduce(add,0)
+              var whoSum = whoListChart.slice().reduce(add,0)
+              var whereMax = Math.max.apply(Math, whereListChart)
+              var whoMax = Math.max.apply(Math, whoListChart)
+              var iWhere = whereListChart.indexOf(whereMax)
+              var iWho = whoListChart.indexOf(whoMax)
+              var whereLabel = whereLabelsList[iWhere]
+              var whoLabel = whoLabelsList[iWho]
+              var wherePercent = Math.round((whereMax/whereSum)*100)
+              var whoPercent = Math.round((whoMax/whoSum)*100)
+
+              //doughnut
+              var ctxD = document.getElementById("whereDonut").getContext('2d');
+              var myLineChart = new Chart(ctxD, {
+                  type: 'doughnut',
+                  data: {
+                      labels: [whereLabel, "Other"],
+                      datasets: [
+                          {
+                              data: [wherePercent, 100-wherePercent],
+                              backgroundColor: ["#FCB857", "#F5F5F5"],
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true,
+                      tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                              //return data.datasets[tooltipItem.index]
+                              //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                              return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                            }
+                          }
+                        }
+                  }
+              });
+
+              var ctxD = document.getElementById("whoDonut").getContext('2d');
+              var myLineChart = new Chart(ctxD, {
+                  type: 'doughnut',
+                  data: {
+                      labels: [whoLabel, "Other"],
+                      datasets: [
+                          {
+                              data: [whoPercent, 100-whoPercent],
+                              backgroundColor: ["#62CAE2", "#F5F5F5"],
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true,
+                      tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                              //return data.datasets[tooltipItem.index]
+                              //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                              return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                            }
+                          }
+                        }
+                  }
+              });
 
               $scope.startDate = $scope.numDrinksDatesLabels[0];
               var calorieWineShot = 100; //i made this up
@@ -542,13 +666,40 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                       datasets: [
                           {
                               label: "Number of Drinks Consumed",
-                              fillColor: "rgba(220,220,220,0.2)",
-                              strokeColor: "rgba(220,220,220,1)",
-                              pointColor: "rgba(220,220,220,1)",
-                              pointStrokeColor: "#fff",
-                              pointHighlightFill: "#fff",
-                              pointHighlightStroke: "rgba(220,220,220,1)",
+                              borderWidth : 2,
+                              borderColor : '#e6e6e6',
+                              pointBackgroundColor : '#e6e6e6',
+                              pointBorderColor : '#e6e6e6',
+                              pointBorderWidth : 1,
+                              pointRadius : 2,
+                              pointHoverBackgroundColor : '#e6e6e6',
+                              pointHoverBorderColor : '#e6e6e6',
                               data: test
+                          }
+                      ]
+                  },
+                  options: {
+                      responsive: true
+                  }
+              });
+
+              var ctxL = document.getElementById("dayOfWeekLine").getContext('2d');
+              var myLineChart = new Chart(ctxL, {
+                  type: 'line',
+                  data: {
+                      labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
+                      datasets: [
+                          {
+                              label: "Drinking Episodes per Day of Week",
+                              borderWidth : 2,
+                              borderColor : '#e6e6e6',
+                              pointBackgroundColor : '#e6e6e6',
+                              pointBorderColor : '#e6e6e6',
+                              pointBorderWidth : 1,
+                              pointRadius : 2,
+                              pointHoverBackgroundColor : '#e6e6e6',
+                              pointHoverBorderColor : '#e6e6e6',
+                              data: days
                           }
                       ]
                   },
@@ -579,7 +730,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                         label: function(tooltipItem, data) {
                           //return data.datasets[tooltipItem.index]
                           //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
-                          return data.labels[tooltipItem.index] + ":"+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                          return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
                         }
                       }
                     },
@@ -592,7 +743,8 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               }
               });
 
-              var context = document.getElementById("barChart").getContext('2d');
+
+              /*var context = document.getElementById("barChart").getContext('2d');
               var barChart = new Chart(context, {
                   type: 'bar',
                   data: {
@@ -620,29 +772,6 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                               '#ffffff'
                           ],
                           borderWidth: 1
-                      },
-                      {
-                        label: 'Total Money Spent',
-                        data: totalCostList,
-                        backgroundColor: [
-                            '#818DC6',
-                            '#818DC6',
-                            '#818DC6',
-                            '#818DC6',
-                            '#818DC6',
-                            '#818DC6',
-                            '#818DC6'
-                        ] ,
-                        borderColor: [
-                            '#ffffff',
-                            '#ffffff',
-                            '#ffffff',
-                            '#ffffff',
-                            '#ffffff',
-                            '#ffffff',
-                            '#ffffff'
-                        ],
-                        borderWidth: 1
                       }
                     ]
                   },
@@ -674,7 +803,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                         }
                       }
                   }
-              });
+              });*/
 
               var locations = [];
               var tempLocations = [];
@@ -684,8 +813,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               $scope.averageCaloriesConsumed = Math.round($scope.totalCalConsumed/nightCounter)
               $scope.averageMoneySpent = Math.round($scope.totalCost1/nightCounter)
 
-              console.log($scope.averageDrinksConsumed)
-              console.log($scope.averageCaloriesConsumed)
+
     var locations = [];
     var tempLocations = [];
     var newLocations = [];
@@ -770,7 +898,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
       //console.log(tempLocations);
 
                       var map = new google.maps.Map(document.getElementById("map-container-5"), {
-                        maxZoom: 14,
+                        zoom: 14,
                         //center: new google.maps.LatLng(38.6364953, -90.2350996),
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                       });

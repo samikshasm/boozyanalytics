@@ -1,7 +1,19 @@
 #pieChart{
-  background: #344A5F;
+  background: #818DC6;
 }
 
-#barChartColor{
-  background: #344A5F;
+#dayOfWeekLineColor{
+  background: #62CAE2;
+}
+
+#dailyTrackerColor{
+  background: #4EBA75;
+}
+
+#whereType{
+  background: #EC6E91;
+}
+
+#whoType{
+  background: #FCB857;
 }
