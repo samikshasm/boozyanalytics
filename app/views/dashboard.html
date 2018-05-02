@@ -55,17 +55,7 @@
     <li class="list-group-item">Total Liters Consumed: {{totalLitersConsumed}}</li>
     <li class="list-group-item">Number of Locations: {{locationCounter}}</li>
     <li class="list-group-item">Total # of Drinks: {{totalDrinks}}</li>
-    <li class="list-group-item">Percent Wine: {{percentWine}}</li>
-    <li class="list-group-item">Percent Liquor: {{percentLiquor}}</li>
-    <li class="list-group-item">Percent Beer: {{percentBeer}}</li>
-    <li class="list-group-item">Friends Percentage: {{friendsCounter}}</li>
-    <li class="list-group-item">Partner Percentage: {{partnerCounter}}</li>
-    <li class="list-group-item">Nobody Percentage: {{nobodyCounter}}</li>
-    <li class="list-group-item">Who Other Percentage: {{whoOtherCounter}}</li>
-    <li class="list-group-item">Work Percentage: {{workCounter}}</li>
-    <li class="list-group-item">Home Percentage: {{homeCounter}}</li>
-    <li class="list-group-item">Bar Percentage: {{barCounter}}</li>
-    <li class="list-group-item">Where Other Percentage: {{whereOtherCounter}}</li>
+
   </ul>
 </div>
 
@@ -73,32 +63,60 @@
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <p>Drinks per epsiode</p>
-            <p><h6>{{totalDrinks}} Total</h6></p>
+            <p>Control: Drinks per epsiode</p>
+            <p><h6>{{controlDrinks}} Total</h6></p>
           </div>
       </div>
   </div>
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <p><h4>{{totalDrinks}}</h4><a>Total Number of Drinks</a></p>
-          </div>
+            <p>Experimental: Drinks per epsiode</p>
+            <p><h6>{{expDrinks}} Total</h6></p>          </div>
       </div>
   </div>
 </div>
 
-<!--Grid column-->
+<div class="row">
+  <div class="col-md-6 mx-auto" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
+            <p>Control: Calories</p>
+            <p><h6>{{totalCalControl}} Total</h6></p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-6 mx-auto" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
+            <p>Experimental: Calories</p>
+            <p><h6>{{totalCalExperimental}} Total</h6></p>          </div>
+      </div>
+  </div>
+</div>
+
+<div class="row">
 <div class="col-md-6 mx-auto" >
-    <!--Card-->
     <div class="card card-cascade narrower">
-        <!--Card content-->
         <div class="card-body text-center" ng-controller="DashboardCtrl" >
-            <!--Google map-->
-            <canvas id="myChart"></canvas>
+            <canvas id="controlPieChart"></canvas>
         </div>
-        <!--/.Card content-->
+        <div class="card-body text-right">
+          <p><h4 class="card-t  itle" align="left">Control - Types of Drinks</p>
+        </div>
     </div>
-    <!--/.Card-->
+</div>
+
+<div class="col-md-6 mx-auto" >
+    <div class="card card-cascade narrower">
+        <div class="card-body text-center" ng-controller="DashboardCtrl" >
+            <canvas id="expPieChart"></canvas>
+        </div>
+        <div class="card-body text-right">
+          <p><h4 class="card-t  itle" align="left">Experimental - Types of Drinks</p>
+        </div>
+    </div>
+</div>
 </div>
 <!--Grid column-->
 

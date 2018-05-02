@@ -9,6 +9,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   $scope.totalCalConsumed = 0;
   $scope.totalLitersConsumed = 0;
   $scope.averageDrinksConsumed = 0;
+  $scope.groupOfParticipant = "";
 
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
@@ -43,17 +44,6 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   $scope.testNum = [];
   $scope.startDate = "";
   var numDrinksParticipant;
-  for(var i=0;i<$scope.controlList.length;i++){
-    if($scope.currentParticpant == $scope.controlList[i]){
-      group = "control";
-    }
-  }
-
-  for(var i=0;i<$scope.experimentalList.length;i++){
-    if($scope.currentParticpant == $scope.experimentalList[i]){
-      group = "experimental";
-    }
-  }
 
   queryDatabase();
 
@@ -195,11 +185,32 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                 })
               })
 
+              //Reinitialize control and experimental list of users
+              //set group of participant for HTML
               $scope.controlList = [];
               $scope.experimentalList =[];
-              $scope.controlList.push(tempControl);
-              $scope.experimentalList.push(tempExp);
+              for(var i =0;i<tempControl.length;i++){
+                $scope.controlList[i] = tempControl[i]
+              }
+              for(var i =0;i<tempExp.length;i++){
+                $scope.experimentalList[i] = tempExp[i]
+              }
 
+
+              for(var i=0;i<$scope.controlList.length;i++){
+                if($scope.controlList.includes($scope.currentParticpant)){
+                  group = "control";
+                }
+              }
+
+              for(var i=0;i<$scope.experimentalList.length;i++){
+                if($scope.experimentalList.includes($scope.currentParticpant)){
+                  group = "experimental";
+                }
+              }
+              $scope.groupOfParticipant = group;
+
+              //Parse and create donut charts for where and who participant is drinking with
               var workCounter = 0;
               var homeCounter = 0;
               var barCounter = 0;
@@ -325,7 +336,10 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   }
               });
 
+              //start date of participant's Episode 1
               $scope.startDate = $scope.numDrinksDatesLabels[0];
+
+              //create types of drinks pie chart and calculate total calories consumed
               var calorieWineShot = 100; //i made this up
               var calorieWineEight = 188;
               var calorieWineSixteen = 377;
