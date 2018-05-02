@@ -282,7 +282,18 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                       ]
                   },
                   options: {
-                      responsive: true
+                      responsive: true,
+                      tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                              //return data.datasets[tooltipItem.index]
+                              //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                              return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                            }
+                          }
+                        }
                   }
               });
 
@@ -294,12 +305,23 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                       datasets: [
                           {
                               data: [whoPercent, 100-whoPercent],
-                              backgroundColor: ["#FCB857", "#F5F5F5"],
+                              backgroundColor: ["#62CAE2", "#F5F5F5"],
                           }
                       ]
                   },
                   options: {
-                      responsive: true
+                      responsive: true,
+                      tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                              //return data.datasets[tooltipItem.index]
+                              //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                              return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                            }
+                          }
+                        }
                   }
               });
 
@@ -708,7 +730,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                         label: function(tooltipItem, data) {
                           //return data.datasets[tooltipItem.index]
                           //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
-                          return data.labels[tooltipItem.index] + ":"+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                          return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
                         }
                       }
                     },
