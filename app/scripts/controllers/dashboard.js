@@ -322,7 +322,10 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   },
                   options: {
                       responsive: true,
-                      cutoutPercentage: 70
+                      cutoutPercentage: 70,
+                      legend:{
+                        display:false
+                      }
                   },
                   plugins: [{
                     id: 'my-plugin',
@@ -333,15 +336,15 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       //chart.ctx.font = 'bold 3vw Arial'
                       var string = $scope.whereControlPercentage+"%"+" "+whereControlLabel;
                       var array = string.split(" ");
-                      var y = chart.canvas.height/2.7
+                      var y = chart.canvas.height/3
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
-                          chart.ctx.font = 'bold 7vw Arial'
+                          chart.ctx.font = 'bold 4vw Arial'
                         }else{
-                          chart.ctx.font = 'bold 3vw Arial'
+                          chart.ctx.font = 'bold 1vw Arial'
                         }
                          chart.ctx.fillText(array[i], chart.canvas.width/2.7, y);
-                         y += 70;
+                         y += chart.canvas.height/7;
                       }
                       //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
                     }
@@ -361,8 +364,34 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       ]
                   },
                   options: {
-                      responsive: true
-                  }
+                      responsive: true,
+                      cutoutPercentage: 70,
+                      legend:{
+                        display:false
+                      }
+                  },
+                  plugins: [{
+                    id: 'my-plugin',
+                    afterDraw: function (chart, option) {
+                      chart.ctx.fillStyle = '#EC6E91'
+                      chart.ctx.textBaseline = 'middle'
+                      chart.ctx.textAlign = 'center'
+                      //chart.ctx.font = 'bold 3vw Arial'
+                      var string = $scope.whoControlPerecentage+"%"+" "+whoControlLabel;
+                      var array = string.split(" ");
+                      var y = chart.canvas.height/3
+                      for (var i = 0; i < array.length; i++) {
+                        if(i == 0){
+                          chart.ctx.font = 'bold 4vw Arial'
+                        }else{
+                          chart.ctx.font = 'bold 1vw Arial'
+                        }
+                         chart.ctx.fillText(array[i], chart.canvas.width/2.7, y);
+                         y += chart.canvas.height/7;
+                      }
+                      //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
+                    }
+                  }]
               });
               /*
               var x = 50;
@@ -392,8 +421,34 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       ]
                   },
                   options: {
-                      responsive: true
-                  }
+                      responsive: true,
+                      cutoutPercentage: 70,
+                      legend:{
+                        display:false
+                      }
+                  },
+                  plugins: [{
+                    id: 'my-plugin',
+                    afterDraw: function (chart, option) {
+                      chart.ctx.fillStyle = '#62CAE2'
+                      chart.ctx.textBaseline = 'middle'
+                      chart.ctx.textAlign = 'center'
+                      //chart.ctx.font = 'bold 3vw Arial'
+                      var string = $scope.whereExpPercentage+"%"+" "+whereExpLabel;
+                      var array = string.split(" ");
+                      var y = chart.canvas.height/3
+                      for (var i = 0; i < array.length; i++) {
+                        if(i == 0){
+                          chart.ctx.font = 'bold 4vw Arial'
+                        }else{
+                          chart.ctx.font = 'bold 1vw Arial'
+                        }
+                         chart.ctx.fillText(array[i], chart.canvas.width/2.7, y);
+                         y += chart.canvas.height/7;
+                      }
+                      //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
+                    }
+                  }]
               });
 
               var ctxD = document.getElementById("whoExpDonut").getContext('2d');
@@ -409,8 +464,34 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       ]
                   },
                   options: {
-                      responsive: true
-                  }
+                      responsive: true,
+                      cutoutPercentage: 70,
+                      legend:{
+                        display:false
+                      }
+                  },
+                  plugins: [{
+                    id: 'my-plugin',
+                    afterDraw: function (chart, option) {
+                      chart.ctx.fillStyle = '#4EBA75'
+                      chart.ctx.textBaseline = 'middle'
+                      chart.ctx.textAlign = 'center'
+                      //chart.ctx.font = 'bold 3vw Arial'
+                      var string = $scope.whoExpPercentage+"%"+" "+whoExpLabel;
+                      var array = string.split(" ");
+                      var y = chart.canvas.height/3
+                      for (var i = 0; i < array.length; i++) {
+                        if(i == 0){
+                          chart.ctx.font = 'bold 4vw Arial'
+                        }else{
+                          chart.ctx.font = 'bold 1vw Arial'
+                        }
+                         chart.ctx.fillText(array[i], chart.canvas.width/2.7, y);
+                         y += chart.canvas.height/7;
+                      }
+                      //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
+                    }
+                  }]
               });
 
 /*

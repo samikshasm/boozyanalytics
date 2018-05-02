@@ -164,53 +164,58 @@
         </div>
     </div-->
 <div class="row">
-    <div class="col-md-6 mx-auto">
+    <div class="col-md-5 mx-auto">
         <div class="card card-cascade narrower">
             <div class="card-body text-center">
               <!--span class="min-chart" ng-controller="DashboardCtrl" id="where-control-chart" data-percent=changePercent()><span class="percent"></span></span-->
-              <canvas id="whereControlDonut"></canvas>
-              <div class="text-center">
-                <h5><span class="label">Control - Where</span></h5>
+              <div class="row d-flex align-items-center">
+                <div class="col-md-6 mx-auto">
+                  <canvas id="whereControlDonut"></canvas>
+                  <div class="text-center">
+                    <h5><span class="label">Control - Where</span></h5>
+                  </div>
+                </div>
+                  <div class="col-md-6 mx-auto">
+                    <canvas id="whoControlDonut"></canvas>
+                    <div class="text-center">
+                      <h5><span class="label">Control - Who</span></h5>
+                    </div>
+                  </div>
               </div>
+
+            </div>
+
+
+          </div>
+      </div>
+
+      <div class="col-md-5 mx-auto">
+          <div class="card card-cascade narrower">
+              <div class="card-body text-center">
+                <!--span class="min-chart" ng-controller="DashboardCtrl" id="where-control-chart" data-percent=changePercent()><span class="percent"></span></span-->
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-6 mx-auto">
+                    <canvas id="whereExpDonut"></canvas>
+                    <div class="text-center">
+                      <h5><span class="label">Experimental - Where</span></h5>
+                    </div>
+                  </div>
+                    <div class="col-md-6 mx-auto">
+                      <canvas id="whoExpDonut"></canvas>
+                      <div class="text-center">
+                        <h5><span class="label">Experimental - Who</span></h5>
+                      </div>
+                    </div>
+                </div>
+
+              </div>
+
+
             </div>
         </div>
-    </div>
-    <div class="col-md-6 mx-auto">
-        <div class="card card-cascade narrower">
-            <div class="card-body text-center">
-              <!--span class="min-chart" ng-controller="DashboardCtrl" id="where-control-chart" data-percent=changePercent()><span class="percent"></span></span-->
-              <canvas id="whereExpDonut"></canvas>
-              <div class="text-center">
-                <h5><span class="label">Experimental - Where</span></h5>
-              </div>
-            </div>
-        </div>
-    </div>
   </div>
-  <div class="row">
-    <div class="col-md-6 mx-auto">
-        <div class="card card-cascade narrower">
-            <div class="card-body text-center">
-              <!--span class="min-chart" ng-controller="DashboardCtrl" id="where-control-chart" data-percent=changePercent()><span class="percent"></span></span-->
-              <canvas id="whoControlDonut"></canvas>
-              <div class="text-center">
-                <h5><span class="label">Control - Who</span></h5>
-              </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 mx-auto">
-        <div class="card card-cascade narrower">
-            <div class="card-body text-center">
-              <!--span class="min-chart" ng-controller="DashboardCtrl" id="where-control-chart" data-percent=changePercent()><span class="percent"></span></span-->
-              <canvas id="whoExpDonut"></canvas>
-              <div class="text-center">
-                <h5><span class="label">Experimental - Who</span></h5>
-              </div>
-            </div>
-        </div>
-    </div>
-  </div>
+
+
 </body>
 
 </html>
