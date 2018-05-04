@@ -479,17 +479,30 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       //chart.ctx.font = 'bold 3vw Arial'
                       var string = $scope.whoExpPercentage+"%"+" "+whoExpLabel;
                       var array = string.split(" ");
+                      //console.log("height: "+chart.canvas.height/2);
+                      //console.log("width: "+chart.canvas.width/2);
                       var windowHeight = window.innerHeight;
                       var windowWidth = window.innerWidth;
-                      var y = windowHeight/8;
+                      //var y = (chart.canvas.width/2) -(chart.ctx.measureText(chart.ctx.font).width/2);
+                      //console.log(y);
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
-                          chart.ctx.font = 'bold 4vw Arial'
+                          chart.ctx.font = 'bold 4vw Arial';
+                          var lineHeight=chart.ctx.measureText('M').width;
+                          var y = (chart.canvas.height/2 - lineHeight);
+                          var x = (chart.canvas.width/2)-(chart.ctx.measureText(chart.ctx.font).width/10);
+                          //var y = (chart.canvas.width/2) -(chart.ctx.measureText(chart.ctx.font).width/2);
+                          chart.ctx.fillText(array[i], x, y);
+                          y += lineHeight;
                         }else{
                           chart.ctx.font = 'bold 1vw Arial'
+                          var x = (chart.canvas.width/2)-(chart.ctx.measureText(chart.ctx.font).width/2.5);
+                          //var lineHeight=chart.ctx.measureText('M').width;
+                          //var y = (chart.canvas.height/2 - lineHeight);
+                          chart.ctx.fillText(array[i], x, y);
                         }
-                         chart.ctx.fillText(array[i], windowWidth/12, y);
-                         y += chart.canvas.height/7;
+                        //console.log(chart.ctx.measureText(chart.ctx.font).width);
+                        //console.log("text width: "+chart.ctx.measureText(chart.ctx.font).width);
                       }
                       //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
                     }
