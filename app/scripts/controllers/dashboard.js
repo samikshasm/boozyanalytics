@@ -336,6 +336,11 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               $scope.averageCalExp = Math.round($scope.totalCalExperimental/expNightCounter,1)
               $scope.averageDrinksControl = Math.round($scope.controlDrinks/controlNightCounter, 1)
               $scope.averageDrinksExp = Math.round($scope.expDrinks/expNightCounter,1)
+              $scope.controlEpisodes = controlNightCounter
+              $scope.expEpisodes = expNightCounter
+
+              console.log($scope.controlEpisodes)
+              console.log($scope.expEpisodes)
 
               //$scope.totalLitersConsumed = (totalOuncesConsumed * 0.03);
 
@@ -356,8 +361,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   datasets: [
                       {
                           data: [percentControlWine,percentControlBeer,percentControlLiquor],
-                          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
-                          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
+                          backgroundColor: ["#62CAE2", "#FCB857", "#EC6E91"],
+                          hoverBackgroundColor: ["#93dbeb", "#fdd49b", "#f3a5bb"]
                       }
                   ]
               },
@@ -385,8 +390,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                 datasets: [
                     {
                         data: [percentExpWine,percentExpBeer,percentExpLiquor],
-                        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
-                        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
+                        backgroundColor: ["#62CAE2", "#FCB857", "#EC6E91"],
+                        hoverBackgroundColor: ["#93dbeb", "#fdd49b", "#f3a5bb"]
                     }
                 ]
             },
@@ -564,7 +569,18 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       cutoutPercentage: 70,
                       legend:{
                         display:false
-                      }
+                      },
+                      tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                              //return data.datasets[tooltipItem.index]
+                              //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                              return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                            }
+                          }
+                        }
                   },
                   plugins: [{
                     id: 'my-plugin',
@@ -609,7 +625,18 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       cutoutPercentage: 70,
                       legend:{
                         display:false
-                      }
+                      },
+                      tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                              //return data.datasets[tooltipItem.index]
+                              //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                              return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                            }
+                          }
+                        }
                   },
                   plugins: [{
                     id: 'my-plugin',
@@ -666,7 +693,18 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       cutoutPercentage: 70,
                       legend:{
                         display:false
-                      }
+                      },
+                      tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                              //return data.datasets[tooltipItem.index]
+                              //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                              return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                            }
+                          }
+                        }
                   },
                   plugins: [{
                     id: 'my-plugin',
@@ -709,7 +747,18 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       cutoutPercentage: 70,
                       legend:{
                         display:false
-                      }
+                      },
+                      tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                              //return data.datasets[tooltipItem.index]
+                              //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                              return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                            }
+                          }
+                        }
                   },
                   plugins: [{
                     id: 'my-plugin',
@@ -1141,6 +1190,196 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       }
                   }
               });
+
+/*
+              var iniData = {
+                labels: sortedControlList,
+                datasets:[
+              {
+                  label: "Control Users",
+                  fill: false,
+                  borderWidth : 5,
+                  borderColor : '#FCB857',
+                  pointBackgroundColor : '#FFFFFF',
+                  pointBorderColor : '#FFFFFF',
+                  pointBorderWidth : 1,
+                  pointRadius : 3,
+                  pointHoverBackgroundColor : '#FCB857',
+                  pointHoverBorderColor : '#FCB857',
+                  data: realControlSortedList
+              },
+              {
+                  label: "Experimental Users",
+                  fill: false,
+                  borderWidth : 5,
+                  borderColor : '#EC6E91',
+                  pointBackgroundColor : '#FFFFFF',
+                  pointBorderColor : '#FFFFFF',
+                  pointBorderWidth : 1,
+                  pointRadius : 3,
+                  pointHoverBackgroundColor : '#EC6E91',
+                  pointHoverBorderColor : '#EC6E91',
+                  data: realExpSortedList
+
+                }
+              ]
+            },
+            options = {
+              scaleFontColor: '#FFFFFF',
+                responsive: true,
+                legend: {
+                  display: true,
+                  labels: {
+                    fontColor: "#FFFFFF"
+                  }
+              },
+                scales: {
+                    yAxes: [{
+                      scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Drinks',
+                        fontColor: "#FFFFFF"
+
+                      },
+                        ticks: {
+                            beginAtZero:true,
+                            fontColor: "#FFFFFF"
+                        }
+                    }],
+                    xAxes: [{
+                      scaleLabel: {
+                        display: true,
+                        labelString: 'Night Count',
+                        fontColor: "#FFFFFF"
+                      },
+                      ticks: {
+                          fontColor: "#FFFFFF"
+                      }
+                    }],
+
+                }
+            }
+
+
+              var ini = document.getElementById("lineChart").getContext('2d')
+
+              rs = new RangeSliderChart({
+                chartData: iniData,
+                chartOpts: options,
+                chartType: 'line',
+                chartCTX: lineChart,
+                class: 'my-chart-ranger',
+                initial: [1,24]
+              })
+
+
+
+              // line chart data
+              		var iniData = {
+              			labels:[
+              				"2000",
+              				"2001",
+              				"2002",
+              				"2003",
+              				"2004",
+              				"2005",
+              				"2006",
+              				"2007",
+              				"2008",
+              				"2009",
+              				"2011",
+              				"2012",
+              				"2013",
+              				"2014",
+              				"2015",
+              				"2016",
+              				"2017",
+              				"2018",
+              				"2019",
+              				"2020"
+              			],
+              			datasets:[{
+              				label: "Rangeslider Line 1",
+              				fillColor:"rgba(172,194,132,0)",
+              				strokeColor:"#C45662",
+              				pointColor:"#C45662",
+              				pointStrokeColor:"#fff",
+              				pointHighlightFill: "#fff",
+              				pointHighlightStroke: "#C45662",
+              				data:[
+              					480,
+              					490,
+                        500,
+                        510,
+                        520,
+                        530,
+                        540,
+                        550,
+                        560,
+                        570,
+                        580,
+                        590,
+                        600,
+                        610,
+                        620,
+                        630,
+                        640,
+                        650,
+                        660,
+                        670
+              				]
+              			},
+              			{
+              				label: "Rangeslider Line 2",
+              				fillColor:"rgba(172,194,132,0)",
+              				strokeColor:"#C45662",
+              				pointColor:"#C45662",
+              				pointStrokeColor:"#fff",
+              				pointHighlightFill: "#fff",
+              				pointHighlightStroke: "#C45662",
+              				data:[
+                        480,
+              					490,
+                        500,
+                        510,
+                        520,
+                        530,
+                        540,
+                        550,
+                        560,
+                        570,
+                        580,
+                        590,
+                        600,
+                        610,
+                        620,
+                        630,
+                        640,
+                        650,
+                        660,
+                        670
+              				],
+              			}]
+              		},
+              		// create the options
+              		options = {
+              			scaleBeginAtZero: true,
+              			tooltipTemplate: "<%if (label){%><%=label%>: <%}%>$<%= value %>",
+              			label: 'test'
+              		},
+              		// get line chart canvas
+              		ini = document.getElementById('ini').getContext('2d')
+              		rs = new RangeSliderChart({
+              			chartData: iniData,
+              			chartOpts: options,
+              			chartType: 'line',
+              			chartCTX: ini,
+              			class: 'my-chart-ranger',
+              			initial: [3, 10]
+              		})
+*/
+
+
 
             var locations = [];
 
