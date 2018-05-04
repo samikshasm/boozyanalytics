@@ -4,8 +4,15 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 .controller('DashboardCtrl', ['$scope', '$firebaseAuth', '$firebase','CommonProp', 'SetCurrentUser', '$firebaseArray', '$firebaseObject' , function($scope, $firebaseAuth, $firebase, CommonProp, SetCurrentUser, $firebaseArray, $firebaseObject){
 
   $scope.currentParticpant = SetCurrentUser.getCurrentUser()
-  $scope.totalCalConsumed = 0;
+  $scope.totalCalControl = 0;
+  $scope.totalCalExperimental =0;
   $scope.totalLitersConsumed = 0;
+  var controlWineCounter = 0;
+  var controlBeerCounter = 0;
+  var controlLiquorCounter = 0;
+  var expWineCounter = 0
+  var expBeerCounter = 0
+  var expLiquorCounter = 0
 
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
@@ -21,12 +28,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   $scope.locationCounter = 0;
   $scope.lattitudeList = [];
   $scope.longitudeList = [];
-  $scope.percentWine = 0.0;
-  $scope.percentLiquor = 0.0;
-  $scope.percentBeer = 0.0;
-  var wineCounter = 0;
-  var beerCounter = 0;
-  var liquorCounter = 0;
+
   $scope.costList = [];
   var averageCostList = [];
 
@@ -47,6 +49,9 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   var nightCountList = [];
   var counter1 = 0;
   var group = "";
+  var controlNightCounter=0
+  var expNightCounter=0
+  var nightCounterList=[]
 
 
   queryDatabase();
@@ -90,6 +95,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                           var substr = idStr.substr(0,11);
                           if(substr == "Night Count"){
                             nightCounter++;
+                            nightCounterList.push(participantName + " " + id)
                           }
                         })
                         angular.forEach(value, function(value, id){
@@ -123,7 +129,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
                                     if(id == "Type"){
                                       angular.forEach(value,function(value,id){
-                                        $scope.typeList.push(value);
+                                        $scope.typeList.push(substr1 + " " + participantName + " " + value);
                                       })
                                     }
 
@@ -166,6 +172,239 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                     }
                   })
                 })
+
+              for(var i=0;i<nightCounterList.length;i++){
+                var name = nightCounterList[i].split(" ")[0]
+                if ($scope.controlList.includes(name)){
+                  controlNightCounter++
+                }
+                else if ($scope.experimentalList.includes(name)){
+                  expNightCounter++
+                }
+              }
+
+              var calorieWineShot = 100; //i made this up
+              var calorieWineEight = 188;
+              var calorieWineSixteen = 377;
+              var calorieWineTwentyFour = 565;
+
+              var calorieBeerShot = 58; //i don't actually know
+              var calorieBeerEight = 98;
+              var calorieBeerSixteen = 196;
+              var calorieBeerTwentyFour = 294;
+
+              var calorieLiquorShot = 100; //i made this up
+              var calorieLiquorEight = 188;
+              var calorieLiquorSixteen = 377;
+              var calorieLiquorTwentyFour = 565;
+
+              var totalOuncesConsumed = 0;
+              var tempSize = 0;
+              var tempType = 0;
+              $scope.controlDrinks = 0
+              $scope.expDrinks = 0
+
+              for (var i=0;i<$scope.numDrinks.length;i++){
+                var name = $scope.numDrinks[i].split(" ")[1]
+                var size = $scope.numDrinks[i].split(" ")[2]
+                var type = $scope.typeList[i].split(" ")[2]
+                if($scope.controlList.includes(name)){
+                  $scope.controlDrinks++;
+                  var tempType = type
+                  var tempSize = size
+
+                  if (!tempSize=="Shot") {
+                    var sizeOfDrink = Integer.parseInt(size);
+                    totalOuncesConsumed = totalOuncesConsumed + sizeOfDrink;
+                  }
+                  else {
+                    totalOuncesConsumed = totalOuncesConsumed + 1;
+                  }
+
+                  if(tempType == "wine"){
+                    controlWineCounter++;
+                    if(tempSize == "Shot"){
+                      $scope.totalCalControl = $scope.totalCalControl+calorieWineShot;
+                    }
+                    else if (tempSize == "8") {
+                      $scope.totalCalControl = $scope.totalCalControl+calorieWineEight;
+                    }
+                    else if (tempSize == "16") {
+                      $scope.totalCalControl = $scope.totalCalControl+calorieWineSixteen;
+                    }
+                    else if (tempSize == "24") {
+                      $scope.totalCalControl = $scope.totalCalControl+calorieWineTwentyFour;
+                    }
+                  }
+
+                  else if(tempType == "liquor"){
+                    controlLiquorCounter++;
+                    if(tempSize == "Shot"){
+                      $scope.totalCalControl = $scope.totalCalControl+calorieLiquorShot;
+                    }
+                    else if (tempSize == "8") {
+                      $scope.totalCalControl = $scope.totalCalControl+calorieLiquorEight;
+                    }
+                    else if (tempSize == "16") {
+                      $scope.totalCalControl = $scope.totalCalControl+calorieLiquorSixteen;
+                    }
+                    else if (tempSize == "24") {
+                      $scope.totalCalControl = $scope.totalCalControl+calorieLiquorTwentyFour;
+                    }
+                  }
+
+                  else if(tempType == "beer"){
+                    controlBeerCounter++;
+                    if(tempSize == "Shot"){
+                      $scope.totalCalControl = $scope.totalCalControl+calorieBeerShot;
+                    }
+                    else if (tempSize == "8") {
+                      $scope.totalCalControl = $scope.totalCalControl+calorieBeerEight;
+                    }
+                    else if (tempSize == "16") {
+                      $scope.totalCalControl = $scope.totalCalControl+calorieBeerSixteen;
+                    }
+                    else if (tempSize == "24") {
+                      $scope.totalCalControl = $scope.totalCalControl+calorieBeerTwentyFour;
+                    }
+                  }
+                }
+                if($scope.experimentalList.includes(name)){
+                  $scope.expDrinks++
+                  var tempType = type
+                  var tempSize = size
+
+                  if (!tempSize=="Shot") {
+                    var sizeOfDrink = Integer.parseInt(size);
+                    totalOuncesConsumed = totalOuncesConsumed + sizeOfDrink;
+                  }
+                  else {
+                    totalOuncesConsumed = totalOuncesConsumed + 1;
+                  }
+
+                  if(tempType == "wine"){
+                    expWineCounter++;
+                    if(tempSize == "Shot"){
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieWineShot;
+                    }
+                    else if (tempSize == "8") {
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieWineEight;
+                    }
+                    else if (tempSize == "16") {
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieWineSixteen;
+                    }
+                    else if (tempSize == "24") {
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieWineTwentyFour;
+                    }
+                  }
+
+                  else if(tempType == "liquor"){
+                    expLiquorCounter++;
+                    if(tempSize == "Shot"){
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieLiquorShot;
+                    }
+                    else if (tempSize == "8") {
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieLiquorEight;
+                    }
+                    else if (tempSize == "16") {
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieLiquorSixteen;
+                    }
+                    else if (tempSize == "24") {
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieLiquorTwentyFour;
+                    }
+                  }
+
+                  else if(tempType == "beer"){
+                    expBeerCounter++;
+                    if(tempSize == "Shot"){
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieBeerShot;
+                    }
+                    else if (tempSize == "8") {
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieBeerEight;
+                    }
+                    else if (tempSize == "16") {
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieBeerSixteen;
+                    }
+                    else if (tempSize == "24") {
+                      $scope.totalCalExperimental = $scope.totalCalExperimental+calorieBeerTwentyFour;
+                    }
+                  }
+                }
+              }
+
+              $scope.averageCalControl = Math.round($scope.totalCalControl/controlNightCounter,1)
+              $scope.averageCalExp = Math.round($scope.totalCalExperimental/expNightCounter,1)
+              $scope.averageDrinksControl = Math.round($scope.controlDrinks/controlNightCounter, 1)
+              $scope.averageDrinksExp = Math.round($scope.expDrinks/expNightCounter,1)
+
+              //$scope.totalLitersConsumed = (totalOuncesConsumed * 0.03);
+
+              var percentControlWine = Math.round((controlWineCounter/$scope.controlDrinks) * 100)
+              var percentControlBeer = Math.round((controlBeerCounter/$scope.controlDrinks) *100)
+              var percentControlLiquor = Math.round((controlLiquorCounter/$scope.controlDrinks) *100)
+
+              var percentExpWine = Math.round((expWineCounter/$scope.expDrinks) * 100)
+              var percentExpBeer = Math.round((expBeerCounter/$scope.expDrinks) *100)
+              var percentExpLiquor = Math.round((expLiquorCounter/$scope.expDrinks) *100)
+
+
+              var ctxP = document.getElementById("controlPieChart").getContext('2d');
+              var myPieChart = new Chart(ctxP, {
+              type: 'pie',
+              data: {
+                  labels: ["Wine", "Beer", "Liquor"],
+                  datasets: [
+                      {
+                          data: [percentControlWine,percentControlBeer,percentControlLiquor],
+                          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
+                          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
+                      }
+                  ]
+              },
+              options: {
+                  responsive: true,
+                  tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                          //return data.datasets[tooltipItem.index]
+                          //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                          return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                        }
+                      }
+                    }
+              }
+            });
+
+            var ctxP = document.getElementById("expPieChart").getContext('2d');
+            var myPieChart = new Chart(ctxP, {
+            type: 'pie',
+            data: {
+                labels: ["Wine", "Beer", "Liquor"],
+                datasets: [
+                    {
+                        data: [percentExpWine,percentExpBeer,percentExpLiquor],
+                        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
+                        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                  enabled: true,
+                  mode: 'single',
+                  callbacks: {
+                      label: function(tooltipItem, data) {
+                        //return data.datasets[tooltipItem.index]
+                        //return data.datasets[tooltipItem.datasetIndex] + ' - ' + tooltipItem.yLabel
+                        return data.labels[tooltipItem.index] + ": "+Math.round(data.datasets[0].data[tooltipItem.index])+"%";
+                      }
+                    }
+                  }
+            }
+          });
 
               var workControlCounter = 0;
               var homeControlCounter = 0;
@@ -254,7 +493,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   }
                 }
               }
-              console.log(nightCounter)
+
               controlWhereList.push(workControlCounter)
               controlWhereList.push(homeControlCounter)
               controlWhereList.push(barControlCounter)
@@ -336,7 +575,9 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       //chart.ctx.font = 'bold 3vw Arial'
                       var string = $scope.whereControlPercentage+"%"+" "+whereControlLabel;
                       var array = string.split(" ");
-                      var y = chart.canvas.height/3
+                      var y = chart.canvas.height/3;
+                      var test = window.innerHeight;
+                    //  console.log(test);
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
                           chart.ctx.font = 'bold 4vw Arial'
@@ -504,122 +745,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   }]
               });
 
-/*
-              $('.min-chart#who-exp-chart').easyPieChart({
-                      barColor: "#4caf50",
-                      onStep: function (from, to, percent) {
-                          $(this.el).find('.percent').text($scope.whoControlPerecentage);
-                      }
-
-                    });
-                    var value = 50;
-
-              $scope.changePercent = function(){
-                console.log('changePercent')
-                $('.min-chart#who-exp-chart').attr("data-percent", value.toString());
-              }
-
-              $('.min-chart#where-exp-chart').easyPieChart({
-                      barColor: "#4caf50",
-                      onStep: function (from, to, percent) {
-                          $(this.el).find('.percent').text($scope.whoExpPercentage);
-                      }
-                    });
-
-              $('.min-chart#who-control-chart').easyPieChart({
-                      barColor: "#4caf50",
-                      onStep: function (from, to, percent1) {
-                          $(this.el).find('.percent').text($scope.whoControlPerecentage);
-                      }
-                    });
-
-              $('.min-chart#where-control-chart').easyPieChart({
-                      barColor: "#4caf50",
-                      onStep: function (from, to, percent) {
-                          $(this.el).find('.percent').text($scope.whereControlPercentage);
-                      }
-                    });
-*/
-
-              var calorieWineShot = 100; //i made this up
-              var calorieWineEight = 188;
-              var calorieWineSixteen = 377;
-              var calorieWineTwentyFour = 565;
-
-              var calorieBeerShot = 58; //i don't actually know
-              var calorieBeerEight = 98;
-              var calorieBeerSixteen = 196;
-              var calorieBeerTwentyFour = 294;
-
-              var calorieLiquorShot = 100; //i made this up
-              var calorieLiquorEight = 188;
-              var calorieLiquorSixteen = 377;
-              var calorieLiquorTwentyFour = 565;
-
-              var totalOuncesConsumed = 0;
-              var tempSize = 0;
-              var tempType = 0;
-
-              for(var i=0;i<$scope.sizeList.length;i++){
-                tempType = $scope.typeList[i];
-                tempSize = $scope.sizeList[i];
-
-                if (!$scope.sizeList[i]=="Shot") {
-                  var sizeOfDrink = Integer.parseInt($scope.sizeList[i]);
-                  totalOuncesConsumed = totalOuncesConsumed + sizeOfDrink;
-                }
-                else {
-                  totalOuncesConsumed = totalOuncesConsumed + 1;
-                }
-
-                if(tempType == "wine"){
-                  wineCounter++;
-                  if(tempSize == "Shot"){
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieWineShot;
-                  }
-                  else if (tempSize == "8") {
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieWineEight;
-                  }
-                  else if (tempSize == "16") {
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieWineSixteen;
-                  }
-                  else if (tempSize == "24") {
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieWineTwentyFour;
-                  }
-                }
-
-                else if(tempType == "liquor"){
-                  liquorCounter++;
-                  if(tempSize == "Shot"){
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieLiquorShot;
-                  }
-                  else if (tempSize == "8") {
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieLiquorEight;
-                  }
-                  else if (tempSize == "16") {
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieLiquorSixteen;
-                  }
-                  else if (tempSize == "24") {
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieLiquorTwentyFour;
-                  }
-                }
-
-                else if(tempType == "beer"){
-                  beerCounter++;
-                  if(tempSize == "Shot"){
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieBeerShot;
-                  }
-                  else if (tempSize == "8") {
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieBeerEight;
-                  }
-                  else if (tempSize == "16") {
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieBeerSixteen;
-                  }
-                  else if (tempSize == "24") {
-                    $scope.totalCalConsumed = $scope.totalCalConsumed+calorieBeerTwentyFour;
-                  }
-                }
-              }
               var totalCostList = [];
               var sunCounter =0 ;
               var monCounter=0;
@@ -767,149 +892,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               totalCostList.push(friCoutner);
               totalCostList.push(satCounter);
 
-              $scope.totalLitersConsumed = (totalOuncesConsumed * 0.03);
-
-              $scope.percentWine = (wineCounter/$scope.totalDrinks) * 100;
-              $scope.percentBeer = (beerCounter/$scope.totalDrinks) *100;
-              $scope.percentLiquor = (liquorCounter/$scope.totalDrinks) *100;
-
-              var ctxP = document.getElementById("myChart").getContext('2d');
-              var myPieChart = new Chart(ctxP, {
-              type: 'pie',
-              data: {
-                  labels: ["Wine", "Beer", "Liquor"],
-                  datasets: [
-                      {
-                          data: [$scope.percentWine,$scope.percentBeer,$scope.percentLiquor],
-                          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
-                          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
-                      }
-                  ]
-              },
-              options: {
-                  responsive: true
-              }
-              });
-
-              var labelsList = []
-              for (var i = 0;i<$scope.numDrinks;i++){
-                labelsList.push(i);
-              }
-
-              var controlCounter = 1;
-              var experimentalCounter = 1;
-              var controlNightCountFinal = [];
-              var controlDrinkTotalFinal = [];
-              var expNightCountFinal = [];
-              var expDrinkTotalFinal = [];
-              var unsortedControlList = [];
-              var unsortedExpList = [];
-              var group = "";
-              for (var i = 0; i<$scope.numDrinks.length;i++) {
-                var nightCount = $scope.numDrinks[i].split(" ")[0];
-                var name = $scope.numDrinks[i].split(" ")[1];
-                var drink = $scope.numDrinks[i].split(" ")[2];
-                for (var j=1;j<$scope.numDrinks.length;j++){
-                //  console.log(name);
-                  if ($scope.controlList.includes(name)) {
-                    group = "control";
-                    var nightCount1 = $scope.numDrinks[j].split(" ")[0];
-                    var name1 = $scope.numDrinks[j].split(" ")[1];
-                    if(i!=j){
-                      if ($scope.controlList.includes(name1)){
-                        if (nightCount == nightCount1) {
-                          controlCounter++;
-                          $scope.numDrinks.splice(j,1);
-                          j=j-1
-                        }
-                      }
-                    }
-                  }
-                  else if($scope.experimentalList.includes(name)){
-                    group = "experimental";
-                    var nightCount1 = $scope.numDrinks[j].split(" ")[0];
-                    var name1 = $scope.numDrinks[j].split(" ")[1];
-                    if (i!=j){
-                      if($scope.experimentalList.includes(name1)){
-                        if (nightCount == nightCount1) {
-                          experimentalCounter++;
-                          $scope.numDrinks.splice(j,1);
-                          j=j-1;
-                        }
-                      }
-                    }
-                  }
-                }
-                if (group == "control") {
-                  controlDrinkTotalFinal.push(controlCounter);
-                  unsortedControlList.push(parseInt(nightCount));
-                }
-                else if (group=="experimental"){
-                  expDrinkTotalFinal.push(experimentalCounter);
-                  unsortedExpList.push(parseInt(nightCount));
-                }
-                controlCounter =1;
-                experimentalCounter=1;
-              }
-
-
-              var sortedControlList = unsortedControlList.slice().sort(function(a, b) { return a > b ? 1 : -1});
-              var realControlSortedList = [];
-              for (var i =0;i<sortedControlList.length;i++){
-                for (var j = 0;j<sortedControlList.length;j++){
-                  if(sortedControlList[i]==unsortedControlList[j]) {
-                    realControlSortedList.push(controlDrinkTotalFinal[j]);
-                  }
-                }
-              }
-
-              var sortedExpList = unsortedExpList.slice().sort(function(a, b) { return a > b ? 1 : -1});
-              var realExpSortedList = [];
-              for (var i =0;i<sortedExpList.length;i++){
-                for (var j = 0;j<sortedExpList.length;j++){
-                  if(sortedExpList[i]==unsortedExpList[j]) {
-                    realExpSortedList.push(controlDrinkTotalFinal[j]);
-                  }
-                }
-              }
-
-
-              var ctxL = document.getElementById("lineChart").getContext('2d');
-              var myLineChart = new Chart(ctxL, {
-                  type: 'line',
-                  data: {
-                      labels: sortedControlList,
-                      datasets: [
-                          {
-                              label: "Control Users",
-                              fillColor: "rgba(220,220,220,0.2)",
-                              strokeColor: "rgba(220,220,220,1)",
-                              pointColor: "rgba(220,220,220,1)",
-                              pointStrokeColor: "#fff",
-                              pointHighlightFill: "#fff",
-                              pointHighlightStroke: "rgba(220,220,220,1)",
-                              data: realControlSortedList
-                          },
-                          {
-                              label: "Experimental Users",
-                              backgroundColor : '#FCB857',
-                              borderWidth : 2,
-                              borderColor : '#4EBA75',
-                              pointBackgroundColor : '#4EBA75',
-                              pointBorderColor : '#FCB857',
-                              pointBorderWidth : 1,
-                              pointRadius : 4,
-                              pointHoverBackgroundColor : '#4EBA75',
-                              pointHoverBorderColor : '#4EBA75',
-                              data: realExpSortedList
-                          }
-                      ]
-                  },
-                  options: {
-                      responsive: true
-                  }
-              });
-
               var days = [];
               var mon = 0;
               var tues = 0;
@@ -1010,6 +992,160 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                                   beginAtZero:true
                               }
                           }]
+                      }
+                  }
+              });
+
+              var labelsList = []
+              for (var i = 0;i<$scope.numDrinks;i++){
+                labelsList.push(i);
+              }
+
+              var controlCounter = 1;
+              var experimentalCounter = 1;
+              var controlNightCountFinal = [];
+              var controlDrinkTotalFinal = [];
+              var expNightCountFinal = [];
+              var expDrinkTotalFinal = [];
+              var unsortedControlList = [];
+              var unsortedExpList = [];
+              var group = "";
+              for (var i = 0; i<$scope.numDrinks.length;i++) {
+                var nightCount = $scope.numDrinks[i].split(" ")[0];
+                var name = $scope.numDrinks[i].split(" ")[1];
+                var drink = $scope.numDrinks[i].split(" ")[2];
+                for (var j=1;j<$scope.numDrinks.length;j++){
+                //  console.log(name);
+                  if ($scope.controlList.includes(name)) {
+                    group = "control";
+                    var nightCount1 = $scope.numDrinks[j].split(" ")[0];
+                    var name1 = $scope.numDrinks[j].split(" ")[1];
+                    if(i!=j){
+                      if ($scope.controlList.includes(name1)){
+                        if (nightCount == nightCount1) {
+                          controlCounter++;
+                          $scope.numDrinks.splice(j,1);
+                          j=j-1
+                        }
+                      }
+                    }
+                  }
+                  else if($scope.experimentalList.includes(name)){
+                    group = "experimental";
+                    var nightCount1 = $scope.numDrinks[j].split(" ")[0];
+                    var name1 = $scope.numDrinks[j].split(" ")[1];
+                    if (i!=j){
+                      if($scope.experimentalList.includes(name1)){
+                        if (nightCount == nightCount1) {
+                          experimentalCounter++;
+                          $scope.numDrinks.splice(j,1);
+                          j=j-1;
+                        }
+                      }
+                    }
+                  }
+                }
+                if (group == "control") {
+                  controlDrinkTotalFinal.push(controlCounter);
+                  unsortedControlList.push(parseInt(nightCount));
+                }
+                else if (group=="experimental"){
+                  expDrinkTotalFinal.push(experimentalCounter);
+                  unsortedExpList.push(parseInt(nightCount));
+                }
+                controlCounter =1;
+                experimentalCounter=1;
+              }
+
+
+              var sortedControlList = unsortedControlList.slice().sort(function(a, b) { return a > b ? 1 : -1});
+              var realControlSortedList = [];
+              for (var i =0;i<sortedControlList.length;i++){
+                for (var j = 0;j<sortedControlList.length;j++){
+                  if(sortedControlList[i]==unsortedControlList[j]) {
+                    realControlSortedList.push(controlDrinkTotalFinal[j]);
+                  }
+                }
+              }
+
+              var sortedExpList = unsortedExpList.slice().sort(function(a, b) { return a > b ? 1 : -1});
+              var realExpSortedList = [];
+              for (var i =0;i<sortedExpList.length;i++){
+                for (var j = 0;j<sortedExpList.length;j++){
+                  if(sortedExpList[i]==unsortedExpList[j]) {
+                    realExpSortedList.push(controlDrinkTotalFinal[j]);
+                  }
+                }
+              }
+
+
+              var ctxL = document.getElementById("lineChart").getContext('2d');
+              var myLineChart = new Chart(ctxL, {
+                  type: 'line',
+                  data: {
+                      labels: sortedControlList,
+                      datasets: [
+                          {
+                              label: "Control Users",
+                              fill: false,
+                              borderWidth : 5,
+                              borderColor : '#FCB857',
+                              pointBackgroundColor : '#FFFFFF',
+                              pointBorderColor : '#FFFFFF',
+                              pointBorderWidth : 1,
+                              pointRadius : 3,
+                              pointHoverBackgroundColor : '#FCB857',
+                              pointHoverBorderColor : '#FCB857',
+                              data: realControlSortedList
+                          },
+                          {
+                              label: "Experimental Users",
+                              fill: false,
+                              borderWidth : 5,
+                              borderColor : '#EC6E91',
+                              pointBackgroundColor : '#FFFFFF',
+                              pointBorderColor : '#FFFFFF',
+                              pointBorderWidth : 1,
+                              pointRadius : 3,
+                              pointHoverBackgroundColor : '#EC6E91',
+                              pointHoverBorderColor : '#EC6E91',
+                              data: realExpSortedList
+                          }
+                      ]
+                  },
+                  options: {
+                    scaleFontColor: '#FFFFFF',
+                      responsive: true,
+                      legend: {
+                        display: true,
+                        labels: {
+                          fontColor: "#FFFFFF"
+                        }
+                    },
+                      scales: {
+                          yAxes: [{
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Number of Drinks',
+                              fontColor: "#FFFFFF"
+
+                            },
+                              ticks: {
+                                  beginAtZero:true,
+                                  fontColor: "#FFFFFF"
+                              }
+                          }],
+                          xAxes: [{
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Night Count',
+                              fontColor: "#FFFFFF"
+                            },
+                            ticks: {
+                                fontColor: "#FFFFFF"
+                            }
+                          }],
+
                       }
                   }
               });

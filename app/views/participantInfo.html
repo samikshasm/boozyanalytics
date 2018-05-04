@@ -51,7 +51,6 @@
 </div>
 
 <!--div class="container" ng-controller="ParticipantInfoCtrl" id="participantcontroller">
-
   <ul class="list-group">
     <li class="list-group-item">Total Calories Consumed: {{totalCalConsumed}}</li>
     <li class="list-group-item">Total Money Spent: ${{totalCost1}}</li>
@@ -62,15 +61,13 @@
     <li class="list-group-item">Percent Liquor: {{percentLiquor}}</li>
     <li class="list-group-item">Percent Beer: {{percentBeer}}</li>
     <li class="list-group-item">Start date: {{startDate}}</li>
-
-
   </ul-->
 <div class="row">
   <div class="col">
     <div class="card card-cascade narrower">
       <div class="card-body text-center" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
         <p><h4 class="card-title"><b><big>Participant Name: {{currentParticpant}}</big></b></h4></p>
-        <p><h6>Experimental Group</h6></p>
+        <p><h6>Group: {{groupOfParticipant}}</h6></p>
       </div>
     </div>
   </div>
@@ -163,9 +160,6 @@
 
 </div>
 
-
-
-
 <div class="row">
   <div class="col-md-6" >
       <div class="card card-cascade narrower">
@@ -188,13 +182,6 @@
           </div>
       </div>
   </div>
-
 </div>
-
-
-
-
-
 </body>
-
 </html>
