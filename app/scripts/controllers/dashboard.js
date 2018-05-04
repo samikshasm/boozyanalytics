@@ -452,6 +452,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               });
 
               var ctxD = document.getElementById("whoExpDonut").getContext('2d');
+              var canvas = document.getElementById("whoExpDonut");
               var myLineChart = new Chart(ctxD, {
                   type: 'doughnut',
                   data: {
@@ -479,30 +480,24 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       //chart.ctx.font = 'bold 3vw Arial'
                       var string = $scope.whoExpPercentage+"%"+" "+whoExpLabel;
                       var array = string.split(" ");
-                      //console.log("height: "+chart.canvas.height/2);
-                      //console.log("width: "+chart.canvas.width/2);
-                      var windowHeight = window.innerHeight;
-                      var windowWidth = window.innerWidth;
-                      //var y = (chart.canvas.width/2) -(chart.ctx.measureText(chart.ctx.font).width/2);
-                      //console.log(y);
+                      var y = chart.canvas.offsetHeight/2;
+
+                      var fontBase = chart.canvas.offsetWidth,
+                      fontSize = 50;                     // default size for font
+
+                      var ratio = fontSize / fontBase;   // calc ratio
+                      var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
+
+
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
-                          chart.ctx.font = 'bold 4vw Arial';
-                          var lineHeight=chart.ctx.measureText('M').width;
-                          var y = (chart.canvas.height/2 - lineHeight);
-                          var x = (chart.canvas.width/2)-(chart.ctx.measureText(chart.ctx.font).width/10);
-                          //var y = (chart.canvas.width/2) -(chart.ctx.measureText(chart.ctx.font).width/2);
-                          chart.ctx.fillText(array[i], x, y);
-                          y += lineHeight;
+                          chart.ctx.font = 'bold '+size+'px Arial'
                         }else{
-                          chart.ctx.font = 'bold 1vw Arial'
-                          var x = (chart.canvas.width/2)-(chart.ctx.measureText(chart.ctx.font).width/2.5);
-                          //var lineHeight=chart.ctx.measureText('M').width;
-                          //var y = (chart.canvas.height/2 - lineHeight);
-                          chart.ctx.fillText(array[i], x, y);
+                          chart.ctx.font = 'bold '+size/4+'px Arial'
                         }
-                        //console.log(chart.ctx.measureText(chart.ctx.font).width);
-                        //console.log("text width: "+chart.ctx.measureText(chart.ctx.font).width);
+                         chart.ctx.fillText(array[i], chart.canvas.offsetWidth/2, y);
+                         var lineHeight = chart.ctx.measureText('M').width;
+                         y += lineHeight;
                       }
                       //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
                     }
