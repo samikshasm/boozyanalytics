@@ -731,7 +731,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               });
 
               var ctxD = document.getElementById("whoExpDonut").getContext('2d');
-              var canvas = document.getElementById("whoExpDonut");
               var myLineChart = new Chart(ctxD, {
                   type: 'doughnut',
                   data: {

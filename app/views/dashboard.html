@@ -57,6 +57,7 @@
           <div class="card-body text-center">
             <div class="view overlay" id="conExpLine">
               <canvas id="lineChart"></canvas>
+              <div id="slider-range"></div>
             </div>
           </div>
           <!--/.Card content-->
@@ -97,16 +98,38 @@
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <p><h4 class="card-title" align="right"><b><big>{{averageDrinksControl}}</big></b> Drinks per Episode</h4></p>
-            <p><h6 align="right">{{controlDrinks}} Total</h6></p>
+            <img src="/images/card_1.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>{{controlEpisodes}}</big></b> Total Episodes</h4></p>
           </div>
       </div>
   </div>
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
+            <img src="/images/card_1.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>{{expEpisodes}}</big></b> Total Episodes</h4></p>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mx-auto" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
+            <img src="/images/card_2.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>{{averageDrinksControl}}</big></b> Drinks per Episode</h4></p>
+            <p><h6 align="right">{{controlDrinks}} Total Drinks</h6></p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-6 mx-auto" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
+            <img src="/images/card_2.png" align="left" class="z-depth-1"></img>
             <p><h4 class="card-title" align="right"><b><big>{{averageDrinksExp}}</big></b> Drinks per Episode</h4></p>
-            <p><h6 align="right">{{expDrinks}} Total</h6></p>          </div>
+            <p><h6 align="right">{{expDrinks}} Total Drinks</h6></p>
+          </div>
       </div>
   </div>
 </div>
@@ -116,7 +139,7 @@
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
             <img src="/images/card_3.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{averageCalControl}}</big></b> Calories per episode</h4></p>
+            <p><h4 class="card-title" align="right"><b><big>{{averageCalControl}}</big></b> Calories per Episode</h4></p>
             <p><h6 align="right">{{totalCalControl}} Total</h6></p>
           </div>
       </div>
@@ -125,39 +148,34 @@
       <div class="card card-cascade narrower">
           <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
             <img src="/images/card_3.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{averageCalExp}}</big></b> Calories per episode</h4></p>
+            <p><h4 class="card-title" align="right"><b><big>{{averageCalExp}}</big></b> Calories per Episode</h4></p>
             <p><h6 align="right">{{totalCalExperimental}} Total</h6></p>          </div>
       </div>
   </div>
 </div>
 
 <div class="row">
-<div class="col-md-6 mx-auto" >
-    <div class="card card-cascade narrower">
-        <div class="card-body text-center" ng-controller="DashboardCtrl" >
-            <canvas id="controlPieChart"></canvas>
-        </div>
-        <div class="card-body text-right">
-          <p><h4 class="card-t  itle" align="left">Control - Types of Drinks</p>
-        </div>
-    </div>
+  <div class="col-md-6 mx-auto" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardcontroller" >
+            <div class="view overlay">
+              <canvas id="controlPieChart"></canvas>
+            </div>
+            <p><h4 class="card-title" align="left">Control - Types of Drinks</p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-6 mx-auto" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardcontroller" >
+            <div class="view overlay">
+              <canvas id="expPieChart"></canvas>
+            </div>
+            <p><h4 class="card-title" align="left">Experimental - Types of Drinks</p>
+          </div>
+      </div>
+  </div>
 </div>
-
-<div class="col-md-6 mx-auto" >
-    <div class="card card-cascade narrower">
-        <div class="card-body text-center" ng-controller="DashboardCtrl" >
-            <canvas id="expPieChart"></canvas>
-        </div>
-        <div class="card-body text-right">
-          <p><h4 class="card-t  itle" align="left">Experimental - Types of Drinks</p>
-        </div>
-    </div>
-</div>
-</div>
-<!--Grid column-->
-
-
-
 
 <div class="row">
     <div class="col-md-5 mx-auto">
@@ -188,7 +206,6 @@
       <div class="col-md-5 mx-auto">
           <div class="card card-cascade narrower">
               <div class="card-body text-center">
-                <!--span class="min-chart" ng-controller="DashboardCtrl" id="where-control-chart" data-percent=changePercent()><span class="percent"></span></span-->
                 <div class="row d-flex align-items-center">
                   <div class="col-md-6 mx-auto">
                     <canvas id="whereExpDonut"></canvas>
@@ -203,13 +220,13 @@
                       </div>
                     </div>
                 </div>
-
               </div>
-
-
             </div>
         </div>
   </div>
+
+  <canvas id="ini" width="500" height="300"></canvas>
+
 
 
 </body>

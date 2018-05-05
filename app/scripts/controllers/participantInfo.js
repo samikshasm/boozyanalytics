@@ -294,6 +294,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   },
                   options: {
                       responsive: true,
+                      cutoutPercentage: 70,
                       tooltips: {
                         enabled: true,
                         mode: 'single',
@@ -322,6 +323,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   },
                   options: {
                       responsive: true,
+                      cutoutPercentage: 70,
                       tooltips: {
                         enabled: true,
                         mode: 'single',
@@ -751,7 +753,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   legend: {
                     labels: {
                         // This more specific font property overrides the global property
-                        fontColor: '#ffffff'
+                      //  fontColor: '#ffffff'
                     }
                   }
               }
