@@ -169,6 +169,26 @@
 <div class="row">
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
+          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
+            <img src="/images/card_4.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>${{controlAverageCost}}</big></b> Dollars per Episode</h4></p>
+            <p><h6 align="right">${{controlTotalCost}} Total</h6></p>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-6 mx-auto" >
+      <div class="card card-cascade narrower">
+          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
+            <img src="/images/card_4.png" align="left" class="z-depth-1"></img>
+            <p><h4 class="card-title" align="right"><b><big>${{expAverageCost}}</big></b> Dollars per Episode</h4></p>
+            <p><h6 align="right">${{experimentalTotalCost}} Total</h6></p>          </div>
+      </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mx-auto" >
+      <div class="card card-cascade narrower">
           <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardcontroller" >
             <div class="view overlay">
               <canvas id="controlPieChart"></canvas>
