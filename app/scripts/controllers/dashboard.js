@@ -371,13 +371,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               $scope.averageDrinksExp = Math.round($scope.expDrinks/expNightCounter,1)
               $scope.controlEpisodes = controlNightCounter
               $scope.expEpisodes = expNightCounter
-
-<<<<<<< HEAD
-              //console.log($scope.controlEpisodes)
-              //console.log($scope.expEpisodes)
-
-=======
->>>>>>> 318aca66372ecd3b28fc99870f1a47656ec317af
+              
               //$scope.totalLitersConsumed = (totalOuncesConsumed * 0.03);
 
               var percentControlWine = Math.round((controlWineCounter/$scope.controlDrinks) * 100)
