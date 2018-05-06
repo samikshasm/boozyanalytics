@@ -13,8 +13,8 @@ angular.module('angularAppApp.addUser', ['ngRoute', 'firebase'])
 
   $scope.username = CommonProp.getUser();
   $scope.nameOfUser = CommonProp.getDisplayName();
+  CommonProp.setDisplayName($scope.nameOfUser);
   $scope.typeOfGroup = "";
-  console.log($scope.username);
   if(!$scope.username) {
     $location.path('/home');
   }

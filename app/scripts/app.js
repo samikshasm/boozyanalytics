@@ -22,7 +22,8 @@ angular
     'angularAppApp.users',
     'angularAppApp.admins',
     'angularAppApp.participantInfo',
-    'angularAppApp.dashboard'
+    'angularAppApp.dashboard',
+    'angularAppApp.main'
   ])
   .config(function ($routeProvider, $locationProvider) {
     //$locationProvider.hashPrefix('!');
@@ -71,7 +72,19 @@ angular
         controller:'DashboardCtrl',
         controllerAs:'dashboard'
       })
+      .when('/main',{
+        controller:'MainCtrl',
+        controllerAs:'main'
+      })
       .otherwise({
         redirectTo: '/home'
       });
-  });
+  })
+  .run(function($rootScope) {
+    $rootScope.$on("$locationChangeStart", function(event, next, current) {
+      if(next != current){
+        location.reload();
+      }
+      
+    });
+});

@@ -44,8 +44,9 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   $scope.testNum = [];
   $scope.startDate = "";
   var numDrinksParticipant;
-
   queryDatabase();
+
+
 
   function queryDatabase(){
     $scope.locationCounter = 0;
@@ -295,6 +296,9 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   options: {
                       responsive: true,
                       cutoutPercentage: 70,
+                      legend:{
+                        display:false
+                      },
                       tooltips: {
                         enabled: true,
                         mode: 'single',
@@ -306,7 +310,38 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                             }
                           }
                         }
-                  }
+                  },
+                  plugins: [{
+                    id: 'my-plugin',
+                    afterDraw: function (chart, option) {
+                      chart.ctx.fillStyle = '#FCB857'
+                      chart.ctx.textBaseline = 'middle'
+                      chart.ctx.textAlign = 'center'
+                      //chart.ctx.font = 'bold 3vw Arial'
+                      var string = wherePercent+"%"+" "+whereLabel;
+                      var array = string.split(" ");
+                      var y = chart.canvas.offsetHeight/2;
+
+                      var fontBase = chart.canvas.offsetWidth,
+                      fontSize = 40;                     // default size for font
+
+                      var ratio = fontSize / fontBase;   // calc ratio
+                      var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
+
+
+                      for (var i = 0; i < array.length; i++) {
+                        if(i == 0){
+                          chart.ctx.font = 'bold '+size+'px Arial'
+                        }else{
+                          chart.ctx.font = 'bold '+size/4+'px Arial'
+                        }
+                         chart.ctx.fillText(array[i], chart.canvas.offsetWidth/2, y);
+                         var lineHeight = chart.ctx.measureText('M').width;
+                         y += lineHeight;
+                      }
+                      //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
+                    }
+                  }]
               });
 
               var ctxD = document.getElementById("whoDonut").getContext('2d');
@@ -324,6 +359,9 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   options: {
                       responsive: true,
                       cutoutPercentage: 70,
+                      legend:{
+                        display:false
+                      },
                       tooltips: {
                         enabled: true,
                         mode: 'single',
@@ -335,7 +373,38 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                             }
                           }
                         }
-                  }
+                  },
+                  plugins: [{
+                    id: 'my-plugin',
+                    afterDraw: function (chart, option) {
+                      chart.ctx.fillStyle = '#62CAE2'
+                      chart.ctx.textBaseline = 'middle'
+                      chart.ctx.textAlign = 'center'
+                      //chart.ctx.font = 'bold 3vw Arial'
+                      var string = whoPercent+"%"+" "+whoLabel;
+                      var array = string.split(" ");
+                      var y = chart.canvas.offsetHeight/2;
+
+                      var fontBase = chart.canvas.offsetWidth,
+                      fontSize = 40;                     // default size for font
+
+                      var ratio = fontSize / fontBase;   // calc ratio
+                      var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
+
+
+                      for (var i = 0; i < array.length; i++) {
+                        if(i == 0){
+                          chart.ctx.font = 'bold '+size+'px Arial'
+                        }else{
+                          chart.ctx.font = 'bold '+size/4+'px Arial'
+                        }
+                         chart.ctx.fillText(array[i], chart.canvas.offsetWidth/2, y);
+                         var lineHeight = chart.ctx.measureText('M').width;
+                         y += lineHeight;
+                      }
+                      //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
+                    }
+                  }]
               });
 
               //start date of participant's Episode 1
@@ -739,6 +808,9 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
               },
               options: {
                   responsive: true,
+                  legend:{
+                    display:false
+                  },
                   tooltips: {
                     enabled: true,
                     mode: 'single',
@@ -750,12 +822,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                         }
                       }
                     },
-                  legend: {
-                    labels: {
-                        // This more specific font property overrides the global property
-                      //  fontColor: '#ffffff'
-                    }
-                  }
+
               }
               });
 

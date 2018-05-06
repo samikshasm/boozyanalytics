@@ -24,7 +24,6 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 			};
 
 	$scope.username = CommonProp.getUser();
-  $scope.nameOfUser = CommonProp.getDisplayName();
   $scope.ids = "";
   $scope.names ='';
   if(!$scope.username) {
@@ -220,6 +219,15 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 										var naPartner = "";
 										var newPartner = "";
 										var numPartners = 0;
+										var cost_total = "";
+										var financial = "";
+										var health = "";
+										var interpersonal = "";
+										var stress_event = "";
+										var stress_other = "";
+										var stress_value = "";
+										var trauma = "";
+										var work = "";
 										mqCounter = mqCounter+whoCounter+locationCounter;
 										angular.forEach(value, function(value,id){
 											if (id == "vaginal"){
@@ -253,16 +261,46 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 												numPartners = value;
 											//	console.log(value);
 											}
+											if(id == 'Cost_Total'){
+												cost_total = value;
+											}
+											if(id == 'Financial'){
+												financial = value;
+											}
+											if(id == "Health"){
+												health = value;
+											}
+											if(id == "Interpersonal"){
+												interpersonal = value;
+											}
+											if(id == 'StressEvent'){
+												stress_event = value;
+											}
+											if(id == "StressOther"){
+												stress_other = value;
+											}
+											if(id == "StressValue"){
+												stress_value = value;
+											}
+											if(id == "Trauma"){
+												trauma = value;
+											}
+											if(id == "Work"){
+												work = value;
+											}
+
 										})
 										typeCounter++;
 										whoCounter++;
 										whereCounter++;
-										$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"oral":oral,"anal":anal,"analCondom":analCondom,
-										"vaginal":vaginal,"vaginalCondom":vaginalCondom, "FriendPartner":friendPartner, "MonogamousPartner":monoPartner, "NewPartner":newPartner,
-										"NAPartner":naPartner,"NumPartners":numPartners});
-										$scope.datas.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"oral":oral,"anal":anal,"analCondom":analCondom,
-										"vaginal":vaginal,"vaginalCondom":vaginalCondom, "FriendPartner":friendPartner, "MonogamousPartner":monoPartner, "NewPartner":newPartner,
-										"NAPartner":naPartner,"NumPartners":numPartners});
+										$scope.articles.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"oral":oral,"anal":anal,"analCondom":analCondom,"vaginal":vaginal,"vaginalCondom":vaginalCondom, "FriendPartner":friendPartner, "MonogamousPartner":monoPartner,
+										"NewPartner":newPartner,"NAPartner":naPartner,"NumPartners":numPartners,"cost_total":cost_total,"financial":financial,
+										"health":health, "interpersonal":interpersonal,"stress_event":stress_event, "stress_other":stress_other, "stress_value":stress_value,"trauma":trauma,
+										"work":work});
+										$scope.datas.push({"key":uid,"group":group,"value":nightCount,"date":dateStr,"time":timeStr,"oral":oral,"anal":anal,"analCondom":analCondom,"vaginal":vaginal,"vaginalCondom":vaginalCondom, "FriendPartner":friendPartner, "MonogamousPartner":monoPartner,
+										"NewPartner":newPartner,"NAPartner":naPartner,"NumPartners":numPartners,"cost_total":cost_total,"financial":financial,
+										"health":health, "interpersonal":interpersonal,"stress_event":stress_event, "stress_other":stress_other, "stress_value":stress_value,"trauma":trauma,
+										"work":work});
 									})
 								}
 
@@ -485,7 +523,16 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 										monogamousPartner: {type:String},
 										newPartner: {type:String},
 										naPartner: {type:String},
-										numPartners: {type:String}
+										numPartners: {type:String},
+										cost_total: {type: String},
+										financial: {type: String},
+										health: {type: String},
+										interpersonal: {type: String},
+										stress_event: {type: String},
+										stress_other: {type: String},
+										stress_value: {type: String},
+										trauma: {type: String},
+										work: {type: String}
 								}
 						}
 				});
@@ -646,6 +693,69 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 																			},
 																			type: String,
 																			value: "numPartners"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "cost_total"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "financial"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "health"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "interpersonal"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "stress_event"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "stress_other"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "stress_value"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "trauma"
+																		},
+																		{
+																			style: {
+																				bold: true
+																			},
+																			type: String,
+																			value: "work"
 																		}
 																]
 														}
@@ -672,7 +782,16 @@ angular.module('angularAppApp.welcome', ['ngRoute'])
 																		{type:String, value: item.monogamousPartner},
 																		{type:String, value: item.newPartner},
 																		{type:String, value: item.naPartner},
-																		{type:String, value: item.numPartners}
+																		{type:String, value: item.numPartners},
+																		{type:String, value: item.cost_total},
+																		{type:String, value: item.financial},
+																		{type:String, value: item.health},
+																		{type:String, value: item.interpersonal},
+																		{type:String, value: item.stress_event},
+																		{type:String, value: item.stress_other},
+																		{type:String, value: item.stress_value},
+																		{type:String, value: item.trauma},
+																		{type:String, value: item.work}
 																]
 														};
 												}))

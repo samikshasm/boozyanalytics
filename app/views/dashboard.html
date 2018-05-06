@@ -10,45 +10,57 @@
 
 
   </head>
-  <body >
+  <body class='fixed-sn'>
 
-<div class="container-fluid" style="background-color:#283E54">
+    <!--Double navigation-->
+   <header ng-controller="MainCtrl">
+       <!-- Sidebar navigation -->
+       <div id="slide-out" class="side-nav mdb-color darken-4 fixed">
+           <ul class="custom-scrollbar">
+               <!--Social-->
+               <li>
+                   <div class="container-fluid" style="text-align:center; margin-top:40%;">
+                     <img src="/images/logo.png" class="img-fluid">
+                     <p style="color:white;">BoozyAnalytics</p>
+                   </div>
+               </li>
 
-    <nav class="navbar navbar-expand-lg navbar-dark z-depth-0">
-      <a class="navbar-brand" href="#/welcome"><img src="/images/logo.png" height="30" class="d-inline-block align-top mr-2" alt="">BoozyAnalytics</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+               <!-- Side navigation links -->
+               <li>
+                   <ul class="collapsible collapsible-accordion">
+                       <li><a href="#!/welcome" class="collapsible-header waves-effect arrow-r"><i class="fa fa-columns"></i> Data</a>
+                       </li>
+                       <li><a href="#!/dashboard" class="collapsible-header waves-effect arrow-r"><i class="fa fa-chart-line"></i> Dashboard</a>
+                       </li>
+                       <li ng-click=logout()><a href="#" class="collapsible-header waves-effect arrow-r"><i class="fa fa-sign-in-alt"></i>Logout</li>
+                   </ul>
+               </li>
+               <!--/. Side navigation links -->
+           </ul>
+           <div class="sidenav-bg mask-strong"></div>
+       </div>
+       <!--/. Sidebar navigation -->
+       <!-- Navbar -->
+       <nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+           <!-- SideNav slide-out button -->
+           <div class="float-left" style="margin-top:-2%">
+               <a href="#!/dashboard" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+           </div>
+           <!-- Breadcrumb-->
+           <div class="breadcrumb-dn mr-auto">
+             <a style="margin-left: 20%; font-size:20px;"class="navbar-brand" href="#!/welcome"><img src="/images/logo.png" height="40" class="d-inline-block align-center mr-2" alt="">BoozyAnalytics</a>
+           </div>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#!/dashboard">Dashboard<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#!/welcome">Data</a>
-          </li>
-        </ul>
+           <ul class="nav navbar-nav nav-flex-icons ml-auto">
+               <li class="nav-item">
+                   <p style="color:white"><i class="fa fa-user-circle"></i> <span class="clearfix d-none d-sm-inline-block">{{nameOfUser}}</span></p>
+               </li>
 
-        <ul class="navbar-nav navbar-right">
-          <li class="nav-item" ng-click ="logout()">
-            <a class="nav-link" href="#">Logout</a>
-          </li>
-        </ul>
-
-      </div>
-
-    </nav>
-
-    <div class="container" style="background-color:#283E54">
-      <div class="row">
-        <div class="col-md-12">
-          <h3>Dashboard</h3>
-        </div>
-      </div>
-    </div>
-
-</div>
+           </ul>
+       </nav>
+       <!-- /.Navbar -->
+   </header>
+   <!--/.Double navigation-->
 
   <div class="col-md-12 mx-auto">
       <!--Card-->

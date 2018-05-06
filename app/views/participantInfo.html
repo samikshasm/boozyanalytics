@@ -10,45 +10,57 @@
 
 
   </head>
-  <body >
+  <body class='fixed-sn'>
 
-<div class="container-fluid" style="background-color:#283E54">
+    <!--Double navigation-->
+   <header ng-controller="MainCtrl">
+       <!-- Sidebar navigation -->
+       <div id="slide-out" class="side-nav mdb-color darken-4 fixed">
+           <ul class="custom-scrollbar">
+               <!--Social-->
+               <li>
+                   <div class="container-fluid" style="text-align:center; margin-top:40%;">
+                     <img src="/images/logo.png" class="img-fluid">
+                     <p style="color:white;">BoozyAnalytics</p>
+                   </div>
+               </li>
 
-    <nav class="navbar navbar-expand-lg navbar-dark z-depth-0">
-      <a class="navbar-brand" href="#/welcome"><img src="/images/logo.png" height="30" class="d-inline-block align-top mr-2" alt="">BoozyAnalytics</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+               <!-- Side navigation links -->
+               <li>
+                   <ul class="collapsible collapsible-accordion">
+                       <li><a href="#!/welcome" class="collapsible-header waves-effect arrow-r"><i class="fa fa-columns"></i> Data</a>
+                       </li>
+                       <li><a href="#!/dashboard" class="collapsible-header waves-effect arrow-r"><i class="fa fa-chart-line"></i> Dashboard</a>
+                       </li>
+                       <li ng-click=logout()><a href="#" class="collapsible-header waves-effect arrow-r"><i class="fa fa-sign-in-alt"></i>Logout</li>
+                   </ul>
+               </li>
+               <!--/. Side navigation links -->
+           </ul>
+           <div class="sidenav-bg mask-strong"></div>
+       </div>
+       <!--/. Sidebar navigation -->
+       <!-- Navbar -->
+       <nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+           <!-- SideNav slide-out button -->
+           <div class="float-left" style="margin-top:-2%">
+               <a href="#!/participantInfo" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+           </div>
+           <!-- Breadcrumb-->
+           <div class="breadcrumb-dn mr-auto">
+             <a style="margin-left: 20%; font-size:20px;"class="navbar-brand" href="#!/welcome"><img src="/images/logo.png" height="40" class="d-inline-block align-center mr-2" alt="">BoozyAnalytics</a>
+           </div>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#!/welcome">Data</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#!/dashboard">Dashboard</a>
-          </li>
-        </ul>
+           <ul class="nav navbar-nav nav-flex-icons ml-auto">
+               <li class="nav-item">
+                   <p style="color:white"><i class="fa fa-user-circle"></i> <span class="clearfix d-none d-sm-inline-block">{{nameOfUser}}</span></p>
+               </li>
 
-        <ul class="navbar-nav navbar-right">
-          <li class="nav-item" ng-click ="logout()">
-            <a class="nav-link" href="#">Logout</a>
-          </li>
-        </ul>
-
-      </div>
-
-    </nav>
-
-    <!--div class="container" style="background-color:#283E54">
-      <div class="row">
-        <div class="col-md-12">
-          <h3>Participant Name: {{currentParticpant}}</h3>
-        </div>
-      </div>
-    </div-->
-
-</div>
+           </ul>
+       </nav>
+       <!-- /.Navbar -->
+   </header>
+   <!--/.Double navigation-->
 
 <!--div class="container" ng-controller="ParticipantInfoCtrl" id="participantcontroller">
   <ul class="list-group">
@@ -62,90 +74,94 @@
     <li class="list-group-item">Percent Beer: {{percentBeer}}</li>
     <li class="list-group-item">Start date: {{startDate}}</li>
   </ul-->
-<div class="row">
+<div class="row mx-auto mb-0" style="margin-top:50px; width:95% ">
   <div class="col">
     <div class="card card-cascade narrower">
-      <div class="card-body text-center" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-        <p><h4 class="card-title"><b><big>Participant Name: {{currentParticpant}}</big></b></h4></p>
-        <p><h6>Group: {{groupOfParticipant}}</h6></p>
+      <div class="card-body text-center mt-0" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+        <p><h3 class="card-title"><b><big>Participant Name: {{currentParticpant}}</big></b></h3></p>
+        <p><h5>Group: {{groupOfParticipant}}</h5></p>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-3" >
+<div class="row mx-auto" style='width:95%; margin-top:-7%'>
+  <div class="col-lg-3 col-md-6 col-sm-12" >
       <div class="card card-cascade narrower">
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
             <img src="/images/card_1.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{drinkingEpisodes}} </big></b>Drinking Episodes</h4></p>
+            <p><h7 class="card-title" align="right"><b><big>{{drinkingEpisodes}} </big></b>Drinking Episodes</h7></p>
             <p><h6>Start Date: {{startDate}}</h6></p>
           </div>
       </div>
   </div>
-  <div class="col-md-3" >
+  <div class="col-lg-3 col-md-6 col-sm-12" >
       <div class="card card-cascade narrower">
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
             <img src="/images/card_2.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{averageDrinksConsumed}}</big></b> Drinks per Epsiode</p>
+            <p><h7 class="card-title" align="right"><b><big>{{averageDrinksConsumed}}</big></b> Drinks per Epsiode</h7></p>
             <p><h6>{{totalDrinks}} Total Drinks</h6></p>
           </div>
       </div>
   </div>
-  <div class="col-md-3" >
+  <div class="col-lg-3 col-md-6 col-sm-12" >
       <div class="card card-cascade narrower">
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
             <img src="/images/card_3.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{averageCaloriesConsumed}}</big></b> Calories Per Episode</p>
+            <p><h7 class="card-title" align="right"><b><big>{{averageCaloriesConsumed}}</big></b> Calories Per Episode</p>
             <p><h6>{{totalCalConsumed}} Total Calories</h6></p>
           </div>
       </div>
   </div>
-  <div class="col-md-3" >
+  <div class="col-lg-3 col-md-6 col-sm-12" >
       <div class="card card-cascade narrower">
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
             <img src="/images/card_4.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>${{averageMoneySpent}}</big></b> Dollars Per Episode</p>
+            <p><h7 class="card-title" align="right"><b><big>${{averageMoneySpent}}</big></b> Dollars Per Episode</p>
             <p><h6>${{totalCost1}} Total</h6></p>
           </div>
       </div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-4" >
+<div class="row mx-auto align-items-top" style="margin-top:-6%; width:95%">
+
+  <div class="col-md-6" >
       <div class="card card-cascade narrower">
-        <div class="view overlay" id="whereType">
-          <canvas id="whereDonut"></canvas>
+        <div class="view overaly" ng-controller="ParticipantInfoCtrl" id="participantcontroller">
+          <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
         </div>
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <p><h4 class="card-t  itle" align="left">Breakdown of Type of Location</p>
+            <p><h6 class="card-title" align="left">Location Data</p>
+            </div>
           </div>
       </div>
-  </div>
-  <div class="col-md-4" >
-      <div class="card card-cascade narrower">
-        <div class="view overlay" id="whoType">
-          <canvas id="whoDonut"></canvas>
+
+  <div class="col-md-6" >
+    <div class="card card-cascade narrower">
+      <div class="view overlay" id="whereType">
+        <div class="row d-flex align-items-center mx-2" style="height: 300px">
+          <div class="col-md-4 mx-auto">
+            <canvas id="whereDonut"></canvas>
+          </div>
+          <div class="col-md-4">
+            <canvas id="whoDonut"></canvas>
+          </div>
+          <div class="col-md-4">
+            <canvas id="myChart"></canvas>
+          </div>
+
         </div>
-          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <p><h4 class="card-t  itle" align="left">Breakdown of Who</p>
-          </div>
+
       </div>
-  </div>
-  <div class="col-md-4" >
-      <div class="card card-cascade narrower">
-        <div class="view overlay" id="pieChart">
-          <canvas id="myChart" class="z-depth-1"></canvas>
+        <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+          <p><h6 class="card-title" align="left">Breakdown of Type of Location</p>
         </div>
-          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <p><h4 class="card-t  itle" align="left">Breakdown of Types of Drinks</p>
-          </div>
-      </div>
-  </div>
+    </div>
+</div>
 </div>
 
-<div class="row">
+<div class="row mx-auto" style="width:95%; margin-top:-6%">
   <div class="col-md-6" >
       <div class="card card-cascade narrower">
         <div class="view overlay" id="dayOfWeekLineColor">
@@ -169,18 +185,5 @@
   </div>
 </div>
 
-<div class="row justify-content-md-center">
-  <div class="col-md-6" >
-      <div class="card card-cascade narrower">
-          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <div class="view overlay">
-              <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
-            </div>
-            <p><h4 class="card-title" align="left">Location Data</p>
-          </div>
-      </div>
-  </div>
-
-</div>
 </body>
 </html>

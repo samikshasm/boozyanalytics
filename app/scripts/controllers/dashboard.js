@@ -3,6 +3,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
 .controller('DashboardCtrl', ['$scope', '$firebaseAuth', '$firebase','CommonProp', 'SetCurrentUser', '$firebaseArray', '$firebaseObject' , function($scope, $firebaseAuth, $firebase, CommonProp, SetCurrentUser, $firebaseArray, $firebaseObject){
 
+
+
   $scope.currentParticpant = SetCurrentUser.getCurrentUser()
   $scope.totalCalControl = 0;
   $scope.totalCalExperimental =0;
@@ -13,6 +15,11 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   var expWineCounter = 0
   var expBeerCounter = 0
   var expLiquorCounter = 0
+
+  $scope.locationCounter = 0;
+  $scope.lattitudeList = [];
+  $scope.longitudeList = [];
+  $scope.locationCount = [];
 
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
@@ -54,13 +61,18 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   var nightCounterList=[]
 
 
+
+
   queryDatabase();
   function queryDatabase(){
     $scope.controlList = [];
     $scope.experimentalList = [];
+    $scope.locationCounter = 0;
     $scope.lattitudeList = [];
     $scope.longitudeList = [];
+    $scope.locationCount = [];
     $scope.dates = [];
+    var episodeCounter = 0;
     var userRef = firebase.database().ref('Users/');
     userRef.on('value', function(snapshot){
       dataRef.$loaded()
@@ -106,6 +118,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                           var substr = idStr.substr(0,11);
                           var substr1 = idStr.substr(13);
                           if(substr == "Night Count"){
+                            episodeCounter++;
                             angular.forEach(value, function(value, id){
                               if(id == "Answers"){
                                 angular.forEach(value, function(value,id){
@@ -157,12 +170,34 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                               }
 
                               if(id == "Location"){
+                                var testIndex = 0;
                                 angular.forEach(value,function(value,id){
                                   var tempList = []
                                   $scope.locationCounter++;
                                   tempList = value.split("&");
-                                  $scope.lattitudeList.push(tempList[0]);
-                                  $scope.longitudeList.push(tempList[1]);
+                                  if(testIndex == 0){
+                                    $scope.lattitudeList.push(tempList[0]);
+                                    $scope.longitudeList.push(tempList[1]);
+                                    $scope.locationCount[episodeCounter-1] = 1;
+                                  }else{
+                                    var fromLatPrevious = $scope.lattitudeList[$scope.locationCounter-1];
+                                    var fromLongPrevious = $scope.longitudeList[$scope.locationCounter-1];
+                                    var fromLatCurrent = parseFloat(tempList[0]);
+                                    var fromLongCurrent = parseFloat(tempList[1]);
+
+                                    var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
+
+                                    if (distance > 200){
+                                      $scope.lattitudeList.push(parseFloat(tempList[0]));
+                                      $scope.longitudeList.push(parseFloat(tempList[1]));
+                                      $scope.locationCount[$scope.locationCount.length]=1;
+                                      $scope.locationCounter++;
+                                      $scope.locationCount[episodeCounter-1]=$scope.locationCount[episodeCounter-1]+1;
+                                    }else{
+
+                                    }
+                                  }
+                                  testIndex++;
                                 })
                               }
                             })
@@ -172,6 +207,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                     }
                   })
                 })
+
 
               for(var i=0;i<nightCounterList.length;i++){
                 var name = nightCounterList[i].split(" ")[0]
@@ -339,8 +375,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               $scope.controlEpisodes = controlNightCounter
               $scope.expEpisodes = expNightCounter
 
-              console.log($scope.controlEpisodes)
-              console.log($scope.expEpisodes)
+              //console.log($scope.controlEpisodes)
+              //console.log($scope.expEpisodes)
 
               //$scope.totalLitersConsumed = (totalOuncesConsumed * 0.03);
 
@@ -1389,9 +1425,68 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
 
             var locations = [];
+            var tempLocations = [];
+            var newLocations = [];
+
+            for(var i = 0; i < $scope.locationCount.length; i++){
+              //console.log($scope.locationCount[i]);
+              if($scope.locationCount[i] === undefined){
+                $scope.locationCount.splice(i,1);
+                i--;
+              }
+            }
+
+            for(var i = 0; i<$scope.lattitudeList.length; i++){
+                for(var j = 1; j<=$scope.lattitudeList.length; j++){
+
+
+                    var fromLatPrevious = $scope.lattitudeList[i];
+                    var fromLongPrevious = $scope.longitudeList[i];
+                    var fromLatCurrent = $scope.lattitudeList[j];
+                    var fromLongCurrent = $scope.longitudeList[j];
+
+                    var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(fromLatPrevious, fromLongPrevious), new google.maps.LatLng(fromLatCurrent, fromLongCurrent));
+                    //console.log(distance);
+                    if(i != j){
+                      if(distance < 200){
+                        //console.log("less than 200");
+                        if(j == 1){
+                          //tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+                          $scope.lattitudeList.splice(j,1);
+                          $scope.longitudeList.splice(j,1);
+                          var counter = parseInt($scope.locationCount.splice(j,1));
+                          $scope.locationCount[i] = parseInt($scope.locationCount[i])+counter;
+                          j--;
+                        }else{
+                          $scope.lattitudeList.splice(j,1);
+                          $scope.longitudeList.splice(j,1);
+                          var counter = parseInt($scope.locationCount.splice(j,1));
+                          $scope.locationCount[i] = parseInt($scope.locationCount[i])+counter;
+                          j--;
+                        }
+                        //console.log($scope.lattitudeList[i]+","+$scope.lattitudeList[j]);
+                        //newLocations[i] = newLocations[i]+1;
+                        /*$scope.lattitudeList.splice(j,1);
+                        $scope.longitudeList.splice(j,1);
+                        var tempCount = $scope.locationCount[j];
+                        $scope.locationCount.splice(i,1);
+                        $scope.locationCount[i-1] = $scope.locationCount[i-1]+tempCount;*/
+                      }else if(distance > 200){
+                        //console.log("more than 200")
+                        //tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+                      }else{
+                      }
+                    }
+
+
+
+                }
+
+              //}
+            }
 
             for(var i =0;i<$scope.lattitudeList.length;i++){
-              locations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
+              tempLocations.push([parseFloat($scope.lattitudeList[i]), parseFloat($scope.longitudeList[i])]);
             }
 
             var map = new google.maps.Map(document.getElementById("map-container-5"), {
@@ -1406,11 +1501,21 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             for (i = 0; i < locations.length; i++) {
               marker = new google.maps.Marker({
                 position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+                label: $scope.locationCount[i]+"",
                 map: map
               });
 
               markers.push(marker);
             }
+
+            for (i = 0; i < tempLocations.length; i++) {
+              marker = new google.maps.Marker({
+                position: new google.maps.LatLng(tempLocations[i][0], tempLocations[i][1]),
+                label: $scope.locationCount[i]+"",
+                map: map
+              });
+                        markers.push(marker);
+                      }
 
             function autocenter(){
               var bounds = new google.maps.LatLngBounds();
