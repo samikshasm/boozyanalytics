@@ -113,9 +113,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                                   var date_val = id.substr(6,id.length);
                                   var date_values = date_val.split("-");
                                   var date = new Date(date_values[0], date_values[1], date_values[2]);
-                                  $scope.dates.push(date.getDay());
+                                  $scope.dates.push(date.getDay() + " " + participantName);
 
-                                  //console.log("number of drinks initial: "+ numDrinksExp)
                                   angular.forEach(value, function(value,id){
                                     if(id == "Size"){
                                       angular.forEach(value,function(value,id){
@@ -147,9 +146,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
                                     if(id=="Cost"){
                                       angular.forEach(value,function(value,id){
-                                        $scope.costList.push(value);
-                                        averageCostList.push(date.getDay());
-                                        averageCostList.push(value);
+                                        $scope.costList.push(participantName+ " " +value);
                                       })
                                     }
                                   })
@@ -338,9 +335,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               $scope.averageDrinksExp = Math.round($scope.expDrinks/expNightCounter,1)
               $scope.controlEpisodes = controlNightCounter
               $scope.expEpisodes = expNightCounter
-
-              console.log($scope.controlEpisodes)
-              console.log($scope.expEpisodes)
 
               //$scope.totalLitersConsumed = (totalOuncesConsumed * 0.03);
 
@@ -593,7 +587,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       var array = string.split(" ");
                       var y = chart.canvas.height/3;
                       var test = window.innerHeight;
-                    //  console.log(test);
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
                           chart.ctx.font = 'bold 4vw Arial'
@@ -793,191 +786,144 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   }]
               });
 
-              var totalCostList = [];
-              var sunCounter =0 ;
-              var monCounter=0;
-              var tuesCounter=0;
-              var wedCounter=0;
-              var thursCounter=0;
-              var friCoutner=0;
-              var satCounter=0;
-              var averageCost =0;
 
-              for (var i=0;i<averageCostList.length;i+=2){
-                if (averageCostList[i] == 0){
-                    if (averageCostList[i+1] == "$0.00"){
-                      averageCost = 0;
-                    }
-                    else if (averageCostList[i+1] == "$1.00-$5.00"){
-                      averageCost = 4;
-                    }
-                    else if(averageCostList[i+1] == "$6.00-$10.00"){
-                      averageCost = 8;
-                    }
-                    else if(averageCostList[i+1] == "$11.00-$15.00"){
-                      averageCost = 13;
-                    }
-                    else if(averageCostList[i+1] == "$16.00+"){
-                      averageCost = 20;
-                    }
-                    sunCounter += averageCost;
+              var controlAverageCost=0;
+              var experimentalAverageCost=0;
+              $scope.controlTotalCost=0;
+              $scope.experimentalTotalCost=0;
+              $scope.controlAverageCost=0;
+              $scope.expAverageCost=0;
+
+              for(var i =0;i<$scope.costList.length;i++){
+                var name = $scope.costList[i].split(" ")[0]
+                var value = $scope.costList[i].split(" ")[1]
+                if($scope.controlList.includes(name)){
+                  if (value == "$0.00"){
+                    controlAverageCost = 0;
+                  }
+                  else if (value == "$1.00-$5.00"){
+                    controlAverageCost = 4;
+                  }
+                  else if(value == "$6.00-$10.00"){
+                    controlAverageCost = 8;
+                  }
+                  else if(value == "$11.00-$15.00"){
+                    controlAverageCost = 13;
+                  }
+                  else if(value == "$16.00+"){
+                    controlAverageCost = 20;
+                  }
+                  $scope.controlTotalCost += controlAverageCost;
+
                 }
-                if (averageCostList[i] == 1){
-                  if (averageCostList[i+1] == "$0.00"){
-                    averageCost = 0;
+                else if($scope.experimentalList.includes(name)){
+                  if (value == "$0.00"){
+                    experimentalAverageCost = 0;
                   }
-                  else if (averageCostList[i+1] == "$1.00-$5.00"){
-                    averageCost = 4;
+                  else if (value == "$1.00-$5.00"){
+                    experimentalAverageCost = 4;
                   }
-                  else if(averageCostList[i+1] == "$6.00-$10.00"){
-                    averageCost = 8;
+                  else if(value== "$6.00-$10.00"){
+                    experimentalAverageCost = 8;
                   }
-                  else if(averageCostList[i+1] == "$11.00-$15.00"){
-                    averageCost = 13;
+                  else if(value== "$11.00-$15.00"){
+                    experimentalAverageCost = 13;
                   }
-                  else if(averageCostList[i+1] == "$16.00+"){
-                    averageCost = 20;
+                  else if(value == "$16.00+"){
+                    experimentalAverageCost = 20;
                   }
-                    monCounter += averageCost;
-                }
-                if (averageCostList[i] == 2){
-                  if (averageCostList[i+1] == "$0.00"){
-                    averageCost = 0;
-                  }
-                  else if (averageCostList[i+1] == "$1.00-$5.00"){
-                    averageCost = 4;
-                  }
-                  else if(averageCostList[i+1] == "$6.00-$10.00"){
-                    averageCost = 8;
-                  }
-                  else if(averageCostList[i+1] == "$11.00-$15.00"){
-                    averageCost = 13;
-                  }
-                  else if(averageCostList[i+1] == "$16.00+"){
-                    averageCost = 20;
-                  }
-                    tuesCounter += averageCost;
-                }
-                if (averageCostList[i] == 3){
-                  if (averageCostList[i+1] == "$0.00"){
-                    averageCost = 0;
-                  }
-                  else if (averageCostList[i+1] == "$1.00-$5.00"){
-                    averageCost = 4;
-                  }
-                  else if(averageCostList[i+1] == "$6.00-$10.00"){
-                    averageCost = 8;
-                  }
-                  else if(averageCostList[i+1] == "$11.00-$15.00"){
-                    averageCost = 13;
-                  }
-                  else if(averageCostList[i+1] == "$16.00+"){
-                    averageCost = 20;
-                  }
-                    wedCounter += averageCost;
-                }
-                if (averageCostList[i] == 4){
-                  if (averageCostList[i+1] == "$0.00"){
-                    averageCost = 0;
-                  }
-                  else if (averageCostList[i+1] == "$1.00-$5.00"){
-                    averageCost = 4;
-                  }
-                  else if(averageCostList[i+1] == "$6.00-$10.00"){
-                    averageCost = 8;
-                  }
-                  else if(averageCostList[i+1] == "$11.00-$15.00"){
-                    averageCost = 13;
-                  }
-                  else if(averageCostList[i+1] == "$16.00+"){
-                    averageCost = 20;
-                  }
-                    thursCounter += averageCost;
-                }
-                if (averageCostList[i] == 5){
-                  if (averageCostList[i+1] == "$0.00"){
-                    averageCost = 0;
-                  }
-                  else if (averageCostList[i+1] == "$1.00-$5.00"){
-                    averageCost = 4;
-                  }
-                  else if(averageCostList[i+1] == "$6.00-$10.00"){
-                    averageCost = 8;
-                  }
-                  else if(averageCostList[i+1] == "$11.00-$15.00"){
-                    averageCost = 13;
-                  }
-                  else if(averageCostList[i+1] == "$16.00+"){
-                    averageCost = 20;
-                  }
-                    friCoutner+= averageCost;
-                }
-                if (averageCostList[i] == 6){
-                  if (averageCostList[i+1] == "$0.00"){
-                    averageCost = 0;
-                  }
-                  else if (averageCostList[i+1] == "$1.00-$5.00"){
-                    averageCost = 4;
-                  }
-                  else if(averageCostList[i+1] == "$6.00-$10.00"){
-                    averageCost = 8;
-                  }
-                  else if(averageCostList[i+1] == "$11.00-$15.00"){
-                    averageCost = 13;
-                  }
-                  else if(averageCostList[i+1] == "$16.00+"){
-                    averageCost = 20;
-                  }
-                    satCounter += averageCost;
+                  $scope.experimentalTotalCost += experimentalAverageCost;
                 }
               }
 
-              totalCostList.push(sunCounter);
-              totalCostList.push(monCounter);
-              totalCostList.push(tuesCounter);
-              totalCostList.push(wedCounter);
-              totalCostList.push(thursCounter);
-              totalCostList.push(friCoutner);
-              totalCostList.push(satCounter);
+              $scope.controlAverageCost = $scope.controlTotalCost/controlNightCounter
+              $scope.expAverageCost = $scope.experimentalTotalCost/expNightCounter
 
-              var days = [];
-              var mon = 0;
-              var tues = 0;
-              var wed = 0;
-              var thurs = 0;
-              var fri = 0;
-              var sat = 0;
-              var sun =0;
-              for (var i = 0; i<$scope.dates.length; i++){
-                if ($scope.dates[i] == 0){
-                  sun++
+              var controlSun=0;
+              var controlMon=0;
+              var controlTue=0;
+              var controlWed=0
+              var controlThu=0
+              var controlFri=0
+              var controlSat=0
+              var controlDaysList=[]
+
+              var expSun=0
+              var expMon=0
+              var expTue=0
+              var expWed=0
+              var expThu=0
+              var expFri=0
+              var expSat=0
+              var experimentalDaysList=[]
+
+              for (var i=0;i<$scope.dates.length;i++){
+                var date = $scope.dates[i].split(" ")[0]
+                var name = $scope.dates[i].split(" ")[1]
+
+                if ($scope.controlList.includes(name)){
+                  if (date == 0){
+                    controlSun++
+                  }
+                  if (date == 1){
+                    controlMon++
+                  }
+                  if (date== 2){
+                    controlTue++
+                  }
+                  if (date == 3){
+                    controlWed++
+                  }
+                  if (date == 4){
+                    controlThu++
+                  }
+                  if (date == 5){
+                    controlFri++
+                  }
+                  if (date == 6){
+                    controlSat++
+                  }
                 }
-                if ($scope.dates[i] == 1){
-                  mon++
-                }
-                if ($scope.dates[i] == 2){
-                  tues++
-                }
-                if ($scope.dates[i] == 3){
-                  wed++
-                }
-                if ($scope.dates[i] == 4){
-                  thurs++
-                }
-                if ($scope.dates[i] == 5){
-                  fri++
-                }
-                if ($scope.dates[i] == 6){
-                  sat++
+                else if ($scope.experimentalList.includes(name)){
+                  if (date == 0){
+                    expSun++
+                  }
+                  if (date == 1){
+                    expMon++
+                  }
+                  if (date== 2){
+                    expTue++
+                  }
+                  if (date == 3){
+                    expWed++
+                  }
+                  if (date == 4){
+                    expThu++
+                  }
+                  if (date == 5){
+                    expFri++
+                  }
+                  if (date == 6){
+                    expSat++
+                  }
                 }
               }
-              days.push(sun);
-              days.push(mon);
-              days.push(tues);
-              days.push(wed);
-              days.push(thurs);
-              days.push(fri);
-              days.push(sat);
+
+              controlDaysList.push(controlSun)
+              controlDaysList.push(controlMon)
+              controlDaysList.push(controlTue)
+              controlDaysList.push(controlWed)
+              controlDaysList.push(controlThu)
+              controlDaysList.push(controlFri)
+              controlDaysList.push(controlSat)
+
+              experimentalDaysList.push(expSun)
+              experimentalDaysList.push(expMon)
+              experimentalDaysList.push(expTue)
+              experimentalDaysList.push(expWed)
+              experimentalDaysList.push(expThu)
+              experimentalDaysList.push(expFri)
+              experimentalDaysList.push(expSat)
 
               var context = document.getElementById("barChart").getContext('2d');
               var barChart = new Chart(context, {
@@ -986,48 +932,48 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
                       datasets: [
                         {
-                          label: 'Drinking Episodes per Day of Week',
-                          data: days,
+                          label: 'Control',
+                          data: controlDaysList,
                           backgroundColor: [
-                              'rgba(255, 99, 132, 0.2)',
-                              'rgba(54, 162, 235, 0.2)',
-                              'rgba(255, 206, 86, 0.2)',
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(153, 102, 255, 0.2)',
-                              'rgba(255, 159, 64, 0.2)',
-                              'rgba(236, 110, 145, 0.2)'
+                              '#FCB857',
+                              '#FCB857',
+                              '#FCB857',
+                              '#FCB857',
+                              '#FCB857',
+                              '#FCB857',
+                              '#FCB857'
                           ],
                           borderColor: [
-                              'rgba(255,99,132,1)',
-                              'rgba(54, 162, 235, 1)',
-                              'rgba(255, 206, 86, 1)',
-                              'rgba(75, 192, 192, 1)',
-                              'rgba(153, 102, 255, 1)',
-                              'rgba(255, 159, 64, 1)',
-                              'rgba(236, 110, 145, 1)'
+                              '#fba937',
+                              '#fba937',
+                              '#fba937',
+                              '#fba937',
+                              '#fba937',
+                              '#fba937',
+                              '#fba937'
                           ],
                           borderWidth: 1
                       },
                       {
-                        label: 'Total Money Spent',
-                        data: totalCostList,
+                        label: 'Experimental',
+                        data: experimentalDaysList,
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(236, 110, 145, 0.2)'
+                            '#4EBA75',
+                            '#4EBA75',
+                            '#4EBA75',
+                            '#4EBA75',
+                            '#4EBA75',
+                            '#4EBA75',
+                            '#4EBA75'
                         ],
                         borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(236, 110, 145, 1)'
+                            '#40a565',
+                            '#40a565',
+                            '#40a565',
+                            '#40a565',
+                            '#40a565',
+                            '#40a565',
+                            '#40a565'
                         ],
                         borderWidth: 1
                       }
@@ -1063,7 +1009,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                 var name = $scope.numDrinks[i].split(" ")[1];
                 var drink = $scope.numDrinks[i].split(" ")[2];
                 for (var j=1;j<$scope.numDrinks.length;j++){
-                //  console.log(name);
                   if ($scope.controlList.includes(name)) {
                     group = "control";
                     var nightCount1 = $scope.numDrinks[j].split(" ")[0];
