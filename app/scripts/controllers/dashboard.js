@@ -992,7 +992,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               var barChart = new Chart(context, {
                   type: 'bar',
                   data: {
-                      labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
+                      labels: ["S","M", "T", "W", "R", "F","S"],
                       datasets: [
                         {
                           label: 'Control',
@@ -1050,8 +1050,21 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                             labelString: 'Number of Episodes',
                           },
                             ticks: {
-                                beginAtZero:true
+                                beginAtZero:true,
+                                userCallback: function(label, index, labels) {
+                                    // when the floored value is the same as the value we have a whole number
+                                    if (Math.floor(label) === label) {
+                                        return label;
+                                    }
+
+                                },
                             }
+                        }],
+                        xAxes: [{
+                          scaleLabel: {
+                            display: true,
+                            labelString: 'Day of the Week'
+                          }
                         }]
 
                     }
@@ -1190,6 +1203,13 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                             },
                               ticks: {
                                   beginAtZero:true,
+                                  userCallback: function(label, index, labels) {
+                                      // when the floored value is the same as the value we have a whole number
+                                      if (Math.floor(label) === label) {
+                                          return label;
+                                      }
+
+                                  },
                               }
                           }],
                           xAxes: [{
@@ -1548,7 +1568,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             getLocationData(2);
             getLocationData(3);
             getLocationData(4);
-
 
         });
     })

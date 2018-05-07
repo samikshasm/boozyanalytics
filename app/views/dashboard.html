@@ -74,30 +74,29 @@
                  <div class="col-md-4 mx-auto">
                    <canvas id="whereControlDonut"></canvas>
                    <div class="text-center">
-                     <h5><span class="label">Where</span></h5>
+                     <h5 style="color: #FCB857"><span class="label">Where</span></h5>
                    </div>
                  </div>
                    <div class="col-md-4 mx-auto">
                      <canvas id="whoControlDonut"></canvas>
                      <div class="text-center">
-                       <h5><span class="label">Who</span></h5>
+                       <h5 style="color: #EC6E91"><span class="label">Who</span></h5>
                      </div>
                    </div>
                    <div class="col-md-4 mx-auto">
                      <canvas id="controlPieChart"></canvas>
                      <div class="text-center">
-                       <h5><span class="label">Type</span></h5>
+                       <h5 style="color: #E9686D"><span class="label">Type</span></h5>
                      </div>
 
                    </div>
 
                </div>
+
              </div>
-               <div class="card-body text-center">
-                 <!--span class="min-chart" ng-controller="DashboardCtrl" id="where-control-chart" data-percent=changePercent()><span class="percent"></span></span-->
-
-
-               </div>
+             <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardController" >
+               <h4 class="card-title" align="left" style="color: #595959">Drinking Behavior of Control Participants</h4>
+         </div>
 
 
              </div>
@@ -110,27 +109,27 @@
                    <div class="col-md-4 mx-auto">
                      <canvas id="whereExpDonut"></canvas>
                      <div class="text-center">
-                       <h5><span class="label">Where</span></h5>
+                       <h5 style="color: #62CAE2"><span class="label">Where</span></h5>
                      </div>
                    </div>
                      <div class="col-md-4 mx-auto">
                        <canvas id="whoExpDonut"></canvas>
                        <div class="text-center">
-                         <h5><span class="label">Who</span></h5>
+                         <h5 style="color: #4EBA75"><span class="label">Who</span></h5>
                        </div>
                      </div>
                      <div class="col-md-4 mx-auto">
                        <canvas id="expPieChart"></canvas>
                        <div class="text-center">
-                         <h5><span class="label">Type</span></h5>
+                         <h5 style="color: #818DC6"><span class="label">Type</span></h5>
                        </div>
 
                      </div>
                  </div>
                </div>
-                 <div class="card-body text-center">
-
-                 </div>
+               <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardController" >
+                 <h4 class="card-title" align="left" style="color: #595959">Drinking Behavior of Experimental Participants</h4>
+           </div>
                </div>
            </div>
      </div>
@@ -215,10 +214,10 @@
             <div class="row  d-flex align-items-center mx-2 my-2">
               <canvas id="lineChart"></canvas>
             </div>
-            <div id="slider-range"></div>
           </div>
-          <div class="card-body text-center">
-
+          <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardController" >
+            <h4 class="card-title" align="left" style="color: #595959">Number of Drinks Tracker</h4>
+            <h6 class="card-text"  align="left">Chart calculates the number of drinks consumed by all control and experimental participants per night count to see if intervention has an effect on drinking behavior.</h5>
           </div>
           <!--/.Card content-->
       </div>
@@ -233,7 +232,9 @@
               <canvas id="barChart" ></canvas>
             </div>
           </div>
-          <div class="card-body text-center">
+          <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardController" >
+            <h4 class="card-title" align="left" style="color: #595959">Number of Drinks per Day of Week</h4>
+            <h6 class="card-text"  align="left">Chart calculates the number of drinks control and experimental participants consume every day of the week to see which days participants in each group are the most active.</h5>
           </div>
 
       </div>
@@ -242,16 +243,9 @@
 
 
 
-
-
-</div>
 <div class="row align-items-top mx-auto" style="width:95%;margin-top:-5%">
-
-
-
-
     <!--Grid column-->
-    <div class="col-md-7 mx-auto">
+    <div class="col-md-8 mx-auto">
         <!--Card-->
         <div class="card card-cascade narrower">
             <!--Card content-->
@@ -259,13 +253,15 @@
               <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
             </div>
             <div class="card-body text-center">
+              <h4 class="card-title" align="left" style="color: #595959">Map of Visited Locations</h4>
+
             </div>
 
         </div>
         <!--/.Card-->
     </div>
 
-    <div class="col-md-5 mx-auto">
+    <div class="col-md-4 mx-auto">
         <div class="card card-cascade narrower">
            <div style="background:#4EBA75" class="view card-header text-center">
              <h4 style="color:white; " class="card-header-title">Location Data</h2>
