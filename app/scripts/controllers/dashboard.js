@@ -3,8 +3,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
 .controller('DashboardCtrl', ['$scope', '$firebaseAuth', '$firebase','CommonProp', 'SetCurrentUser', '$firebaseArray', '$firebaseObject' , function($scope, $firebaseAuth, $firebase, CommonProp, SetCurrentUser, $firebaseArray, $firebaseObject){
 
-
-
   $scope.currentParticpant = SetCurrentUser.getCurrentUser()
   $scope.totalCalControl = 0;
   $scope.totalCalExperimental =0;
@@ -371,7 +369,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               $scope.averageDrinksExp = Math.round($scope.expDrinks/expNightCounter,1)
               $scope.controlEpisodes = controlNightCounter
               $scope.expEpisodes = expNightCounter
-              
+
               //$scope.totalLitersConsumed = (totalOuncesConsumed * 0.03);
 
               var percentControlWine = Math.round((controlWineCounter/$scope.controlDrinks) * 100)
