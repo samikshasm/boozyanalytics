@@ -3,5 +3,11 @@ html,body{
 }
 
 #conExpLine {
-  background: #62CAE2;
+  background: #FFFFFF;
+}
+.bold{
+  font-weight: 600;
+}
+td{
+   padding:0px;
 }
