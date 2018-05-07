@@ -323,7 +323,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                       var y = chart.canvas.offsetHeight/2;
 
                       var fontBase = chart.canvas.offsetWidth,
-                      fontSize = 40;                     // default size for font
+                      fontSize = 30;                     // default size for font
 
                       var ratio = fontSize / fontBase;   // calc ratio
                       var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
@@ -386,7 +386,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                       var y = chart.canvas.offsetHeight/2;
 
                       var fontBase = chart.canvas.offsetWidth,
-                      fontSize = 40;                     // default size for font
+                      fontSize = 30;                     // default size for font
 
                       var ratio = fontSize / fontBase;   // calc ratio
                       var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
