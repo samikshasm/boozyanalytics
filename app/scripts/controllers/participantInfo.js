@@ -793,9 +793,21 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                   },
                   options: {
                       responsive: true,
+<<<<<<< HEAD
                       legend:{
                         display:false
                       }
+=======
+                      layout: {
+                        padding: {
+                            left: 10,
+                            right: 0,
+                            top: 0,
+                            bottom: 0
+                        }
+                      }
+
+>>>>>>> eae6ed52576a898f1ed302a9e257218fefc2fc93
                   }
               });
 
