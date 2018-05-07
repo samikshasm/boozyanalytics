@@ -62,43 +62,194 @@
    </header>
    <!--/.Double navigation-->
 
-  <div class="col-md-12 mx-auto">
+   <div class="row mx-auto" style="margin-top:7%; width:95%">
+       <div class="col-md-6 mx-auto">
+           <div class="card card-cascade narrower">
+             <div class="view overlay" style="background:white">
+               <div class="row d-flex align-items-center mx-auto my-2" style="width:95%; ">
+                 <div class="col-md-4 mx-auto">
+                   <canvas id="whereControlDonut"></canvas>
+                   <div class="text-center">
+                     <h5><span class="label">Where</span></h5>
+                   </div>
+                 </div>
+                   <div class="col-md-4 mx-auto">
+                     <canvas id="whoControlDonut"></canvas>
+                     <div class="text-center">
+                       <h5><span class="label">Who</span></h5>
+                     </div>
+                   </div>
+                   <div class="col-md-4 mx-auto">
+                     <canvas id="controlPieChart"></canvas>
+                     <div class="text-center">
+                       <h5><span class="label">Type</span></h5>
+                     </div>
+
+                   </div>
+
+               </div>
+             </div>
+               <div class="card-body text-center">
+                 <!--span class="min-chart" ng-controller="DashboardCtrl" id="where-control-chart" data-percent=changePercent()><span class="percent"></span></span-->
+
+
+               </div>
+
+
+             </div>
+         </div>
+
+         <div class="col-md-6 mx-auto">
+             <div class="card card-cascade narrower">
+               <div class="view overlay"  style="background:white">
+                 <div class="row d-flex align-items-center mx-auto my-2" style="width:95%;">
+                   <div class="col-md-4 mx-auto">
+                     <canvas id="whereExpDonut"></canvas>
+                     <div class="text-center">
+                       <h5><span class="label">Where</span></h5>
+                     </div>
+                   </div>
+                     <div class="col-md-4 mx-auto">
+                       <canvas id="whoExpDonut"></canvas>
+                       <div class="text-center">
+                         <h5><span class="label">Who</span></h5>
+                       </div>
+                     </div>
+                     <div class="col-md-4 mx-auto">
+                       <canvas id="expPieChart"></canvas>
+                       <div class="text-center">
+                         <h5><span class="label">Type</span></h5>
+                       </div>
+
+                     </div>
+                 </div>
+               </div>
+                 <div class="card-body text-center">
+
+                 </div>
+               </div>
+           </div>
+     </div>
+
+   <div class="row d-flex align-items-center mx-auto" style="margin-top: -5%;width:95%">
+
+     <div class="col-md-6 mx-auto">
+         <div class="card card-cascade narrower">
+            <div style="background:#EC6E91" class="view gradient-card-header">
+              <h2 style="color:white; " class="card-header-title">Control</h2>
+
+           </div>
+             <div class="card-body text-center">
+               <div class="row d-flex align-items-center">
+                 <div class="table-responsive mx-auto">
+                   <table class="table table-hover mx-auto" style="width:95%;">
+
+                     <thead>
+                       <tr>
+                         <th></th>
+                         <th>Average</th>
+                         <th>Total</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                       <tr ng-repeat="data in controlUserData" >
+                         <td class="bold">{{data.labels}}</td>
+                         <td>{{data.episodes}}</td>
+                         <td>{{data.totalDrinks}}</td>
+
+
+
+
+                     </tbody>
+                   </table>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+
+         <div class="col-md-6 mx-auto">
+             <div class="card card-cascade narrower">
+               <div style="background:#62CAE2" class="view gradient-card-header">
+                 <h2 style="color:white; " class="card-header-title">Experimental</h2>
+
+              </div>
+                 <div class="card-body text-center">
+                   <div class="row d-flex align-items-center">
+                     <div class="table-responsive mx-auto">
+                       <table class="table table-hover mx-auto" style="width:95%;">
+
+                         <thead>
+                           <tr>
+                             <th></th>
+                             <th>Average</th>
+                             <th>Total</th>
+                           </tr>
+                         </thead>
+                         <tbody>
+                           <tr ng-repeat="data in expUserData" >
+                             <td class="bold">{{data.labels}}</td>
+                             <td>{{data.episodes}}</td>
+                             <td>{{data.totalDrinks}}</td>
+
+
+
+
+                         </tbody>
+                       </table>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+
+   </div>
+
+<div class="row mx-auto" style="margin-top: -5%; width:95%">
+  <div class="col-md-6 mx-auto" >
       <!--Card-->
       <div class="card card-cascade narrower">
           <!--Card content-->
-          <div class="card-body text-center">
-            <div class="view overlay" id="conExpLine">
+          <div class="view overlay" id="conExpLine">
+            <div class="row  d-flex align-items-center mx-2 my-2">
               <canvas id="lineChart"></canvas>
-              <div id="slider-range"></div>
             </div>
+            <div id="slider-range"></div>
+          </div>
+          <div class="card-body text-center">
+
           </div>
           <!--/.Card content-->
       </div>
       <!--/.Card-->
   </div>
-
-<div class="row">
   <div class="col-md-6 mx-auto">
       <!--Card-->
       <div class="card card-cascade narrower">
           <!--Card content-->
           <div class="view overlay" style="background: #ffffff">
-            <canvas id="barChart" ></canvas>
+            <div class="row  d-flex align-items-center mx-2 my-2">
+              <canvas id="barChart" ></canvas>
+            </div>
           </div>
           <div class="card-body text-center">
           </div>
 
       </div>
       <!--/.Card-->
-  </div>
+</div>
+
+
+
 
   <!--Grid column-->
-  <div class="col-md-6 mx-auto">
+  <div class="col-md-8 mx-auto" style="margin-top:-5%">
       <!--Card-->
       <div class="card card-cascade narrower">
           <!--Card content-->
           <div class="view overlay" style="background: #ffffff">
-            <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
+            <div id="map-container-5" class="z-depth-1" style="height: 400px"></div>
           </div>
           <div class="card-body text-center">
           </div>
@@ -109,156 +260,10 @@
 
 </div>
 
-<div class="row">
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <img src="/images/card_1.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{controlEpisodes}}</big></b> Total Episodes</h4></p>
-          </div>
-      </div>
-  </div>
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <img src="/images/card_1.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{expEpisodes}}</big></b> Total Episodes</h4></p>
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <img src="/images/card_2.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{averageDrinksControl}}</big></b> Drinks per Episode</h4></p>
-            <p><h6 align="right">{{controlDrinks}} Total Drinks</h6></p>
-          </div>
-      </div>
-  </div>
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <img src="/images/card_2.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{averageDrinksExp}}</big></b> Drinks per Episode</h4></p>
-            <p><h6 align="right">{{expDrinks}} Total Drinks</h6></p>
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <img src="/images/card_3.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{averageCalControl}}</big></b> Calories per Episode</h4></p>
-            <p><h6 align="right">{{totalCalControl}} Total</h6></p>
-          </div>
-      </div>
-  </div>
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <img src="/images/card_3.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>{{averageCalExp}}</big></b> Calories per Episode</h4></p>
-            <p><h6 align="right">{{totalCalExperimental}} Total</h6></p>          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <img src="/images/card_4.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>${{controlAverageCost}}</big></b> Dollars per Episode</h4></p>
-            <p><h6 align="right">${{controlTotalCost}} Total</h6></p>
-          </div>
-      </div>
-  </div>
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-          <div class="card-body text-center" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <img src="/images/card_4.png" align="left" class="z-depth-1"></img>
-            <p><h4 class="card-title" align="right"><b><big>${{expAverageCost}}</big></b> Dollars per Episode</h4></p>
-            <p><h6 align="right">${{experimentalTotalCost}} Total</h6></p>          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-        <div class="view overlay" style="background: #ffffff">
-          <canvas id="controlPieChart"></canvas>
-        </div>
-          <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <p><h4 class="card-title" align="left">Control - Types of Drinks</p>
-          </div>
-      </div>
-  </div>
-  <div class="col-md-6 mx-auto" >
-      <div class="card card-cascade narrower">
-        <div class="view overlay" style="background: #ffffff">
-          <canvas id="expPieChart"></canvas>
-        </div>
-          <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardcontroller">
-            <p><h4 class="card-title" align="left">Experimental - Types of Drinks</p>
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-    <div class="col-md-5 mx-auto">
-        <div class="card card-cascade narrower">
-            <div class="card-body text-center">
-              <!--span class="min-chart" ng-controller="DashboardCtrl" id="where-control-chart" data-percent=changePercent()><span class="percent"></span></span-->
-              <div class="row d-flex align-items-center">
-                <div class="col-md-6 mx-auto">
-                  <canvas id="whereControlDonut"></canvas>
-                  <div class="text-center">
-                    <h5><span class="label">Control - Where</span></h5>
-                  </div>
-                </div>
-                  <div class="col-md-6 mx-auto">
-                    <canvas id="whoControlDonut"></canvas>
-                    <div class="text-center">
-                      <h5><span class="label">Control - Who</span></h5>
-                    </div>
-                  </div>
-              </div>
-
-            </div>
 
 
-          </div>
-      </div>
 
-      <div class="col-md-5 mx-auto">
-          <div class="card card-cascade narrower">
-              <div class="card-body text-center">
-                <div class="row d-flex align-items-center">
-                  <div class="col-md-6 mx-auto">
-                    <canvas id="whereExpDonut"></canvas>
-                    <div class="text-center">
-                      <h5><span class="label">Experimental - Where</span></h5>
-                    </div>
-                  </div>
-                    <div class="col-md-6 mx-auto">
-                      <canvas id="whoExpDonut"></canvas>
-                      <div class="text-center">
-                        <h5><span class="label">Experimental - Who</span></h5>
-                      </div>
-                    </div>
-                </div>
-              </div>
-            </div>
-        </div>
-  </div>
+
 
 
 

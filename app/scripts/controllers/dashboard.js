@@ -18,6 +18,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   $scope.lattitudeList = [];
   $scope.longitudeList = [];
   $scope.locationCount = [];
+  $scope.controlUserData = [];
+  $scope.expUserData = [];
 
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
@@ -70,6 +72,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
     $scope.longitudeList = [];
     $scope.locationCount = [];
     $scope.dates = [];
+    $scope.controlUserData =[];
+    $scope.expUserData = [];
     var episodeCounter = 0;
     var userRef = firebase.database().ref('Users/');
     userRef.on('value', function(snapshot){
@@ -389,13 +393,16 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                   datasets: [
                       {
                           data: [percentControlWine,percentControlBeer,percentControlLiquor],
-                          backgroundColor: ["#62CAE2", "#FCB857", "#EC6E91"],
-                          hoverBackgroundColor: ["#93dbeb", "#fdd49b", "#f3a5bb"]
+                          backgroundColor: ["#e9686d", "#FCB857", "#EC6E91"],
+                          hoverBackgroundColor: ["#e9686d", "#FCB857", "#EC6E91"]
                       }
                   ]
               },
               options: {
                   responsive: true,
+                  legend:{
+                    display:false
+                  },
                   tooltips: {
                     enabled: true,
                     mode: 'single',
@@ -418,13 +425,16 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                 datasets: [
                     {
                         data: [percentExpWine,percentExpBeer,percentExpLiquor],
-                        backgroundColor: ["#62CAE2", "#FCB857", "#EC6E91"],
-                        hoverBackgroundColor: ["#93dbeb", "#fdd49b", "#f3a5bb"]
+                        backgroundColor: ["#62CAE2", "#4EBa75", "#818DC6"],
+                        hoverBackgroundColor: ["#62CAE2", "#4EBa75", "#818DC6"]
                     }
                 ]
             },
             options: {
                 responsive: true,
+                legend:{
+                  display:false
+                },
                 tooltips: {
                   enabled: true,
                   mode: 'single',
@@ -622,7 +632,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       var y = chart.canvas.offsetHeight/2;
 
                       var fontBase = chart.canvas.offsetWidth,
-                      fontSize = 50;                     // default size for font
+                      fontSize = 40;                     // default size for font
 
                       var ratio = fontSize / fontBase;   // calc ratio
                       var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
@@ -685,7 +695,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       var y = chart.canvas.offsetHeight/2;
 
                       var fontBase = chart.canvas.offsetWidth,
-                      fontSize = 50;                     // default size for font
+                      fontSize = 40;                     // default size for font
 
                       var ratio = fontSize / fontBase;   // calc ratio
                       var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
@@ -753,7 +763,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       var y = chart.canvas.offsetHeight/2;
 
                       var fontBase = chart.canvas.offsetWidth,
-                      fontSize = 50;                     // default size for font
+                      fontSize = 40;                     // default size for font
 
                       var ratio = fontSize / fontBase;   // calc ratio
                       var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
@@ -816,7 +826,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       var y = chart.canvas.offsetHeight/2;
 
                       var fontBase = chart.canvas.offsetWidth,
-                      fontSize = 50;                     // default size for font
+                      fontSize = 40;                     // default size for font
 
                       var ratio = fontSize / fontBase;   // calc ratio
                       var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
@@ -986,14 +996,14 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                           label: 'Control',
                           data: controlDaysList,
                           backgroundColor: [
-                              '#FCB857',
-                              '#FCB857',
-                              '#FCB857',
-                              '#FCB857',
-                              '#FCB857',
-                              '#FCB857',
-                              '#FCB857'
-                          ],
+                            'rgba(252, 184, 87, 0.2)',
+                            'rgba(252, 184, 87, 0.2)',
+                            'rgba(252, 184, 87, 0.2)',
+                            'rgba(252, 184, 87, 0.2)',
+                            'rgba(252, 184, 87, 0.2)',
+                            'rgba(252, 184, 87, 0.2)',
+                            'rgba(252, 184, 87, 0.2)'
+                        ],
                           borderColor: [
                               '#fba937',
                               '#fba937',
@@ -1009,14 +1019,14 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                         label: 'Experimental',
                         data: experimentalDaysList,
                         backgroundColor: [
-                            '#4EBA75',
-                            '#4EBA75',
-                            '#4EBA75',
-                            '#4EBA75',
-                            '#4EBA75',
-                            '#4EBA75',
-                            '#4EBA75'
-                        ],
+                          'rgba(78, 186, 177, 0.2)',
+                          'rgba(78, 186, 177, 0.2)',
+                          'rgba(78, 186, 177, 0.2)',
+                          'rgba(78, 186, 177, 0.2)',
+                          'rgba(78, 186, 177, 0.2)',
+                          'rgba(78, 186, 177, 0.2)',
+                          'rgba(78, 186, 177, 0.2)'
+                      ],
                         borderColor: [
                             '#40a565',
                             '#40a565',
@@ -1137,12 +1147,12 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                           {
                               label: "Control Users",
                               fill: false,
-                              borderWidth : 5,
+                              borderWidth : 3,
                               borderColor : '#FCB857',
-                              pointBackgroundColor : '#FFFFFF',
-                              pointBorderColor : '#FFFFFF',
+                              pointBackgroundColor : '#FCB857',
+                              pointBorderColor : '#FCB857',
                               pointBorderWidth : 1,
-                              pointRadius : 3,
+                              pointRadius : 4,
                               pointHoverBackgroundColor : '#FCB857',
                               pointHoverBorderColor : '#FCB857',
                               data: realControlSortedList
@@ -1150,12 +1160,12 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                           {
                               label: "Experimental Users",
                               fill: false,
-                              borderWidth : 5,
+                              borderWidth : 3,
                               borderColor : '#EC6E91',
-                              pointBackgroundColor : '#FFFFFF',
-                              pointBorderColor : '#FFFFFF',
+                              pointBackgroundColor : '#EC6E91',
+                              pointBorderColor : '#EC6E91',
                               pointBorderWidth : 1,
-                              pointRadius : 3,
+                              pointRadius : 4,
                               pointHoverBackgroundColor : '#EC6E91',
                               pointHoverBorderColor : '#EC6E91',
                               data: realExpSortedList
@@ -1163,35 +1173,29 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       ]
                   },
                   options: {
-                    scaleFontColor: '#FFFFFF',
                       responsive: true,
                       legend: {
                         display: true,
                         labels: {
-                          fontColor: "#FFFFFF"
                         }
                     },
                       scales: {
                           yAxes: [{
                             scaleLabel: {
                               display: true,
-                              labelString: 'Number of Drinks',
-                              fontColor: "#FFFFFF"
+                              labelString: 'Number of Drinks'
 
                             },
                               ticks: {
                                   beginAtZero:true,
-                                  fontColor: "#FFFFFF"
                               }
                           }],
                           xAxes: [{
                             scaleLabel: {
                               display: true,
-                              labelString: 'Night Count',
-                              fontColor: "#FFFFFF"
+                              labelString: 'Night Count'
                             },
                             ticks: {
-                                fontColor: "#FFFFFF"
                             }
                           }]
                       }
@@ -1490,6 +1494,37 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             }
 
             autocenter();
+
+            $scope.controlUserData.push({"labels":"Episodes"})
+            $scope.controlUserData.push({"labels":"Drinks"})
+            $scope.controlUserData.push({"labels":"Calories"})
+            $scope.controlUserData.push({"labels":"Cost"})
+
+            $scope.controlUserData[0].episodes = "-";
+            $scope.controlUserData[0].totalDrinks = $scope.controlEpisodes
+            $scope.controlUserData[1].episodes = $scope.averageDrinksControl
+            $scope.controlUserData[1].totalDrinks = $scope.controlDrinks;
+            $scope.controlUserData[2].episodes = $scope.averageCalControl
+            $scope.controlUserData[2].totalDrinks = $scope.totalCalControl
+            $scope.controlUserData[3].episodes =  $scope.controlAverageCost
+            $scope.controlUserData[3].totalDrinks = $scope.controlTotalCost
+
+
+
+
+            $scope.expUserData.push({"labels":"Episodes"})
+            $scope.expUserData.push({"labels":"Drinks"})
+            $scope.expUserData.push({"labels":"Calories"})
+            $scope.expUserData.push({"labels":"Cost"})
+
+            $scope.expUserData[0].episodes = "-";
+            $scope.expUserData[0].totalDrinks = $scope.expEpisodes
+            $scope.expUserData[1].episodes = $scope.averageDrinksExp
+            $scope.expUserData[1].totalDrinks = $scope.expDrinks;
+            $scope.expUserData[2].episodes = $scope.averageCalExp
+            $scope.expUserData[2].totalDrinks = $scope.totalCalExperimental
+            $scope.expUserData[3].episodes =  $scope.expAverageCost
+            $scope.expUserData[3].totalDrinks = $scope.experimentalTotalCost
         });
     })
   }
