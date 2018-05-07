@@ -140,7 +140,7 @@
           <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
         </div>
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <p><h6 class="card-title" align="left">Location Data</p>
+            <h4 class="card-title" align="left">Location Data</h4>
             </div>
           </div>
       </div>
@@ -151,20 +151,28 @@
         <div class="row d-flex align-items-center mx-2" style="height: 300px">
           <div class="col-md-4 mx-auto">
             <canvas id="whereDonut"></canvas>
+            <div class="text-center">
+              <h5 style="padding-top: 10px; color: #FCB857"><span class="label" >Where</span></h5>
+            </div>
           </div>
           <div class="col-md-4">
             <canvas id="whoDonut"></canvas>
+            <div class="text-center">
+              <h5 style="padding-top: 10px; color: #62CAE2"><span class="label">Who</span></h5>
+            </div>
           </div>
           <div class="col-md-4">
             <canvas id="myChart"></canvas>
+            <div class="text-center">
+              <h5 style="padding-top: 10px; color: #EC6E91"><span class="label">Type</span></h5>
+            </div>
           </div>
 
         </div>
 
       </div>
-        <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-          <p><h6 class="card-title" align="left">Breakdown of Type of Location</p>
-        </div>
+        <div class="card-body text-center" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
+          <h4 class="card-title" align="left">Summary of Drinking Behavior</h4>
     </div>
 </div>
 </div>
@@ -178,7 +186,8 @@
           </div>
         </div>
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <p><h4 class="card-title" align="left">Daily Average Number of Drinks and Average Cost</p>
+            <h4 class="card-title" align="left">Number of Drinks per Day of Week</h4>
+            <h6 class="card-text"  align="left">Chart calculates the number of drinking episodes per day of the week to display which day the user is most active.</h5>
           </div>
       </div>
   </div>
@@ -191,8 +200,8 @@
           </div>
         </div>
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <p><h4 class="card-title" align="left">Daily Tracker</p>
-          </div>
+            <h4 class="card-title" align="left">Daily Tracker</h4>
+            <h6 class="card-text"  align="left">Chart calculates the number of drinks the participant consumed from their start date to end date.</h5>          </div>
       </div>
   </div>
 </div>
