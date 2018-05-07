@@ -990,7 +990,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               var barChart = new Chart(context, {
                   type: 'bar',
                   data: {
-                      labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
+                      labels: ["S","M", "T", "W", "R", "F","S"],
                       datasets: [
                         {
                           label: 'Control',
@@ -1048,8 +1048,21 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                             labelString: 'Number of Episodes',
                           },
                             ticks: {
-                                beginAtZero:true
+                                beginAtZero:true,
+                                userCallback: function(label, index, labels) {
+                                    // when the floored value is the same as the value we have a whole number
+                                    if (Math.floor(label) === label) {
+                                        return label;
+                                    }
+
+                                },
                             }
+                        }],
+                        xAxes: [{
+                          scaleLabel: {
+                            display: true,
+                            labelString: 'Day of the Week'
+                          }
                         }]
 
                     }
@@ -1188,6 +1201,13 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                             },
                               ticks: {
                                   beginAtZero:true,
+                                  userCallback: function(label, index, labels) {
+                                      // when the floored value is the same as the value we have a whole number
+                                      if (Math.floor(label) === label) {
+                                          return label;
+                                      }
+
+                                  },
                               }
                           }],
                           xAxes: [{
@@ -1506,8 +1526,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             $scope.controlUserData[1].totalDrinks = $scope.controlDrinks;
             $scope.controlUserData[2].episodes = $scope.averageCalControl
             $scope.controlUserData[2].totalDrinks = $scope.totalCalControl
-            $scope.controlUserData[3].episodes =  $scope.controlAverageCost
-            $scope.controlUserData[3].totalDrinks = $scope.controlTotalCost
+            $scope.controlUserData[3].episodes =  "$"+$scope.controlAverageCost
+            $scope.controlUserData[3].totalDrinks = "$"+$scope.controlTotalCost
 
 
 
@@ -1523,8 +1543,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             $scope.expUserData[1].totalDrinks = $scope.expDrinks;
             $scope.expUserData[2].episodes = $scope.averageCalExp
             $scope.expUserData[2].totalDrinks = $scope.totalCalExperimental
-            $scope.expUserData[3].episodes =  $scope.expAverageCost
-            $scope.expUserData[3].totalDrinks = $scope.experimentalTotalCost
+            $scope.expUserData[3].episodes =  "$"+$scope.expAverageCost
+            $scope.expUserData[3].totalDrinks = "$"+$scope.experimentalTotalCost
         });
     })
   }
