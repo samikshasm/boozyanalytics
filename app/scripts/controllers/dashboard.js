@@ -20,6 +20,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   $scope.locationCount = [];
   $scope.controlUserData = [];
   $scope.expUserData = [];
+  $scope.locationData = [];
 
   var ref = firebase.database().ref();
   var dataRef = $firebaseArray(ref);
@@ -74,6 +75,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
     $scope.dates = [];
     $scope.controlUserData =[];
     $scope.expUserData = [];
+    $scope.locationData = [];
     var episodeCounter = 0;
     var userRef = firebase.database().ref('Users/');
     userRef.on('value', function(snapshot){
@@ -1526,8 +1528,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             $scope.controlUserData[1].totalDrinks = $scope.controlDrinks;
             $scope.controlUserData[2].episodes = $scope.averageCalControl
             $scope.controlUserData[2].totalDrinks = $scope.totalCalControl
-            $scope.controlUserData[3].episodes =  "$"+$scope.controlAverageCost
-            $scope.controlUserData[3].totalDrinks = "$"+$scope.controlTotalCost
+            $scope.controlUserData[3].episodes =  $scope.controlAverageCost
+            $scope.controlUserData[3].totalDrinks = $scope.controlTotalCost
 
 
 
@@ -1543,8 +1545,30 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             $scope.expUserData[1].totalDrinks = $scope.expDrinks;
             $scope.expUserData[2].episodes = $scope.averageCalExp
             $scope.expUserData[2].totalDrinks = $scope.totalCalExperimental
-            $scope.expUserData[3].episodes =  "$"+$scope.expAverageCost
-            $scope.expUserData[3].totalDrinks = "$"+$scope.experimentalTotalCost
+            $scope.expUserData[3].episodes =  $scope.expAverageCost
+            $scope.expUserData[3].totalDrinks = $scope.experimentalTotalCost
+
+            console.log($scope.locationCount.length);
+
+            var getLocationData = function(count){
+              var largest = Math.max.apply( Math, $scope.locationCount);
+              var largestIndex = $scope.locationCount.indexOf(largest);
+              var largestLat = $scope.lattitudeList[largestIndex];
+              var largestLong = $scope.longitudeList[largestIndex];
+              $scope.locationData.push({"count":largest});
+              $scope.locationData[count].lat = largestLat;
+              $scope.locationData[count].long = largestLong;
+              $scope.locationCount.splice(largestIndex,1);
+              $scope.lattitudeList.splice(largestIndex,1);
+              $scope.longitudeList.splice(largestIndex,1);
+            }
+
+            getLocationData(0);
+            getLocationData(1);
+            getLocationData(2);
+            getLocationData(3);
+            getLocationData(4);
+
         });
     })
   }

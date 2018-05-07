@@ -8,6 +8,9 @@ html,body{
 .bold{
   font-weight: 600;
 }
+table{
+  padding:0px;
+}
 td{
    padding:0px;
 }
