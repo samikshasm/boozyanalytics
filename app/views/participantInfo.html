@@ -85,11 +85,13 @@
   </div>
 </div>
 
-<div class="row mx-auto" style='width:95%; margin-top:-7%'>
+<div class="row mx-auto" style='width:95%; margin-top:-6%'>
   <div class="col-lg-3 col-md-6 col-sm-12" >
       <div class="card card-cascade narrower">
-          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <img src="/images/card_1.png" align="left" class="z-depth-1"></img>
+        <div class="view overlay" style="width:30%;margin-left:5%;">
+          <img src="/images/user_icon.png" align="left" style="width:100%"></img>
+        </div>
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller"  style="margin-top:-30%" >
             <p><h7 class="card-title" align="right"><b><big>{{drinkingEpisodes}} </big></b>Drinking Episodes</h7></p>
             <p><h6>Start Date: {{startDate}}</h6></p>
           </div>
@@ -97,8 +99,10 @@
   </div>
   <div class="col-lg-3 col-md-6 col-sm-12" >
       <div class="card card-cascade narrower">
-          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <img src="/images/card_2.png" align="left" class="z-depth-1"></img>
+        <div class="view overlay" style="width:30%;margin-left:5%;">
+          <img src="/images/drink_icon.png" align="left" style="width:100%"></img>
+        </div>
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller"  style="margin-top:-30%">
             <p><h7 class="card-title" align="right"><b><big>{{averageDrinksConsumed}}</big></b> Drinks per Epsiode</h7></p>
             <p><h6>{{totalDrinks}} Total Drinks</h6></p>
           </div>
@@ -106,8 +110,10 @@
   </div>
   <div class="col-lg-3 col-md-6 col-sm-12" >
       <div class="card card-cascade narrower">
-          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <img src="/images/card_3.png" align="left" class="z-depth-1"></img>
+        <div class="view overlay" style="width:30%;margin-left:5%;">
+          <img src="/images/cal_icon.png" align="left" style="width:100%"></img>
+        </div>
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" style="margin-top:-30%">
             <p><h7 class="card-title" align="right"><b><big>{{averageCaloriesConsumed}}</big></b> Calories Per Episode</p>
             <p><h6>{{totalCalConsumed}} Total Calories</h6></p>
           </div>
@@ -115,8 +121,10 @@
   </div>
   <div class="col-lg-3 col-md-6 col-sm-12" >
       <div class="card card-cascade narrower">
-          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
-            <img src="/images/card_4.png" align="left" class="z-depth-1"></img>
+        <div class="view overlay" style="width:30%;margin-left:5%;">
+          <img src="/images/cost_icon.png" align="left" style="width:100%"></img>
+        </div>
+          <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" style="margin-top:-30%">
             <p><h7 class="card-title" align="right"><b><big>${{averageMoneySpent}}</big></b> Dollars Per Episode</p>
             <p><h6>${{totalCost1}} Total</h6></p>
           </div>
@@ -165,7 +173,9 @@
   <div class="col-md-6" >
       <div class="card card-cascade narrower">
         <div class="view overlay" id="dayOfWeekLineColor">
-          <canvas id="dayOfWeekLine" class="z-depth-1"></canvas>
+          <div class="row d-flex align-items-center mx-2" style="height: 300px">
+            <canvas id="dayOfWeekLine"></canvas>
+          </div>
         </div>
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
             <p><h4 class="card-title" align="left">Daily Average Number of Drinks and Average Cost</p>
@@ -176,7 +186,9 @@
   <div class="col-md-6" >
       <div class="card card-cascade narrower">
         <div class="view overlay" id="dailyTrackerColor">
-          <canvas id="lineChart" class="z-depth-1"></canvas>
+          <div class="row d-flex align-items-center mx-2" style="height: 300px">
+            <canvas id="lineChart"></canvas>
+          </div>
         </div>
           <div class="card-body text-right" ng-controller="ParticipantInfoCtrl" id="participantcontroller" >
             <p><h4 class="card-title" align="left">Daily Tracker</p>

@@ -789,7 +789,16 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                       ]
                   },
                   options: {
-                      responsive: true
+                      responsive: true,
+                      layout: {
+                        padding: {
+                            left: 10,
+                            right: 0,
+                            top: 0,
+                            bottom: 0
+                        }
+                      }
+
                   }
               });
 
