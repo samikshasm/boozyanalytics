@@ -751,6 +751,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                       datasets: [
                           {
                               label: "Number of Drinks Consumed",
+                              backgroundColor: 'rgba(233,104,109,0.2)',
                               borderWidth : 2,
                               borderColor : '#E9686D',
                               pointBackgroundColor : '#E9686D',
@@ -767,18 +768,43 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                       responsive: true,
                       legend:{
                         display:false
+                      },
+                      scales: {
+                          yAxes: [{
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Number of Drinks',
+                            },
+                            ticks: {
+                             beginAtZero: true,
+                             userCallback: function(label, index, labels) {
+                                 // when the floored value is the same as the value we have a whole number
+                                 if (Math.floor(label) === label) {
+                                     return label;
+                                 }
+
+                             }
+                           }
+                          }],
+                          xAxes: [{
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Date of Episode',
+                            }
+                          }]
                       }
                   }
               });
 
-              var ctxL = document.getElementById("dayOfWeekLine").getContext('2d');
-              var myLineChart = new Chart(ctxL, {
-                  type: 'line',
+              var context = document.getElementById("dayOfWeekLine").getContext('2d');
+              var barChart = new Chart(context, {
+                  type: 'bar',
                   data: {
-                      labels: ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
+                      labels: ["S","M", "T", "W", "R", "F","S"],
                       datasets: [
                           {
-                              label: "Drinking Episodes per Day of Week",
+                              label: "Number of Episodes",
+                              backgroundColor: 'rgba(51,181,229,0.2)',
                               borderWidth : 2,
                               borderColor : '#62CAE2',
                               pointBackgroundColor : '#62CAE2',
@@ -803,6 +829,30 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                             top: 0,
                             bottom: 0
                         }
+                      },
+                      scales: {
+                          yAxes: [{
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Number of Drinking Episodes'
+                            },
+                            ticks: {
+                             beginAtZero: true,
+                             userCallback: function(label, index, labels) {
+                                 // when the floored value is the same as the value we have a whole number
+                                 if (Math.floor(label) === label) {
+                                     return label;
+                                 }
+
+                             },
+                         }
+                          }],
+                          xAxes: [{
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Day of Episode',
+                            }
+                          }]
                       }
 
                   }
