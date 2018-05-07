@@ -8,8 +8,16 @@
  * Controller of the angularAppApp
  */
 var mainModule = angular.module('angularAppApp.main',['ngRoute','firebase'])
-  .controller('MainCtrl', ['$scope', 'CommonProp',function ($scope, CommonProp) {
-    $scope.nameOfUser = CommonProp.getDisplayName();
+  .controller('MainCtrl', ['$scope', 'CommonProp', '$firebaseAuth', function ($scope, CommonProp, $firebaseAuth) {
+    //$scope.nameOfUser = CommonProp.getUser();
+    firebase.auth().onAuthStateChanged(function (user){
+      if (user){
+        console.log(user.displayName);
+        $scope.nameOfUser = user.displayName;
+      }
+    })
+    //var user = firebase.auth().currentUser;
+    //console.log(user);
     CommonProp.setDisplayName($scope.nameOfUser);
 
     function my_func(){
