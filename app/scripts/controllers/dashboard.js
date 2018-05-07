@@ -1161,7 +1161,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       datasets: [
                           {
                               label: "Control Users",
-                              fill: false,
+                              backgroundColor: 'rgba(252, 184, 87,0.2)',
                               borderWidth : 3,
                               borderColor : '#FCB857',
                               pointBackgroundColor : '#FCB857',
@@ -1174,7 +1174,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                           },
                           {
                               label: "Experimental Users",
-                              fill: false,
+                              backgroundColor: 'rgba(236, 110, 145,0.2)',
                               borderWidth : 3,
                               borderColor : '#EC6E91',
                               pointBackgroundColor : '#EC6E91',
