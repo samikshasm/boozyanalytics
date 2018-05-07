@@ -752,19 +752,22 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                           {
                               label: "Number of Drinks Consumed",
                               borderWidth : 2,
-                              borderColor : '#e6e6e6',
-                              pointBackgroundColor : '#e6e6e6',
-                              pointBorderColor : '#e6e6e6',
+                              borderColor : '#E9686D',
+                              pointBackgroundColor : '#E9686D',
+                              pointBorderColor : '#E9686D',
                               pointBorderWidth : 1,
                               pointRadius : 2,
-                              pointHoverBackgroundColor : '#e6e6e6',
-                              pointHoverBorderColor : '#e6e6e6',
+                              pointHoverBackgroundColor : '#E9686D',
+                              pointHoverBorderColor : '#E9686D',
                               data: test
                           }
                       ]
                   },
                   options: {
-                      responsive: true
+                      responsive: true,
+                      legend:{
+                        display:false
+                      }
                   }
               });
 
@@ -777,19 +780,22 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                           {
                               label: "Drinking Episodes per Day of Week",
                               borderWidth : 2,
-                              borderColor : '#e6e6e6',
-                              pointBackgroundColor : '#e6e6e6',
-                              pointBorderColor : '#e6e6e6',
+                              borderColor : '#62CAE2',
+                              pointBackgroundColor : '#62CAE2',
+                              pointBorderColor : '#62CAE2',
                               pointBorderWidth : 1,
                               pointRadius : 2,
-                              pointHoverBackgroundColor : '#e6e6e6',
-                              pointHoverBorderColor : '#e6e6e6',
+                              pointHoverBackgroundColor : '#62CAE2',
+                              pointHoverBorderColor : '#62CAE2',
                               data: days
                           }
                       ]
                   },
                   options: {
-                      responsive: true
+                      responsive: true,
+                      legend:{
+                        display:false
+                      }
                   }
               });
 

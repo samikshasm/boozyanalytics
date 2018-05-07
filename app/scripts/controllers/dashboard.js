@@ -619,16 +619,24 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       //chart.ctx.font = 'bold 3vw Arial'
                       var string = $scope.whereControlPercentage+"%"+" "+whereControlLabel;
                       var array = string.split(" ");
-                      var y = chart.canvas.height/3;
-                      var test = window.innerHeight;
+                      var y = chart.canvas.offsetHeight/2;
+
+                      var fontBase = chart.canvas.offsetWidth,
+                      fontSize = 50;                     // default size for font
+
+                      var ratio = fontSize / fontBase;   // calc ratio
+                      var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
+
+
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
-                          chart.ctx.font = 'bold 4vw Arial'
+                          chart.ctx.font = 'bold '+size+'px Arial'
                         }else{
-                          chart.ctx.font = 'bold 1vw Arial'
+                          chart.ctx.font = 'bold '+size/4+'px Arial'
                         }
-                         chart.ctx.fillText(array[i], chart.canvas.width/2.7, y);
-                         y += chart.canvas.height/7;
+                         chart.ctx.fillText(array[i], chart.canvas.offsetWidth/2, y);
+                         var lineHeight = chart.ctx.measureText('M').width;
+                         y += lineHeight;
                       }
                       //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
                     }
@@ -674,31 +682,31 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       //chart.ctx.font = 'bold 3vw Arial'
                       var string = $scope.whoControlPerecentage+"%"+" "+whoControlLabel;
                       var array = string.split(" ");
-                      var y = chart.canvas.height/3
+                      var y = chart.canvas.offsetHeight/2;
+
+                      var fontBase = chart.canvas.offsetWidth,
+                      fontSize = 50;                     // default size for font
+
+                      var ratio = fontSize / fontBase;   // calc ratio
+                      var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
+
+
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
-                          chart.ctx.font = 'bold 4vw Arial'
+                          chart.ctx.font = 'bold '+size+'px Arial'
                         }else{
-                          chart.ctx.font = 'bold 1vw Arial'
+                          chart.ctx.font = 'bold '+size/4+'px Arial'
                         }
-                         chart.ctx.fillText(array[i], chart.canvas.width/2.7, y);
-                         y += chart.canvas.height/7;
+                         chart.ctx.fillText(array[i], chart.canvas.offsetWidth/2, y);
+                         var lineHeight = chart.ctx.measureText('M').width;
+                         y += lineHeight;
                       }
                       //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
                     }
                   }]
+
               });
-              /*
-              var x = 50;
-              var y = chart.ctxD.height/2;
-              var fontSize = 20;
-              var string = "Hello Canvas";
-              var array = string.split(" ");
-              for (var i = 0; i < array.length; i++) {
-                 chart.ctxD.fillText(array[i], x, y);
-                 y += fontSize;
-              }
-              */
+
 
 
 
@@ -742,15 +750,24 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                       //chart.ctx.font = 'bold 3vw Arial'
                       var string = $scope.whereExpPercentage+"%"+" "+whereExpLabel;
                       var array = string.split(" ");
-                      var y = chart.canvas.height/3
+                      var y = chart.canvas.offsetHeight/2;
+
+                      var fontBase = chart.canvas.offsetWidth,
+                      fontSize = 50;                     // default size for font
+
+                      var ratio = fontSize / fontBase;   // calc ratio
+                      var size = chart.canvas.offsetWidth * ratio;   // get font size based on current width
+
+
                       for (var i = 0; i < array.length; i++) {
                         if(i == 0){
-                          chart.ctx.font = 'bold 4vw Arial'
+                          chart.ctx.font = 'bold '+size+'px Arial'
                         }else{
-                          chart.ctx.font = 'bold 1vw Arial'
+                          chart.ctx.font = 'bold '+size/4+'px Arial'
                         }
-                         chart.ctx.fillText(array[i], chart.canvas.width/2.7, y);
-                         y += chart.canvas.height/7;
+                         chart.ctx.fillText(array[i], chart.canvas.offsetWidth/2, y);
+                         var lineHeight = chart.ctx.measureText('M').width;
+                         y += lineHeight;
                       }
                       //chart.ctxD.fillText($scope.whereControlPercentage+'%'+"text", chart.canvas.width / 2.6, chart.canvas.height / 2.5)
                     }
@@ -1014,13 +1031,18 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                     ]
                   },
                   options: {
-                      scales: {
-                          yAxes: [{
-                              ticks: {
-                                  beginAtZero:true
-                              }
-                          }]
-                      }
+                    scales: {
+                        yAxes: [{
+                          scaleLabel: {
+                            display: true,
+                            labelString: 'Number of Episodes',
+                          },
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+
+                    }
                   }
               });
 
@@ -1171,8 +1193,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
                             ticks: {
                                 fontColor: "#FFFFFF"
                             }
-                          }],
-
+                          }]
                       }
                   }
               });

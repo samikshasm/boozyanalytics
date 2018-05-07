@@ -82,24 +82,27 @@
       <!--Card-->
       <div class="card card-cascade narrower">
           <!--Card content-->
-          <div class="card-body text-center">
-              <!--Google map-->
-              <canvas id="barChart" ></canvas>
+          <div class="view overlay" style="background: #ffffff">
+            <canvas id="barChart" ></canvas>
           </div>
-          <!--/.Card content-->
+          <div class="card-body text-center">
+          </div>
+
       </div>
       <!--/.Card-->
   </div>
+
   <!--Grid column-->
   <div class="col-md-6 mx-auto">
       <!--Card-->
       <div class="card card-cascade narrower">
           <!--Card content-->
-          <div class="card-body text-center">
-              <!--Google map-->
-              <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
+          <div class="view overlay" style="background: #ffffff">
+            <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
           </div>
-          <!--/.Card content-->
+          <div class="card-body text-center">
+          </div>
+
       </div>
       <!--/.Card-->
   </div>
@@ -189,20 +192,20 @@
 <div class="row">
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
+        <div class="view overlay" style="background: #ffffff">
+          <canvas id="controlPieChart"></canvas>
+        </div>
           <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <div class="view overlay">
-              <canvas id="controlPieChart"></canvas>
-            </div>
             <p><h4 class="card-title" align="left">Control - Types of Drinks</p>
           </div>
       </div>
   </div>
   <div class="col-md-6 mx-auto" >
       <div class="card card-cascade narrower">
-          <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardcontroller" >
-            <div class="view overlay">
-              <canvas id="expPieChart"></canvas>
-            </div>
+        <div class="view overlay" style="background: #ffffff">
+          <canvas id="expPieChart"></canvas>
+        </div>
+          <div class="card-body text-right" ng-controller="DashboardCtrl" id="dashboardcontroller">
             <p><h4 class="card-title" align="left">Experimental - Types of Drinks</p>
           </div>
       </div>
@@ -257,7 +260,6 @@
         </div>
   </div>
 
-  <canvas id="ini" width="500" height="300"></canvas>
 
 
 
