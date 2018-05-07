@@ -135,14 +135,13 @@
 
      <div class="col-md-6 mx-auto">
          <div class="card card-cascade narrower">
-            <div style="background:#EC6E91" class="view gradient-card-header">
-              <h2 style="color:white; " class="card-header-title">Control</h2>
+            <div style="background:#EC6E91" class="view card-header text-center">
+              <h4 style="color:white; " class="card-header-title">Control</h2>
 
            </div>
              <div class="card-body text-center">
                <div class="row d-flex align-items-center">
-                 <div class="table-responsive mx-auto">
-                   <table class="table table-hover mx-auto" style="width:95%;">
+                   <table class="table table-sm mx-auto" style="width:95%;">
 
                      <thead>
                        <tr>
@@ -162,7 +161,6 @@
 
                      </tbody>
                    </table>
-                 </div>
                </div>
              </div>
            </div>
@@ -170,14 +168,13 @@
 
          <div class="col-md-6 mx-auto">
              <div class="card card-cascade narrower">
-               <div style="background:#62CAE2" class="view gradient-card-header">
-                 <h2 style="color:white; " class="card-header-title">Experimental</h2>
+               <div style="background:#62CAE2" class="view card-header text-center">
+                 <h4 style="color:white; " class="card-header-title">Experimental</h2>
 
               </div>
                  <div class="card-body text-center">
                    <div class="row d-flex align-items-center">
-                     <div class="table-responsive mx-auto">
-                       <table class="table table-hover mx-auto" style="width:95%;">
+                       <table class="table table-sm mx-auto" style="width:95%;">
 
                          <thead>
                            <tr>
@@ -197,7 +194,6 @@
 
                          </tbody>
                        </table>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -243,21 +239,60 @@
 
 
 
-  <!--Grid column-->
-  <div class="col-md-8 mx-auto" style="margin-top:-5%">
-      <!--Card-->
-      <div class="card card-cascade narrower">
-          <!--Card content-->
-          <div class="view overlay" style="background: #ffffff">
-            <div id="map-container-5" class="z-depth-1" style="height: 400px"></div>
-          </div>
-          <div class="card-body text-center">
-          </div>
 
-      </div>
-      <!--/.Card-->
-  </div>
+</div>
+<div class="row align-items-top mx-auto" style="width:95%;margin-top:-5%">
 
+
+
+
+    <!--Grid column-->
+    <div class="col-md-7 mx-auto">
+        <!--Card-->
+        <div class="card card-cascade narrower">
+            <!--Card content-->
+            <div class="view overlay" style="background: #ffffff">
+              <div id="map-container-5" class="z-depth-1" style="height: 300px"></div>
+            </div>
+            <div class="card-body text-center">
+            </div>
+
+        </div>
+        <!--/.Card-->
+    </div>
+
+    <div class="col-md-5 mx-auto">
+        <div class="card card-cascade narrower">
+           <div style="background:#4EBA75" class="view card-header text-center">
+             <h4 style="color:white; " class="card-header-title">Location Data</h2>
+
+          </div>
+            <div class="card-body text-center">
+              <div class="row d-flex align-items-center">
+                  <table class="table table-sm mx-auto" style="width:95%;">
+
+                    <thead>
+                      <tr>
+                        <th>Rank</th>
+                        <th>Frequency</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="data in locationData" >
+                        <th scope="row">{{$index+1}}</th>
+                        <td>{{data.count}}</td>
+                        <td>{{data.lat}}</td>
+                        <td>{{data.long}}</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
 </div>
 
 
