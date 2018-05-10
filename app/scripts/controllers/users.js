@@ -138,15 +138,30 @@ function updateTable(){
                 //do nothing
               }else{
                 usernameList.push(uidList[i]);
-                startDateList.push(dateList[i]);
+                //startDateList.push(dateList[i]);
               }
             }
 
+            //console.log(dateList);
+            //console.log(tempDateList);
             var total = 0;
             for(var i = 0; i < nightList.length; i++){
+              var tempDateList = dateList.slice();
+              var tempList = tempDateList.splice(total,nightList[i]);
+              tempList.sort(function(a, b) {
+                  var parseDate = function parseDate(dateAsString) {
+                          var dateParts = dateAsString.split("-");
+                          return new Date(parseInt(dateParts[0], 10), parseInt(dateParts[1], 10) - 1, parseInt(dateParts[2], 10));
+                      };
+
+                  return parseDate(b) - parseDate(a);
+              });
               total = total+nightList[i];
-              lastUsedList.push(dateList[total-1]);
+              startDateList.push(tempList[tempList.length-1]);
+              lastUsedList.push(tempList[0]);
             }
+
+
 
             /*var bothGroup = $scope.controlList.concat($scope.experimentalList);
             for(var i = 0; i< usernameList.length; i++){
@@ -187,7 +202,6 @@ function updateTable(){
                 lastUsedList.push("na")
             }
 
-            //console.log(newUsernameList);
 
             for(var i = 0; i < usernameList.length; i++){
               $scope.articles.push({"key":usernameList[i], "value":nightList[i], "group":groupList[i], "date":startDateList[i], "last":lastUsedList[i]})

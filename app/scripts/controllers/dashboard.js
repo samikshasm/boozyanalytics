@@ -1528,8 +1528,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             $scope.controlUserData[1].totalDrinks = $scope.controlDrinks;
             $scope.controlUserData[2].episodes = $scope.averageCalControl
             $scope.controlUserData[2].totalDrinks = $scope.totalCalControl
-            $scope.controlUserData[3].episodes =  $scope.controlAverageCost
-            $scope.controlUserData[3].totalDrinks = $scope.controlTotalCost
+            $scope.controlUserData[3].episodes =  "$"+Math.round($scope.controlAverageCost*100)/100
+            $scope.controlUserData[3].totalDrinks ="$"+Math.round($scope.controlTotalCost*100)/100
 
 
 
@@ -1545,8 +1545,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             $scope.expUserData[1].totalDrinks = $scope.expDrinks;
             $scope.expUserData[2].episodes = $scope.averageCalExp
             $scope.expUserData[2].totalDrinks = $scope.totalCalExperimental
-            $scope.expUserData[3].episodes =  $scope.expAverageCost
-            $scope.expUserData[3].totalDrinks = $scope.experimentalTotalCost
+            $scope.expUserData[3].episodes = "$"+Math.round($scope.expAverageCost*100)/100
+            $scope.expUserData[3].totalDrinks = "$"+Math.round($scope.experimentalTotalCost*100)/100
 
             console.log($scope.locationCount.length);
 
