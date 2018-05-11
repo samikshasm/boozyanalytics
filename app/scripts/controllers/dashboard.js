@@ -60,7 +60,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
   var controlNightCounter=0
   var expNightCounter=0
   var nightCounterList=[]
-
+  var testDatesWrong = []
 
 
 
@@ -129,7 +129,8 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
 
                                   var date_val = id.substr(6,id.length);
                                   var date_values = date_val.split("-");
-                                  var date = new Date(date_values[0], date_values[1], date_values[2]);
+                                  var date = new Date(date_values[0], date_values[1]-1, date_values[2]);
+                                  testDatesWrong.push(date)
                                   $scope.dates.push(date.getDay() + " " + participantName);
 
                                   angular.forEach(value, function(value,id){
@@ -920,6 +921,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               var expSat=0
               var experimentalDaysList=[]
 
+
               for (var i=0;i<$scope.dates.length;i++){
                 var date = $scope.dates[i].split(" ")[0]
                 var name = $scope.dates[i].split(" ")[1]
@@ -987,6 +989,7 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               experimentalDaysList.push(expThu)
               experimentalDaysList.push(expFri)
               experimentalDaysList.push(expSat)
+
 
               var context = document.getElementById("barChart").getContext('2d');
               var barChart = new Chart(context, {
@@ -1153,11 +1156,23 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
               }
 
 
+              var labelsList = []
+              if (sortedControlList.length > sortedExpList.length) {
+                for (var i = 0; i < sortedControlList.length; i++) {
+                  labelsList.push(i);
+                }
+              }
+              else {
+                for (var i = 0; i < sortedExpList.length; i++) {
+                  labelsList.push(i);
+                }
+              }
+
               var ctxL = document.getElementById("lineChart").getContext('2d');
               var myLineChart = new Chart(ctxL, {
                   type: 'line',
                   data: {
-                      labels: sortedControlList,
+                      labels: labelsList,
                       datasets: [
                           {
                               label: "Control Users",
@@ -1547,8 +1562,6 @@ var userModule = angular.module('angularAppApp.dashboard',['ngRoute','firebase']
             $scope.expUserData[2].totalDrinks = $scope.totalCalExperimental
             $scope.expUserData[3].episodes = "$"+Math.round($scope.expAverageCost*100)/100
             $scope.expUserData[3].totalDrinks = "$"+Math.round($scope.experimentalTotalCost*100)/100
-
-            console.log($scope.locationCount.length);
 
             var getLocationData = function(count){
               var largest = Math.max.apply( Math, $scope.locationCount);

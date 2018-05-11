@@ -42,6 +42,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
   $scope.numDrinksDatesLabels = [];
   $scope.testDates = [];
   $scope.testNum = [];
+  $scope.testLine = [];
   $scope.startDate = "";
   var numDrinksParticipant;
   queryDatabase();
@@ -112,6 +113,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                                       $scope.sizeList.push(value);
                                       $scope.totalDrinks++;
                                       numDrinksParticipant++;
+                                      $scope.testLine.push(date1 + " " + value)
                                       $scope.testDates.push(date1);
                                       $scope.testNum.push(value);
                                     })
@@ -723,6 +725,7 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                 }
               }
 
+
               var test = []
               for(var i =0; i<$scope.testDates.length;i++){
                 var numDrinks = 1;
@@ -741,7 +744,51 @@ var userModule = angular.module('angularAppApp.participantInfo',['ngRoute','fire
                 test.push(numDrinks);
               }
 
-              //console.log(test);
+
+              /*var test1 = $scope.testDates
+              test1 = test1.slice().sort(function(a,b) {
+                a = a.split('-').reverse().join('');
+                b = b.split('-').reverse().join('');
+                return a > b ? 1 : a < b ? -1 : 0;
+                // return a.localeCompare(b);         // <-- alternative
+              });*/
+
+
+              var test1 = $scope.testDates.slice().sort(function(a, b) {
+                  var parseDate = function parseDate(dateAsString) {
+                          var dateParts = dateAsString.split("-");
+                          return new Date(parseInt(dateParts[0], 10), parseInt(dateParts[1], 10) - 1, parseInt(dateParts[2], 10));
+                      };
+
+                  return parseDate(b) - parseDate(a);
+              });
+
+              test1.reverse()
+              console.log($scope.testDates)
+              console.log(test1)
+
+
+              for (var i=0;i<$scope.testDates.length; i++){
+              //  console.log(test1[i])
+                for (var j=0;j<$scope.testDates.length;j++){
+                //  console.log($scope.testDates[j])
+                //  console.log($scope.testNum[j])
+                  if (test1[i]==$scope.testDates[j]){
+                    if (i!=j){
+                      var temp = $scope.testDates[i]
+                      var temp1 = test[i]
+                      $scope.testDates[i] = $scope.testDates[j]
+                      test[i] = test[j]
+                      $scope.testDates[j] = temp
+                      test[j] = temp1
+                    }
+                  }
+                }
+              }
+
+//              console.log($scope.testDates)
+//              console.log(test)
+
 
               var ctxL = document.getElementById("lineChart").getContext('2d');
               var myLineChart = new Chart(ctxL, {
