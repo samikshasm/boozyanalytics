@@ -7,6 +7,7 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+var serveStatic = require('serve-static');
 module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
@@ -80,16 +81,20 @@ module.exports = function (grunt) {
           open: true,
           middleware: function (connect) {
             return [
-              connect.static('.tmp'),
+              serveStatic('.tmp'),
               connect().use(
                 '/bower_components',
-                connect.static('./bower_components')
+                serveStatic('./bower_components')
               ),
               connect().use(
                 '/app/styles',
-                connect.static('./app/styles')
+                serveStatic('./app/styles')
               ),
-              connect.static(appConfig.app)
+              connect().use(
+                '/libs',
+                serveStatic('./libs')
+              ),
+              serveStatic(appConfig.app)
             ];
           }
         }
@@ -99,13 +104,17 @@ module.exports = function (grunt) {
           port: 9001,
           middleware: function (connect) {
             return [
-              connect.static('.tmp'),
-              connect.static('test'),
+              serveStatic('.tmp'),('.tmp'),
+              serveStatic('.tmp'),('test'),
               connect().use(
                 '/bower_components',
-                connect.static('./bower_components')
+                serveStatic('.tmp'),('./bower_components')
               ),
-              connect.static(appConfig.app)
+              connect().use(
+                '/libs',
+                serveStatic('./libs')
+              ),
+              serveStatic('.tmp'),(appConfig.app)
             ];
           }
         }
@@ -296,6 +305,15 @@ module.exports = function (grunt) {
     //   dist: {}
     // },
 
+    // Disable compression for debugging
+    uglify: {
+      options : {
+        beautify: true,
+        mangle : false, 
+        compress : false 
+      }
+    },
+
     imagemin: {
       dist: {
         files: [{
@@ -380,7 +398,7 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
           ]
         }, {
           expand: true,
@@ -391,6 +409,16 @@ module.exports = function (grunt) {
           expand: true,
           cwd: 'bower_components/bootstrap/dist',
           src: 'fonts/*',
+          dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          cwd: 'libs',
+          src: '**/*',
+          dest: '<%= yeoman.dist %>/libs'
+        }, {
+          expand: true,
+          cwd: 'bower_components/font-awesome',
+          src: 'webfonts/*',
           dest: '<%= yeoman.dist %>'
         }]
       },
