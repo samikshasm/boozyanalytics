@@ -305,6 +305,14 @@ module.exports = function (grunt) {
     //   dist: {}
     // },
 
+    uglify: {
+      options : {
+        beautify: true,
+        mangle : false, 
+        compress : false 
+      }
+    },
+
     imagemin: {
       dist: {
         files: [{
