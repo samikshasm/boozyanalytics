@@ -16,6 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'firebase',
     'angularAppApp.home',
     'angularAppApp.welcome',
     'angularAppApp.addUser',
